@@ -51,7 +51,7 @@ void main() {
     Widget subject,
     Widget defaultWidget
   }) setupSubject({
-    fool autoCompleteValidation = true,
+    bool autoCompleteValidation = true,
     Widget? executingWidget,
     void Function(BuildContext)? onExecuting,
     void Function(BuildContext, String)? onSuccess,

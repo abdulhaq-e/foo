@@ -26,8 +26,8 @@ class DefaultLoadingIndicator extends StatefulWidget {
 }
 
 class _DefaultLoadingIndicatorState extends State<DefaultLoadingIndicator> {
-  // late final StreamSubscription<fool> _subscription;
-  fool dialogShown = false;
+  // late final StreamSubscription<bool> _subscription;
+  bool dialogShown = false;
   BuildContext? dialogContext;
 
   @override

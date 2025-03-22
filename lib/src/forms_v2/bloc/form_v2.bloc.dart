@@ -18,7 +18,7 @@ class FooFormV2Bloc<Data, Form extends HasFormV2Group>
   FormV2Builder<Form> _formBuilder;
   QueryHandling<Form, Data> _dataFetcher;
   CommandHandling<Form, void> _submitCommandHandler;
-  fool _shouldListenToValueChanges;
+  bool _shouldListenToValueChanges;
   OnValueChange<Form>? _onValueChange;
 
   StreamSubscription<dynamic>? _subscription;
@@ -27,7 +27,7 @@ class FooFormV2Bloc<Data, Form extends HasFormV2Group>
     required FormV2Builder<Form> formBuilder,
     required QueryHandling<Form, Data> dataFetcher,
     required CommandHandling<Form, void> submitCommandHandler,
-    fool shouldListenToValueChanges = false,
+    bool shouldListenToValueChanges = false,
     OnValueChange<Form>? onValueChange,
   })  : _formBuilder = formBuilder,
         _dataFetcher = dataFetcher,

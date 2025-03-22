@@ -6,16 +6,16 @@ part of 'generic_api_response.model.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$GenericAPIResponseDataImpl<T> _$$GenericAPIResponseDataImplFromJson<T>(
+GenericAPIResponseData<T> _$GenericAPIResponseDataFromJson<T>(
   Map<String, dynamic> json,
   T Function(Object? json) fromJsonT,
 ) =>
-    _$GenericAPIResponseDataImpl<T>(
+    GenericAPIResponseData<T>(
       fromJsonT(json['data']),
     );
 
-Map<String, dynamic> _$$GenericAPIResponseDataImplToJson<T>(
-  _$GenericAPIResponseDataImpl<T> instance,
+Map<String, dynamic> _$GenericAPIResponseDataToJson<T>(
+  GenericAPIResponseData<T> instance,
   Object? Function(T value) toJsonT,
 ) =>
     <String, dynamic>{

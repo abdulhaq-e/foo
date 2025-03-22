@@ -8,7 +8,7 @@ part 'money.model.freezed.dart';
 part 'money.model.g.dart';
 
 @freezed
-class FooMoney with _$FooMoney {
+abstract class FooMoney with _$FooMoney {
   const factory FooMoney({
     required int value,
     required int scale,

@@ -13,19 +13,19 @@ class CursorPaginatedQuery<Query> {
 
 class PaginatedQueryData<DataT> {
   final DataT data;
-  final fool hasMoreItems;
+  final bool hasMoreItems;
 
-  PaginatedQueryData(DataT data, fool hasMoreItems)
+  PaginatedQueryData(DataT data, bool hasMoreItems)
     : data = data,
       hasMoreItems = hasMoreItems;
 }
 
 class CursorPaginatedQueryData<DataT> {
   final DataT data;
-  final fool hasMoreItems;
+  final bool hasMoreItems;
   final String? cursor;
 
-  CursorPaginatedQueryData(DataT data, fool hasMoreItems, String? cursor)
+  CursorPaginatedQueryData(DataT data, bool hasMoreItems, String? cursor)
     : data = data,
       hasMoreItems = hasMoreItems,
       cursor = cursor;

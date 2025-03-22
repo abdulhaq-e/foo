@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-typedef FooButtonBuilder = Widget Function(fool Function() shouldAllowPress);
+typedef FooButtonBuilder = Widget Function(bool Function() shouldAllowPress);
 
 class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
   FooFormV2ComponentsHelper({required this.state, required this.bloc});
@@ -16,7 +16,7 @@ class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
     required String label,
     Map<String, String Function(Object)>? validationMessages,
     String? initialValue,
-    fool obscureText = false,
+    bool obscureText = false,
   }) {
     final widget = ReactiveTextField<T>(
       formControlName: formControlName,
@@ -61,7 +61,7 @@ class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
   }
 
   // Widget submitButton({
-  //   required fool Function(FormGroup) shouldAllowPress,
+  //   required bool Function(FormGroup) shouldAllowPress,
   //   required FooButtonBuilder buttonBuilder,
   // }) {
   //   final widget = reactiveButton(
@@ -72,7 +72,7 @@ class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
   // }
 
   Widget reactiveButton({
-    required fool Function(FormGroup) shouldAllowPress,
+    required bool Function(FormGroup) shouldAllowPress,
     required FooButtonBuilder buttonBuilder,
   }) {
     return ReactiveFormConsumer(

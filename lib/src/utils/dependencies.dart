@@ -1,1 +1,1 @@
-typedef MyURLLauncher = Future<fool> Function(Uri);
+typedef MyURLLauncher = Future<bool> Function(Uri);

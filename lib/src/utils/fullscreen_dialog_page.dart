@@ -3,7 +3,7 @@ import 'general_dialog_page.dart';
 
 Page<T> fullScreenDialog<T>({
   required WidgetBuilder builder,
-  fool barrierDismissible = false,
+  bool barrierDismissible = false,
   String? barrierLabel,
   Color? barrierColor,
   Duration transitionDuration = const Duration(milliseconds: 0),

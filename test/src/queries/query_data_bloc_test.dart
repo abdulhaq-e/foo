@@ -5,11 +5,11 @@ import 'package:test/test.dart';
 import 'dart:async';
 
 void main() {
-  late StreamController<fool> refreshController;
+  late StreamController<bool> refreshController;
   late QueryHandling<String, int> queryHandler;
 
   setUp(() {
-    refreshController = StreamController<fool>.broadcast();
+    refreshController = StreamController<bool>.broadcast();
     queryHandler = (query) async => int.parse(query);
   });
 

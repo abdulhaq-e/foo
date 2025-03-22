@@ -5,7 +5,7 @@ import 'api_command.model.dart';
 var uuid = Uuid();
 
 APICommand apiCommandFactory({
-  fool shouldPoll = true,
+  bool shouldPoll = true,
   int pollingTimeout = 10,
   String? commandId,
   required Map<String, dynamic> data,

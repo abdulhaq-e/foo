@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,11 +10,8 @@ part of 'generic_api_response.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 GenericAPIResponse<T> _$GenericAPIResponseFromJson<T>(
     Map<String, dynamic> json, T Function(Object?) fromJsonT) {
   return GenericAPIResponseData<T>.fromJson(json, fromJsonT);
@@ -21,115 +19,24 @@ GenericAPIResponse<T> _$GenericAPIResponseFromJson<T>(
 
 /// @nodoc
 mixin _$GenericAPIResponse<T> {
-  T get data => throw _privateConstructorUsedError;
-
-  /// Serializes this GenericAPIResponse to a JSON map.
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT) =>
-      throw _privateConstructorUsedError;
+  T get data;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $GenericAPIResponseCopyWith<T, GenericAPIResponse<T>> get copyWith =>
-      throw _privateConstructorUsedError;
-}
+      _$GenericAPIResponseCopyWithImpl<T, GenericAPIResponse<T>>(
+          this as GenericAPIResponse<T>, _$identity);
 
-/// @nodoc
-abstract class $GenericAPIResponseCopyWith<T, $Res> {
-  factory $GenericAPIResponseCopyWith(GenericAPIResponse<T> value,
-          $Res Function(GenericAPIResponse<T>) then) =
-      _$GenericAPIResponseCopyWithImpl<T, $Res, GenericAPIResponse<T>>;
-  @useResult
-  $Res call({T data});
-}
-
-/// @nodoc
-class _$GenericAPIResponseCopyWithImpl<T, $Res,
-        $Val extends GenericAPIResponse<T>>
-    implements $GenericAPIResponseCopyWith<T, $Res> {
-  _$GenericAPIResponseCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of GenericAPIResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = freezed,
-  }) {
-    return _then(_value.copyWith(
-      data: freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as T,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$GenericAPIResponseDataImplCopyWith<T, $Res>
-    implements $GenericAPIResponseCopyWith<T, $Res> {
-  factory _$$GenericAPIResponseDataImplCopyWith(
-          _$GenericAPIResponseDataImpl<T> value,
-          $Res Function(_$GenericAPIResponseDataImpl<T>) then) =
-      __$$GenericAPIResponseDataImplCopyWithImpl<T, $Res>;
-  @override
-  @useResult
-  $Res call({T data});
-}
-
-/// @nodoc
-class __$$GenericAPIResponseDataImplCopyWithImpl<T, $Res>
-    extends _$GenericAPIResponseCopyWithImpl<T, $Res,
-        _$GenericAPIResponseDataImpl<T>>
-    implements _$$GenericAPIResponseDataImplCopyWith<T, $Res> {
-  __$$GenericAPIResponseDataImplCopyWithImpl(
-      _$GenericAPIResponseDataImpl<T> _value,
-      $Res Function(_$GenericAPIResponseDataImpl<T>) _then)
-      : super(_value, _then);
-
-  /// Create a copy of GenericAPIResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? data = freezed,
-  }) {
-    return _then(_$GenericAPIResponseDataImpl<T>(
-      freezed == data
-          ? _value.data
-          : data // ignore: cast_nullable_to_non_nullable
-              as T,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable(genericArgumentFactories: true)
-class _$GenericAPIResponseDataImpl<T> implements GenericAPIResponseData<T> {
-  const _$GenericAPIResponseDataImpl(this.data);
-
-  factory _$GenericAPIResponseDataImpl.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$$GenericAPIResponseDataImplFromJson(json, fromJsonT);
+  /// Serializes this GenericAPIResponse to a JSON map.
+  Map<String, dynamic> toJson(Object? Function(T) toJsonT);
 
   @override
-  final T data;
-
-  @override
-  String toString() {
-    return 'GenericAPIResponse<$T>(data: $data)';
-  }
-
-  @override
-  fool operator ==(Object other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GenericAPIResponseDataImpl<T> &&
+            other is GenericAPIResponse<T> &&
             const DeepCollectionEquality().equals(other.data, data));
   }
 
@@ -138,36 +45,122 @@ class _$GenericAPIResponseDataImpl<T> implements GenericAPIResponseData<T> {
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
 
-  /// Create a copy of GenericAPIResponse
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$GenericAPIResponseDataImplCopyWith<T, _$GenericAPIResponseDataImpl<T>>
-      get copyWith => __$$GenericAPIResponseDataImplCopyWithImpl<T,
-          _$GenericAPIResponseDataImpl<T>>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$$GenericAPIResponseDataImplToJson<T>(this, toJsonT);
+  String toString() {
+    return 'GenericAPIResponse<$T>(data: $data)';
   }
 }
 
-abstract class GenericAPIResponseData<T> implements GenericAPIResponse<T> {
-  const factory GenericAPIResponseData(final T data) =
-      _$GenericAPIResponseDataImpl<T>;
+/// @nodoc
+abstract mixin class $GenericAPIResponseCopyWith<T, $Res> {
+  factory $GenericAPIResponseCopyWith(GenericAPIResponse<T> value,
+          $Res Function(GenericAPIResponse<T>) _then) =
+      _$GenericAPIResponseCopyWithImpl;
+  @useResult
+  $Res call({T data});
+}
 
+/// @nodoc
+class _$GenericAPIResponseCopyWithImpl<T, $Res>
+    implements $GenericAPIResponseCopyWith<T, $Res> {
+  _$GenericAPIResponseCopyWithImpl(this._self, this._then);
+
+  final GenericAPIResponse<T> _self;
+  final $Res Function(GenericAPIResponse<T>) _then;
+
+  /// Create a copy of GenericAPIResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(_self.copyWith(
+      data: freezed == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable(genericArgumentFactories: true)
+class GenericAPIResponseData<T> implements GenericAPIResponse<T> {
+  const GenericAPIResponseData(this.data);
   factory GenericAPIResponseData.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =
-      _$GenericAPIResponseDataImpl<T>.fromJson;
+          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
+      _$GenericAPIResponseDataFromJson(json, fromJsonT);
 
   @override
-  T get data;
+  final T data;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$GenericAPIResponseDataImplCopyWith<T, _$GenericAPIResponseDataImpl<T>>
-      get copyWith => throw _privateConstructorUsedError;
+  @pragma('vm:prefer-inline')
+  $GenericAPIResponseDataCopyWith<T, GenericAPIResponseData<T>> get copyWith =>
+      _$GenericAPIResponseDataCopyWithImpl<T, GenericAPIResponseData<T>>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
+    return _$GenericAPIResponseDataToJson<T>(this, toJsonT);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is GenericAPIResponseData<T> &&
+            const DeepCollectionEquality().equals(other.data, data));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+
+  @override
+  String toString() {
+    return 'GenericAPIResponse<$T>(data: $data)';
+  }
 }
+
+/// @nodoc
+abstract mixin class $GenericAPIResponseDataCopyWith<T, $Res>
+    implements $GenericAPIResponseCopyWith<T, $Res> {
+  factory $GenericAPIResponseDataCopyWith(GenericAPIResponseData<T> value,
+          $Res Function(GenericAPIResponseData<T>) _then) =
+      _$GenericAPIResponseDataCopyWithImpl;
+  @override
+  @useResult
+  $Res call({T data});
+}
+
+/// @nodoc
+class _$GenericAPIResponseDataCopyWithImpl<T, $Res>
+    implements $GenericAPIResponseDataCopyWith<T, $Res> {
+  _$GenericAPIResponseDataCopyWithImpl(this._self, this._then);
+
+  final GenericAPIResponseData<T> _self;
+  final $Res Function(GenericAPIResponseData<T>) _then;
+
+  /// Create a copy of GenericAPIResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? data = freezed,
+  }) {
+    return _then(GenericAPIResponseData<T>(
+      freezed == data
+          ? _self.data
+          : data // ignore: cast_nullable_to_non_nullable
+              as T,
+    ));
+  }
+}
+
+// dart format on

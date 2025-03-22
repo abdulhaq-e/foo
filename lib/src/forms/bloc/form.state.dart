@@ -7,7 +7,7 @@ abstract class HasFormGroup {
 }
 
 @Freezed(genericArgumentFactories: true)
-class FooFormState<FormData, Form extends HasFormGroup>
+abstract class FooFormState<FormData, Form extends HasFormGroup>
     with _$FooFormState<FormData, Form> {
   factory FooFormState.initial() = FooFormInitial;
   factory FooFormState.loading() = FooFormLoading;
@@ -15,14 +15,14 @@ class FooFormState<FormData, Form extends HasFormGroup>
       {required FormData formData,
       required Form form,
       @Default(FooFormDataUpdateStatus.notUpdating)
-          FooFormDataUpdateStatus formDataUpdateStatus,
+      FooFormDataUpdateStatus formDataUpdateStatus,
       @Default(FooFormSubmissionState.initial())
-          FooFormSubmissionState formSubmissionState}) = FooFormLoaded;
+      FooFormSubmissionState formSubmissionState}) = FooFormLoaded;
   factory FooFormState.failedLoading() = FooFormFailedLoading;
 }
 
-@freezed
-class FooFormSubmissionState<Response> with _$FooFormSubmissionState {
+@Freezed(genericArgumentFactories: true)
+abstract class FooFormSubmissionState<Response> with _$FooFormSubmissionState {
   const factory FooFormSubmissionState.initial() =
       FooFormSubmissionStateInitial;
   const factory FooFormSubmissionState.inProgress() =

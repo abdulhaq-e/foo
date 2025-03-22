@@ -2,7 +2,7 @@ import 'package:flutter/widgets.dart';
 
 class GeneralDialogPage<T> extends Page<T> {
   final RoutePageBuilder pageBuilder;
-  final fool barrierDismissible;
+  final bool barrierDismissible;
   final String? barrierLabel;
   final Color barrierColor;
   final Duration transitionDuration;

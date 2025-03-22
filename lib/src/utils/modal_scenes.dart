@@ -7,12 +7,12 @@ typedef EndSceneCommand = FutureOr<void> Function();
 typedef ModalSceneBuilder = Widget Function(
     BuildContext context, EndSceneCommand endSceneCommand);
 
-Future<fool?> presentModalScene(
+Future<bool?> presentModalScene(
     {required BuildContext context,
     required ModalSceneBuilder builder,
-    fool barrierDismissible = false}) async {
+    bool barrierDismissible = false}) async {
   // final modalSceneOutput = ModalSceneOutput(sceneEndHandlers: []);
-  return showGeneralDialog<fool>(
+  return showGeneralDialog<bool>(
       context: context,
       barrierColor: Colors.white.withOpacity(0),
       barrierDismissible: barrierDismissible,

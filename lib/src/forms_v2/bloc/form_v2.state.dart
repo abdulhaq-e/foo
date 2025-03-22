@@ -7,7 +7,7 @@ abstract class HasFormV2Group {
 }
 
 @Freezed(genericArgumentFactories: true)
-class FooFormV2State<FormData, Form extends HasFormV2Group>
+abstract class FooFormV2State<FormData, Form extends HasFormV2Group>
     with _$FooFormV2State<FormData, Form> {
   factory FooFormV2State.initial() = FooFormV2Initial;
   factory FooFormV2State.loading() = FooFormV2Loading;

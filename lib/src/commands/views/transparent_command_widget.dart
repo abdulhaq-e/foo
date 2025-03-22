@@ -14,7 +14,7 @@ class TransparentCommandWidget extends StatefulWidget {
 }
 
 class _TransparentCommandWidgetState extends State<TransparentCommandWidget> {
-  fool commandExecuted = false;
+  bool commandExecuted = false;
 
   @override
   void initState() {

@@ -122,8 +122,8 @@ class CommandView2<Command, Response, Error, ValidationError>
     );
   }
 
-  Future<fool?> _confirmtion_dialog(BuildContext context) async {
-    return showDialog<fool>(
+  Future<bool?> _confirmtion_dialog(BuildContext context) async {
+    return showDialog<bool>(
       barrierDismissible: false,
       context: context,
       builder: (BuildContext c) => AlertDialog(

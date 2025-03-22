@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 class DialogPage<T> extends Page<T> {
   final Offset? anchorPoint;
   final Color? barrierColor;
-  final fool barrierDismissible;
+  final bool barrierDismissible;
   final String? barrierLabel;
-  final fool useSafeArea;
+  final bool useSafeArea;
   final CapturedThemes? themes;
   final WidgetBuilder builder;
 

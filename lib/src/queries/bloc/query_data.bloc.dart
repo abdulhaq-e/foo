@@ -13,7 +13,7 @@ class QueryDataBloc<Query, Data>
 
   QueryDataBloc({
     required QueryHandling<Query, Data> queryHandler,
-    Stream<fool>? refreshTrigger,
+    Stream<bool>? refreshTrigger,
   })  : _queryHandler = queryHandler,
         super(QueryDataState.initial()) {
     on<QueryDataStarted<Query>>(
@@ -34,7 +34,7 @@ class QueryDataBloc<Query, Data>
   }
 
   Stream<QueryDataState<Data>> _mapTrigger(
-    Stream<fool> trigger,
+    Stream<bool> trigger,
     Emitter<QueryDataState<Data>> emit,
   ) {
     return trigger.where((e) => e).asyncMap((_) async {
@@ -45,7 +45,7 @@ class QueryDataBloc<Query, Data>
   Future<void> _onQueryStarted(
     QueryDataStarted<Query> event,
     Emitter<QueryDataState<Data>> emit,
-    Stream<fool>? refreshTrigger,
+    Stream<bool>? refreshTrigger,
   ) async {
     _lastQuery = event.query;
 
