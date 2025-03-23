@@ -10,15 +10,16 @@ class QueryDataView<Query, Data> extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<QueryDataBloc<Query, Data>, QueryDataState<Data>>(
         builder: (context, state) {
-      return state.map(
-          initial: (_) => Container(),
-          loading: (_) => Center(
+          return switch (state) {
+            QueryDataInitial() => Container(),
+            QueryDataLoading() => Center(
                 child: CircularProgressIndicator(),
               ),
-          failedLoading: (_) => Center(
+             QueryDataFailedLoading() =>  Center(
                 child: const Text('Failed loading...'),
               ),
-          loaded: (s) => widgetBuilder(context, s.data));
+              QueryDataLoaded(:final data) => widgetBuilder(context, data),
+          };
     });
   }
 }
