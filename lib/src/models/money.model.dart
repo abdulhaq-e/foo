@@ -1,7 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:decimal/decimal.dart';
-import 'package:decimal/intl.dart';
 import 'package:intl/intl.dart';
 
 part 'money.model.freezed.dart';
