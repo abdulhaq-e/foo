@@ -14,15 +14,20 @@ class NavigationState {
 }
 
 class NavigationCommand {
-  final String path;
-  final Map<String, dynamic>? queryParameters;
+  final String? path;
+  final String? sceneName;
+  final Map<String, String> pathParameters  ;
+  final Map<String, dynamic> queryParameters  ;
   final Map<String, Object> extra;
 
   NavigationCommand({
-    required this.path,
-    this.queryParameters,
+    this.path,
+    this.sceneName,
+    this.pathParameters = const <String, String>{},
+    this.queryParameters = const <String, dynamic>{},
     this.extra = const {},
-  });
+  }) : assert(path != null || sceneName != null,
+            'path or sceneName must be provided');
 }
 
 abstract class NavigationService {

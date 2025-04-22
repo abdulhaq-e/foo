@@ -47,13 +47,16 @@ class GoRouterNavigationService
 
   @override
   Future<void> navigate(NavigationCommand command) async {
-    String path = command.path;
-    if (command.queryParameters != null) {
-      command.queryParameters!.forEach((key, value) {
+    if (command.path != null) {
+      var path = command.path!;
+      command.pathParameters.forEach((key, value) {
         path = path.replaceFirst(':$key', value.toString());
       });
+      router.go(path);
+    } else if (command.sceneName != null) {
+      var namedRoute = command.sceneName!;
+      router.goNamed(namedRoute, queryParameters: command.queryParameters, pathParameters: command.pathParameters);
     }
-    router.go(path);
   }
 
   @override
