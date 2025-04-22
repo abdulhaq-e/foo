@@ -44,7 +44,8 @@ sealed class Scene {}
 class SimpleScene extends Scene {
   final GlobalKey<NavigatorState>? parentNavigatorKey;
   final String? path;
-  final Widget Function(BuildContext, NavigationState) builder;
+  final Widget Function(BuildContext, NavigationState)? builder;
+  final Page<dynamic> Function(BuildContext, NavigationState)? pageBuilder;
   final SceneRedirect? redirect;
   final List<Scene> children;
 
@@ -52,9 +53,12 @@ class SimpleScene extends Scene {
     this.parentNavigatorKey,
     this.path,
     this.redirect,
-    required this.builder,
+    this.builder,
+    this.pageBuilder,
     this.children = const [],
-  });
+  }) :
+        assert(pageBuilder != null || builder != null || redirect != null,
+            'builder, pageBuilder, or redirect must be provided');
 }
 
 class ShellScene extends Scene {

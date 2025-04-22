@@ -90,10 +90,16 @@ class GoRouterNavigationService
       SimpleScene() => GoRoute(
           parentNavigatorKey: scene.parentNavigatorKey,
           path: scene.path!,
-          builder: (context, state) => scene.builder!(
+          builder: scene.builder != null
+              ? (context, state) => scene.builder!(
+                    context,
+                    _navigationStateFromGoRouterState(state),
+                  )
+              : null,
+          pageBuilder: scene.pageBuilder != null ? (context, state) => scene.pageBuilder!(
             context,
-            _navigationStateFromGoRouterState(state),
-          ),
+                    _navigationStateFromGoRouterState(state),
+          ) : null,
           redirect: scene.redirect == null
               ? null
               : (context, state) async {
