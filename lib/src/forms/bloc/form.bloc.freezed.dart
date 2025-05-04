@@ -96,7 +96,7 @@ class FooFormLoaded<FormData, Form extends HasFormGroup>
   @JsonKey()
   final FooFormDataUpdateStatus formDataUpdateStatus;
   @JsonKey()
-  final FooFormSubmissionState<dynamic> formSubmissionState;
+  final FooFormSubmissionState formSubmissionState;
 
   /// Create a copy of FooFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -144,7 +144,7 @@ abstract mixin class $FooFormLoadedCopyWith<FormData, Form extends HasFormGroup,
       {FormData formData,
       Form form,
       FooFormDataUpdateStatus formDataUpdateStatus,
-      FooFormSubmissionState<dynamic> formSubmissionState});
+      FooFormSubmissionState formSubmissionState});
 
   $FooFormSubmissionStateCopyWith<dynamic, $Res> get formSubmissionState;
 }
@@ -182,7 +182,7 @@ class _$FooFormLoadedCopyWithImpl<FormData, Form extends HasFormGroup, $Res>
       formSubmissionState: null == formSubmissionState
           ? _self.formSubmissionState
           : formSubmissionState // ignore: cast_nullable_to_non_nullable
-              as FooFormSubmissionState<dynamic>,
+              as FooFormSubmissionState,
     ));
   }
 
