@@ -15,17 +15,15 @@ class FooFormV2<FormData, Form extends HasFormV2Group> extends StatelessWidget {
         FooFormV2State<FormData, Form>>(
       listener: (context, _state) {},
       builder: (context, FooFormV2State<FormData, Form> state) {
-        return state.map(
-            initial: (state) =>
-                formWidgetsBuilder.initialBuillder(context, state),
-            loading: (state) =>
-                formWidgetsBuilder.loadingBuillder(context, state),
-            loaded: (state) => ReactiveForm(
+        return switch (state) {
+          FooFormV2Initial<FormData,Form>() => formWidgetsBuilder.initialBuillder(context, state),
+          FooFormV2Loading<FormData,Form>() => formWidgetsBuilder.loadingBuillder(context, state),
+          FooFormV2Loaded<FormData,Form>() => ReactiveForm(
                 formGroup: state.form.formGroup,
                 child: formWidgetsBuilder.loadedBuillder(context, state)),
-            failedLoading: (state) =>
-                formWidgetsBuilder.failedLoadingBuillder(context, state));
-      },
-    );
-  }
+          FooFormV2FailedLoading<FormData,Form>() => formWidgetsBuilder.failedLoadingBuillder(context, state),
+        };
+
+        });
+        }
 }
