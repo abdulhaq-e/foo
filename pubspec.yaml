@@ -13,7 +13,7 @@ dependencies:
       url: git@github.com:abdulhaq-e/api_tools.git
       ref: master
   bloc: ^9.0.0
-  decimal: ^3.2.1
+  decimal: ^3.2.4
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.0

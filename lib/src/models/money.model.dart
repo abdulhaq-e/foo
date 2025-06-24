@@ -1,6 +1,7 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:decimal/decimal.dart';
+import 'package:decimal/intl.dart';
+import 'package:flutter/foundation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:intl/intl.dart';
 
 part 'money.model.freezed.dart';
@@ -19,17 +20,19 @@ abstract class FooMoney with _$FooMoney {
   factory FooMoney.fromJson(Map<String, Object?> json) =>
       _$FooMoneyFromJson(json);
 
-  String format([String? locale = null]) {
+  String format([String? locale]) {
     var valueString = this.value.toString();
-    var valueStringLength = valueString.length;
-    if (valueStringLength <= this.scale) {
-      valueString = valueString.padLeft(this.scale, '0');
+    final valueStringLength = valueString.length;
+    if (valueStringLength <= scale) {
+      valueString = valueString.padLeft(scale, '0');
     }
-    var firstPart = valueString.substring(0, valueStringLength - this.scale);
-    var secondPart = valueString.substring(
-        valueStringLength - this.scale, valueStringLength);
-    var value = Decimal.parse('$firstPart.$secondPart');
-    var formatter = NumberFormat.decimalPattern(locale ?? 'en-UK');
+    final firstPart = valueString.substring(0, valueStringLength - scale);
+    final secondPart = valueString.substring(
+      valueStringLength - scale,
+      valueStringLength,
+    );
+    final value = Decimal.parse('$firstPart.$secondPart');
+    final formatter = DecimalFormatter(NumberFormat.decimalPattern(locale));
     return formatter.format(value);
   }
 }
