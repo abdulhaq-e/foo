@@ -1,17 +1,16 @@
+import 'package:flutter/material.dart';
 import 'package:foo/src/navigation/flow_coordinator.dart';
 import 'package:foo/utils.dart';
-import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 class GoRouterNavigationService
     implements
         NavigationService,
         NavigationServiceRoutesAdapter<List<RouteBase>> {
+  GoRouterNavigationService();
   final Map<String, List<Scene>> _flowScenes = {};
   late final GoRouter _router;
   late BuildContext context;
-
-  GoRouterNavigationService();
 
   @override
   GoRouter get router => _router;
@@ -50,16 +49,25 @@ class GoRouterNavigationService
     if (command.path != null) {
       var path = command.path!;
       command.pathParameters.forEach((key, value) {
-        path = path.replaceFirst(':$key', value.toString());
+        path = path.replaceFirst(':$key', value);
       });
-      router.go(Uri.parse(path)
-          .replace(queryParameters: command.queryParameters)
-          .toString());
+      final queryParamsPairs = <String>[];
+      command.queryParameters.forEach((key, value) {
+        queryParamsPairs.add('$key=$value');
+      });
+      if (queryParamsPairs.isNotEmpty) {
+        path = '$path?${queryParamsPairs.join("&")}';
+      }
+      router.go(
+        path,
+      );
     } else if (command.sceneName != null) {
-      var namedRoute = command.sceneName!;
-      router.goNamed(namedRoute,
-          queryParameters: command.queryParameters,
-          pathParameters: command.pathParameters);
+      final namedRoute = command.sceneName!;
+      router.goNamed(
+        namedRoute,
+        queryParameters: command.queryParameters,
+        pathParameters: command.pathParameters,
+      );
     }
   }
 
@@ -140,27 +148,29 @@ class GoRouterNavigationService
                 },
           builder: (BuildContext context, GoRouterState state, Widget child) {
             return scene.shellBuilder(
-                context,
-                NavigationState(
-                  uri: state.uri,
-                  path: state.path,
-                  pathParameters: state.pathParameters,
-                  extra: state.extra != null
-                      ? state.extra as Map<String, Object>
-                      : {},
-                ),
-                child);
-          })
+              context,
+              NavigationState(
+                uri: state.uri,
+                path: state.path,
+                pathParameters: state.pathParameters,
+                extra: state.extra != null
+                    ? state.extra! as Map<String, Object>
+                    : {},
+              ),
+              child,
+            );
+          },
+        )
     };
   }
 
   GoRoute _dialogRoute() {
     return GoRoute(
-      path: "/dialog",
+      path: '/dialog',
       pageBuilder: (BuildContext context, GoRouterState state) {
         late Widget dialog;
         if (state.extra != null && state.extra is Widget) {
-          dialog = state.extra as Widget;
+          dialog = state.extra! as Widget;
         } else {
           dialog = Container();
         }
