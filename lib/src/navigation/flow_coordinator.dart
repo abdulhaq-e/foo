@@ -6,18 +6,20 @@ class NavigationState {
   final String? path;
   final Map<String, String> pathParameters;
   final Map<String, Object> extra;
+  final Uri uri;
 
   NavigationState(
       {required this.path,
       required this.pathParameters,
+      required this.uri,
       this.extra = const {}});
 }
 
 class NavigationCommand {
   final String? path;
   final String? sceneName;
-  final Map<String, String> pathParameters  ;
-  final Map<String, dynamic> queryParameters  ;
+  final Map<String, String> pathParameters;
+  final Map<String, dynamic> queryParameters;
   final Map<String, Object> extra;
 
   NavigationCommand({

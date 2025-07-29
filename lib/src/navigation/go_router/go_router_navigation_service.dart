@@ -55,7 +55,9 @@ class GoRouterNavigationService
       router.go(path);
     } else if (command.sceneName != null) {
       var namedRoute = command.sceneName!;
-      router.goNamed(namedRoute, queryParameters: command.queryParameters, pathParameters: command.pathParameters);
+      router.goNamed(namedRoute,
+          queryParameters: command.queryParameters,
+          pathParameters: command.pathParameters);
     }
   }
 
@@ -138,6 +140,7 @@ class GoRouterNavigationService
             return scene.shellBuilder(
                 context,
                 NavigationState(
+                  uri: state.uri,
                   path: state.path,
                   pathParameters: state.pathParameters,
                   extra: state.extra != null
@@ -168,6 +171,7 @@ class GoRouterNavigationService
 NavigationState _navigationStateFromGoRouterState(GoRouterState state) {
   return NavigationState(
     path: state.path,
+    uri: state.uri,
     pathParameters: state.pathParameters,
     extra: state.extra != null ? state.extra! as Map<String, Object> : {},
   );
