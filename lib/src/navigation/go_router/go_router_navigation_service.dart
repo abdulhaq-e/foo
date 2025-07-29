@@ -52,8 +52,9 @@ class GoRouterNavigationService
       command.pathParameters.forEach((key, value) {
         path = path.replaceFirst(':$key', value.toString());
       });
-      router.go(
-          Uri(path: path, queryParameters: command.queryParameters).toString());
+      router.go(Uri.parse(path)
+          .replace(queryParameters: command.queryParameters)
+          .toString());
     } else if (command.sceneName != null) {
       var namedRoute = command.sceneName!;
       router.goNamed(namedRoute,
