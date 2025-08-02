@@ -1,6 +1,5 @@
-// dart format width=80
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -105,6 +104,365 @@ class _$CommandStateCopyWithImpl<Command, Response, Error, ValidationError,
         $Res>(_self.previousState!, (value) {
       return _then(_self.copyWith(previousState: value));
     });
+  }
+}
+
+/// Adds pattern-matching-related methods to [CommandState].
+extension CommandStatePatterns<Command, Response, Error, ValidationError>
+    on CommandState<Command, Response, Error, ValidationError> {
+  /// A variant of `map` that fallback to returning `orElse`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(
+            CommandInitial<Command, Response, Error, ValidationError> value)?
+        initial,
+    TResult Function(
+            CommandSucceeded<Command, Response, Error, ValidationError> value)?
+        succeeded,
+    TResult Function(
+            CommandExecutionAskingForConfirmation<Command, Response, Error,
+                    ValidationError>
+                value)?
+        askingForConfirmation,
+    TResult Function(
+            CommandExecuting<Command, Response, Error, ValidationError> value)?
+        executing,
+    TResult Function(
+            CommandValidationFailed<Command, Response, Error, ValidationError>
+                value)?
+        validationFailed,
+    TResult Function(
+            CommandFailed<Command, Response, Error, ValidationError> value)?
+        failed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial() when initial != null:
+        return initial(_that);
+      case CommandSucceeded() when succeeded != null:
+        return succeeded(_that);
+      case CommandExecutionAskingForConfirmation()
+          when askingForConfirmation != null:
+        return askingForConfirmation(_that);
+      case CommandExecuting() when executing != null:
+        return executing(_that);
+      case CommandValidationFailed() when validationFailed != null:
+        return validationFailed(_that);
+      case CommandFailed() when failed != null:
+        return failed(_that);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// Callbacks receives the raw object, upcasted.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case final Subclass2 value:
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(
+            CommandInitial<Command, Response, Error, ValidationError> value)
+        initial,
+    required TResult Function(
+            CommandSucceeded<Command, Response, Error, ValidationError> value)
+        succeeded,
+    required TResult Function(
+            CommandExecutionAskingForConfirmation<Command, Response, Error,
+                    ValidationError>
+                value)
+        askingForConfirmation,
+    required TResult Function(
+            CommandExecuting<Command, Response, Error, ValidationError> value)
+        executing,
+    required TResult Function(
+            CommandValidationFailed<Command, Response, Error, ValidationError>
+                value)
+        validationFailed,
+    required TResult Function(
+            CommandFailed<Command, Response, Error, ValidationError> value)
+        failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial():
+        return initial(_that);
+      case CommandSucceeded():
+        return succeeded(_that);
+      case CommandExecutionAskingForConfirmation():
+        return askingForConfirmation(_that);
+      case CommandExecuting():
+        return executing(_that);
+      case CommandValidationFailed():
+        return validationFailed(_that);
+      case CommandFailed():
+        return failed(_that);
+    }
+  }
+
+  /// A variant of `map` that fallback to returning `null`.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case final Subclass value:
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(
+            CommandInitial<Command, Response, Error, ValidationError> value)?
+        initial,
+    TResult? Function(
+            CommandSucceeded<Command, Response, Error, ValidationError> value)?
+        succeeded,
+    TResult? Function(
+            CommandExecutionAskingForConfirmation<Command, Response, Error,
+                    ValidationError>
+                value)?
+        askingForConfirmation,
+    TResult? Function(
+            CommandExecuting<Command, Response, Error, ValidationError> value)?
+        executing,
+    TResult? Function(
+            CommandValidationFailed<Command, Response, Error, ValidationError>
+                value)?
+        validationFailed,
+    TResult? Function(
+            CommandFailed<Command, Response, Error, ValidationError> value)?
+        failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial() when initial != null:
+        return initial(_that);
+      case CommandSucceeded() when succeeded != null:
+        return succeeded(_that);
+      case CommandExecutionAskingForConfirmation()
+          when askingForConfirmation != null:
+        return askingForConfirmation(_that);
+      case CommandExecuting() when executing != null:
+        return executing(_that);
+      case CommandValidationFailed() when validationFailed != null:
+        return validationFailed(_that);
+      case CommandFailed() when failed != null:
+        return failed(_that);
+      case _:
+        return null;
+    }
+  }
+
+  /// A variant of `when` that fallback to an `orElse` callback.
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return orElse();
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(
+            CommandState<Command, Response, Error, ValidationError>?
+                previousState)?
+        initial,
+    TResult Function(
+            Response response,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        succeeded,
+    TResult Function(
+            Command command,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        askingForConfirmation,
+    TResult Function(
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        executing,
+    TResult Function(
+            ValidationError validationError,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        validationFailed,
+    TResult Function(
+            Error error,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        failed,
+    required TResult orElse(),
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial() when initial != null:
+        return initial(_that.previousState);
+      case CommandSucceeded() when succeeded != null:
+        return succeeded(_that.response, _that.previousState);
+      case CommandExecutionAskingForConfirmation()
+          when askingForConfirmation != null:
+        return askingForConfirmation(_that.command, _that.previousState);
+      case CommandExecuting() when executing != null:
+        return executing(_that.previousState);
+      case CommandValidationFailed() when validationFailed != null:
+        return validationFailed(_that.validationError, _that.previousState);
+      case CommandFailed() when failed != null:
+        return failed(_that.error, _that.previousState);
+      case _:
+        return orElse();
+    }
+  }
+
+  /// A `switch`-like method, using callbacks.
+  ///
+  /// As opposed to `map`, this offers destructuring.
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case Subclass2(:final field2):
+  ///     return ...;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+            CommandState<Command, Response, Error, ValidationError>?
+                previousState)
+        initial,
+    required TResult Function(
+            Response response,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)
+        succeeded,
+    required TResult Function(
+            Command command,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)
+        askingForConfirmation,
+    required TResult Function(
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)
+        executing,
+    required TResult Function(
+            ValidationError validationError,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)
+        validationFailed,
+    required TResult Function(
+            Error error,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)
+        failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial():
+        return initial(_that.previousState);
+      case CommandSucceeded():
+        return succeeded(_that.response, _that.previousState);
+      case CommandExecutionAskingForConfirmation():
+        return askingForConfirmation(_that.command, _that.previousState);
+      case CommandExecuting():
+        return executing(_that.previousState);
+      case CommandValidationFailed():
+        return validationFailed(_that.validationError, _that.previousState);
+      case CommandFailed():
+        return failed(_that.error, _that.previousState);
+    }
+  }
+
+  /// A variant of `when` that fallback to returning `null`
+  ///
+  /// It is equivalent to doing:
+  /// ```dart
+  /// switch (sealedClass) {
+  ///   case Subclass(:final field):
+  ///     return ...;
+  ///   case _:
+  ///     return null;
+  /// }
+  /// ```
+
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+            CommandState<Command, Response, Error, ValidationError>?
+                previousState)?
+        initial,
+    TResult? Function(
+            Response response,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        succeeded,
+    TResult? Function(
+            Command command,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        askingForConfirmation,
+    TResult? Function(
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        executing,
+    TResult? Function(
+            ValidationError validationError,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        validationFailed,
+    TResult? Function(
+            Error error,
+            CommandState<Command, Response, Error, ValidationError>
+                previousState)?
+        failed,
+  }) {
+    final _that = this;
+    switch (_that) {
+      case CommandInitial() when initial != null:
+        return initial(_that.previousState);
+      case CommandSucceeded() when succeeded != null:
+        return succeeded(_that.response, _that.previousState);
+      case CommandExecutionAskingForConfirmation()
+          when askingForConfirmation != null:
+        return askingForConfirmation(_that.command, _that.previousState);
+      case CommandExecuting() when executing != null:
+        return executing(_that.previousState);
+      case CommandValidationFailed() when validationFailed != null:
+        return validationFailed(_that.validationError, _that.previousState);
+      case CommandFailed() when failed != null:
+        return failed(_that.error, _that.previousState);
+      case _:
+        return null;
+    }
   }
 }
 
