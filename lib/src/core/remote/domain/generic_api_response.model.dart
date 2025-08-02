@@ -4,10 +4,10 @@ part 'generic_api_response.model.freezed.dart';
 part 'generic_api_response.model.g.dart';
 
 @Freezed(genericArgumentFactories: true)
-sealed class GenericAPIResponse<T> with _$GenericAPIResponse<T> {
-  const factory GenericAPIResponse(T data) = GenericAPIResponseData;
+sealed class GenericAPIResponse<T, M> with _$GenericAPIResponse<T, M> {
+  const factory GenericAPIResponse(T data, M metadata) = GenericAPIResponseData;
 
-  factory GenericAPIResponse.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$GenericAPIResponseFromJson(json, fromJsonT);
+  factory GenericAPIResponse.fromJson(Map<String, dynamic> json,
+          T Function(Object?) fromJsonT, M Function(Object?) fromJsonM) =>
+      _$GenericAPIResponseFromJson(json, fromJsonT, fromJsonM);
 }

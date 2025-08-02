@@ -11,61 +11,68 @@ part of 'generic_api_response.model.dart';
 
 // dart format off
 T _$identity<T>(T value) => value;
-GenericAPIResponse<T> _$GenericAPIResponseFromJson<T>(
-    Map<String, dynamic> json, T Function(Object?) fromJsonT) {
-  return GenericAPIResponseData<T>.fromJson(json, fromJsonT);
+GenericAPIResponse<T, M> _$GenericAPIResponseFromJson<T, M>(
+    Map<String, dynamic> json,
+    T Function(Object?) fromJsonT,
+    M Function(Object?) fromJsonM) {
+  return GenericAPIResponseData<T, M>.fromJson(json, fromJsonT, fromJsonM);
 }
 
 /// @nodoc
-mixin _$GenericAPIResponse<T> {
+mixin _$GenericAPIResponse<T, M> {
   T get data;
+  M get metadata;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $GenericAPIResponseCopyWith<T, GenericAPIResponse<T>> get copyWith =>
-      _$GenericAPIResponseCopyWithImpl<T, GenericAPIResponse<T>>(
-          this as GenericAPIResponse<T>, _$identity);
+  $GenericAPIResponseCopyWith<T, M, GenericAPIResponse<T, M>> get copyWith =>
+      _$GenericAPIResponseCopyWithImpl<T, M, GenericAPIResponse<T, M>>(
+          this as GenericAPIResponse<T, M>, _$identity);
 
   /// Serializes this GenericAPIResponse to a JSON map.
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT);
+  Map<String, dynamic> toJson(
+      Object? Function(T) toJsonT, Object? Function(M) toJsonM);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is GenericAPIResponse<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            other is GenericAPIResponse<T, M> &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(data),
+      const DeepCollectionEquality().hash(metadata));
 
   @override
   String toString() {
-    return 'GenericAPIResponse<$T>(data: $data)';
+    return 'GenericAPIResponse<$T, $M>(data: $data, metadata: $metadata)';
   }
 }
 
 /// @nodoc
-abstract mixin class $GenericAPIResponseCopyWith<T, $Res> {
-  factory $GenericAPIResponseCopyWith(GenericAPIResponse<T> value,
-          $Res Function(GenericAPIResponse<T>) _then) =
+abstract mixin class $GenericAPIResponseCopyWith<T, M, $Res> {
+  factory $GenericAPIResponseCopyWith(GenericAPIResponse<T, M> value,
+          $Res Function(GenericAPIResponse<T, M>) _then) =
       _$GenericAPIResponseCopyWithImpl;
   @useResult
-  $Res call({T data});
+  $Res call({T data, M metadata});
 }
 
 /// @nodoc
-class _$GenericAPIResponseCopyWithImpl<T, $Res>
-    implements $GenericAPIResponseCopyWith<T, $Res> {
+class _$GenericAPIResponseCopyWithImpl<T, M, $Res>
+    implements $GenericAPIResponseCopyWith<T, M, $Res> {
   _$GenericAPIResponseCopyWithImpl(this._self, this._then);
 
-  final GenericAPIResponse<T> _self;
-  final $Res Function(GenericAPIResponse<T>) _then;
+  final GenericAPIResponse<T, M> _self;
+  final $Res Function(GenericAPIResponse<T, M>) _then;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -73,18 +80,23 @@ class _$GenericAPIResponseCopyWithImpl<T, $Res>
   @override
   $Res call({
     Object? data = freezed,
+    Object? metadata = freezed,
   }) {
     return _then(_self.copyWith(
       data: freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as T,
+      metadata: freezed == metadata
+          ? _self.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as M,
     ));
   }
 }
 
 /// Adds pattern-matching-related methods to [GenericAPIResponse].
-extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
+extension GenericAPIResponsePatterns<T, M> on GenericAPIResponse<T, M> {
   /// A variant of `map` that fallback to returning `orElse`.
   ///
   /// It is equivalent to doing:
@@ -99,7 +111,7 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>(
-    TResult Function(GenericAPIResponseData<T> value)? $default, {
+    TResult Function(GenericAPIResponseData<T, M> value)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
@@ -126,7 +138,7 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult map<TResult extends Object?>(
-    TResult Function(GenericAPIResponseData<T> value) $default,
+    TResult Function(GenericAPIResponseData<T, M> value) $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -149,7 +161,7 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(GenericAPIResponseData<T> value)? $default,
+    TResult? Function(GenericAPIResponseData<T, M> value)? $default,
   ) {
     final _that = this;
     switch (_that) {
@@ -174,13 +186,13 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(T data)? $default, {
+    TResult Function(T data, M metadata)? $default, {
     required TResult orElse(),
   }) {
     final _that = this;
     switch (_that) {
       case GenericAPIResponseData() when $default != null:
-        return $default(_that.data);
+        return $default(_that.data, _that.metadata);
       case _:
         return orElse();
     }
@@ -201,12 +213,12 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(T data) $default,
+    TResult Function(T data, M metadata) $default,
   ) {
     final _that = this;
     switch (_that) {
       case GenericAPIResponseData():
-        return $default(_that.data);
+        return $default(_that.data, _that.metadata);
     }
   }
 
@@ -224,12 +236,12 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(T data)? $default,
+    TResult? Function(T data, M metadata)? $default,
   ) {
     final _that = this;
     switch (_that) {
       case GenericAPIResponseData() when $default != null:
-        return $default(_that.data);
+        return $default(_that.data, _that.metadata);
       case _:
         return null;
     }
@@ -238,66 +250,72 @@ extension GenericAPIResponsePatterns<T> on GenericAPIResponse<T> {
 
 /// @nodoc
 @JsonSerializable(genericArgumentFactories: true)
-class GenericAPIResponseData<T> implements GenericAPIResponse<T> {
-  const GenericAPIResponseData(this.data);
-  factory GenericAPIResponseData.fromJson(
-          Map<String, dynamic> json, T Function(Object?) fromJsonT) =>
-      _$GenericAPIResponseDataFromJson(json, fromJsonT);
+class GenericAPIResponseData<T, M> implements GenericAPIResponse<T, M> {
+  const GenericAPIResponseData(this.data, this.metadata);
+  factory GenericAPIResponseData.fromJson(Map<String, dynamic> json,
+          T Function(Object?) fromJsonT, M Function(Object?) fromJsonM) =>
+      _$GenericAPIResponseDataFromJson(json, fromJsonT, fromJsonM);
 
   @override
   final T data;
+  @override
+  final M metadata;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   @pragma('vm:prefer-inline')
-  $GenericAPIResponseDataCopyWith<T, GenericAPIResponseData<T>> get copyWith =>
-      _$GenericAPIResponseDataCopyWithImpl<T, GenericAPIResponseData<T>>(
-          this, _$identity);
+  $GenericAPIResponseDataCopyWith<T, M, GenericAPIResponseData<T, M>>
+      get copyWith => _$GenericAPIResponseDataCopyWithImpl<T, M,
+          GenericAPIResponseData<T, M>>(this, _$identity);
 
   @override
-  Map<String, dynamic> toJson(Object? Function(T) toJsonT) {
-    return _$GenericAPIResponseDataToJson<T>(this, toJsonT);
+  Map<String, dynamic> toJson(
+      Object? Function(T) toJsonT, Object? Function(M) toJsonM) {
+    return _$GenericAPIResponseDataToJson<T, M>(this, toJsonT, toJsonM);
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is GenericAPIResponseData<T> &&
-            const DeepCollectionEquality().equals(other.data, data));
+            other is GenericAPIResponseData<T, M> &&
+            const DeepCollectionEquality().equals(other.data, data) &&
+            const DeepCollectionEquality().equals(other.metadata, metadata));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(data));
+  int get hashCode => Object.hash(
+      runtimeType,
+      const DeepCollectionEquality().hash(data),
+      const DeepCollectionEquality().hash(metadata));
 
   @override
   String toString() {
-    return 'GenericAPIResponse<$T>(data: $data)';
+    return 'GenericAPIResponse<$T, $M>(data: $data, metadata: $metadata)';
   }
 }
 
 /// @nodoc
-abstract mixin class $GenericAPIResponseDataCopyWith<T, $Res>
-    implements $GenericAPIResponseCopyWith<T, $Res> {
-  factory $GenericAPIResponseDataCopyWith(GenericAPIResponseData<T> value,
-          $Res Function(GenericAPIResponseData<T>) _then) =
+abstract mixin class $GenericAPIResponseDataCopyWith<T, M, $Res>
+    implements $GenericAPIResponseCopyWith<T, M, $Res> {
+  factory $GenericAPIResponseDataCopyWith(GenericAPIResponseData<T, M> value,
+          $Res Function(GenericAPIResponseData<T, M>) _then) =
       _$GenericAPIResponseDataCopyWithImpl;
   @override
   @useResult
-  $Res call({T data});
+  $Res call({T data, M metadata});
 }
 
 /// @nodoc
-class _$GenericAPIResponseDataCopyWithImpl<T, $Res>
-    implements $GenericAPIResponseDataCopyWith<T, $Res> {
+class _$GenericAPIResponseDataCopyWithImpl<T, M, $Res>
+    implements $GenericAPIResponseDataCopyWith<T, M, $Res> {
   _$GenericAPIResponseDataCopyWithImpl(this._self, this._then);
 
-  final GenericAPIResponseData<T> _self;
-  final $Res Function(GenericAPIResponseData<T>) _then;
+  final GenericAPIResponseData<T, M> _self;
+  final $Res Function(GenericAPIResponseData<T, M>) _then;
 
   /// Create a copy of GenericAPIResponse
   /// with the given fields replaced by the non-null parameter values.
@@ -305,12 +323,17 @@ class _$GenericAPIResponseDataCopyWithImpl<T, $Res>
   @pragma('vm:prefer-inline')
   $Res call({
     Object? data = freezed,
+    Object? metadata = freezed,
   }) {
-    return _then(GenericAPIResponseData<T>(
+    return _then(GenericAPIResponseData<T, M>(
       freezed == data
           ? _self.data
           : data // ignore: cast_nullable_to_non_nullable
               as T,
+      freezed == metadata
+          ? _self.metadata
+          : metadata // ignore: cast_nullable_to_non_nullable
+              as M,
     ));
   }
 }
