@@ -31,10 +31,6 @@ mixin _$GenericAPIResponse<T, M> {
       _$GenericAPIResponseCopyWithImpl<T, M, GenericAPIResponse<T, M>>(
           this as GenericAPIResponse<T, M>, _$identity);
 
-  /// Serializes this GenericAPIResponse to a JSON map.
-  Map<String, dynamic> toJson(
-      Object? Function(T) toJsonT, Object? Function(M) toJsonM);
-
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
@@ -249,7 +245,7 @@ extension GenericAPIResponsePatterns<T, M> on GenericAPIResponse<T, M> {
 }
 
 /// @nodoc
-@JsonSerializable(genericArgumentFactories: true)
+@JsonSerializable(createToJson: false, genericArgumentFactories: true)
 class GenericAPIResponseData<T, M> implements GenericAPIResponse<T, M> {
   const GenericAPIResponseData(this.data, this.metadata);
   factory GenericAPIResponseData.fromJson(Map<String, dynamic> json,
@@ -269,12 +265,6 @@ class GenericAPIResponseData<T, M> implements GenericAPIResponse<T, M> {
   $GenericAPIResponseDataCopyWith<T, M, GenericAPIResponseData<T, M>>
       get copyWith => _$GenericAPIResponseDataCopyWithImpl<T, M,
           GenericAPIResponseData<T, M>>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson(
-      Object? Function(T) toJsonT, Object? Function(M) toJsonM) {
-    return _$GenericAPIResponseDataToJson<T, M>(this, toJsonT, toJsonM);
-  }
 
   @override
   bool operator ==(Object other) {
