@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foo/src/navigation/flow_coordinator.dart';
+import 'package:foo/navigation.dart';
 import 'package:foo/utils.dart';
 import 'package:go_router/go_router.dart';
 
