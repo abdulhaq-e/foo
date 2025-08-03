@@ -20,19 +20,21 @@ abstract class FooMoney with _$FooMoney {
   factory FooMoney.fromJson(Map<String, Object?> json) =>
       _$FooMoneyFromJson(json);
 
+  Decimal toDecimal() {
+    final decimalValue = Decimal.fromInt(value);
+
+    return decimalValue.shift(-scale);
+  }
+
   String format([String? locale]) {
-    var valueString = this.value.toString();
-    final valueStringLength = valueString.length;
-    if (valueStringLength <= scale) {
-      valueString = valueString.padLeft(scale, '0');
-    }
-    final firstPart = valueString.substring(0, valueStringLength - scale);
-    final secondPart = valueString.substring(
-      valueStringLength - scale,
-      valueStringLength,
+    final decimalValue = toDecimal();
+
+    final numberFormat = NumberFormat.currency(
+      locale: locale,
+      name: currency,
     );
-    final value = Decimal.parse('$firstPart.$secondPart');
-    final formatter = DecimalFormatter(NumberFormat.decimalPattern(locale));
-    return formatter.format(value);
+
+    final formatter = DecimalFormatter(numberFormat);
+    return formatter.format(decimalValue);
   }
 }
