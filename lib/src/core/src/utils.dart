@@ -1,5 +1,4 @@
 import 'package:foo/core.dart';
-import 'package:foo/queries.dart';
 
 String _paginationDirectionQueryParamValue(PaginationDirection direction) {
   return switch (direction) {
@@ -40,15 +39,4 @@ CursorPaginationQuery buildNewPaginationQuery(
   }
 
   return existingPaginationQuery.copyWith(cursorInput: cursorInput);
-}
-
-PaginatedQueryHandling<Query, Item> wrapQueryHandler<Query, Item>(
-  QueryHandling<Query, PaginatedDataContainer<Item>> queryHandler,
-) {
-  Future<DataPage<Item>> paginatedQuery(Query query) async {
-    final paginatedData = await queryHandler(query);
-    return DataPage.fromPaginatedDataContainer(paginatedData);
-  }
-
-  return paginatedQuery;
 }

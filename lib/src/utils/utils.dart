@@ -1,8 +1,7 @@
-export 'transparent_widget.dart';
-export 'default_loading_indicator.dart';
-export 'push_screen_as_dialog.dart';
-export 'general_dialog_page.dart';
-export 'dialog_page.dart';
-export 'fullscreen_dialog_page.dart';
-export 'dependencies.dart';
-export 'modal_scenes.dart';
+export 'src/transparent_widget.dart';
+export 'src/push_screen_as_dialog.dart';
+export 'src/general_dialog_page.dart';
+export 'src/dialog_page.dart';
+export 'src/fullscreen_dialog_page.dart';
+export 'src/dependencies.dart';
+export 'src/modal_scenes.dart';
