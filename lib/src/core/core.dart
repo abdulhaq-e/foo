@@ -6,5 +6,5 @@ export 'src/remote/domain/generic_api_response.model.dart';
 export 'src/remote/remote_message_handler.dart';
 export 'src/remote/simple_command_endpoint_factory.dart';
 export 'src/remote/simple_query_endpoint_factory.dart';
-export 'src/remote/simple_remote_message_handler.dart';
+export 'src/remote/composite_response_handler/composite_response_handler.dart';
 export 'src/utils.dart';
