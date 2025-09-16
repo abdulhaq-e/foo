@@ -22,6 +22,8 @@ mixin _$CursorInput implements DiagnosticableTreeMixin {
 @pragma('vm:prefer-inline')
 $CursorInputCopyWith<CursorInput> get copyWith => _$CursorInputCopyWithImpl<CursorInput>(this as CursorInput, _$identity);
 
+  /// Serializes this CursorInput to a JSON map.
+  Map<String, dynamic> toJson();
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -211,7 +213,7 @@ return $default(_that.cursor,_that.direction);case _:
 }
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 
 class _CursorInput with DiagnosticableTreeMixin implements CursorInput {
   const _CursorInput({required this.cursor, required this.direction});
@@ -226,7 +228,10 @@ class _CursorInput with DiagnosticableTreeMixin implements CursorInput {
 @pragma('vm:prefer-inline')
 _$CursorInputCopyWith<_CursorInput> get copyWith => __$CursorInputCopyWithImpl<_CursorInput>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$CursorInputToJson(this, );
+}
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
@@ -295,6 +300,8 @@ mixin _$CursorPaginationMetadata implements DiagnosticableTreeMixin {
 @pragma('vm:prefer-inline')
 $CursorPaginationMetadataCopyWith<CursorPaginationMetadata> get copyWith => _$CursorPaginationMetadataCopyWithImpl<CursorPaginationMetadata>(this as CursorPaginationMetadata, _$identity);
 
+  /// Serializes this CursorPaginationMetadata to a JSON map.
+  Map<String, dynamic> toJson();
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -498,7 +505,7 @@ return $default(_that.cursorInput,_that.limit,_that.nextCursor,_that.previousCur
 }
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 
 class _CursorPaginationMetadata with DiagnosticableTreeMixin implements CursorPaginationMetadata {
   const _CursorPaginationMetadata({required this.cursorInput, required this.limit, required this.nextCursor, required this.previousCursor});
@@ -515,7 +522,10 @@ class _CursorPaginationMetadata with DiagnosticableTreeMixin implements CursorPa
 @pragma('vm:prefer-inline')
 _$CursorPaginationMetadataCopyWith<_CursorPaginationMetadata> get copyWith => __$CursorPaginationMetadataCopyWithImpl<_CursorPaginationMetadata>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$CursorPaginationMetadataToJson(this, );
+}
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties

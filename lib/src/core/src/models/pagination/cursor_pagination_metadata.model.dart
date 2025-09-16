@@ -6,7 +6,7 @@ part 'cursor_pagination_metadata.model.g.dart';
 
 enum PaginationDirection { forward, backward }
 
-@Freezed(toJson: false)
+@Freezed(fromJson: true, toJson: true)
 abstract class CursorInput with _$CursorInput {
   const factory CursorInput({
     required String cursor,
@@ -17,7 +17,7 @@ abstract class CursorInput with _$CursorInput {
       _$CursorInputFromJson(json);
 }
 
-@Freezed(toJson: false)
+@Freezed(fromJson: true, toJson: true)
 abstract class CursorPaginationMetadata with _$CursorPaginationMetadata {
   const factory CursorPaginationMetadata({
     required CursorInput? cursorInput,

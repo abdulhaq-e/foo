@@ -11,6 +11,12 @@ _CursorInput _$CursorInputFromJson(Map<String, dynamic> json) => _CursorInput(
   direction: $enumDecode(_$PaginationDirectionEnumMap, json['direction']),
 );
 
+Map<String, dynamic> _$CursorInputToJson(_CursorInput instance) =>
+    <String, dynamic>{
+      'cursor': instance.cursor,
+      'direction': _$PaginationDirectionEnumMap[instance.direction]!,
+    };
+
 const _$PaginationDirectionEnumMap = {
   PaginationDirection.forward: 'forward',
   PaginationDirection.backward: 'backward',
@@ -26,3 +32,12 @@ _CursorPaginationMetadata _$CursorPaginationMetadataFromJson(
   nextCursor: json['nextCursor'] as String?,
   previousCursor: json['previousCursor'] as String?,
 );
+
+Map<String, dynamic> _$CursorPaginationMetadataToJson(
+  _CursorPaginationMetadata instance,
+) => <String, dynamic>{
+  'cursorInput': instance.cursorInput,
+  'limit': instance.limit,
+  'nextCursor': instance.nextCursor,
+  'previousCursor': instance.previousCursor,
+};

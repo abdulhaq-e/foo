@@ -4,7 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'default_response_metadata.model.freezed.dart';
 part 'default_response_metadata.model.g.dart';
 
-@Freezed(toJson: false)
+@Freezed(fromJson: true, toJson: true)
 abstract class DefaultResponseMetadata with _$DefaultResponseMetadata {
   const factory DefaultResponseMetadata() = _DefaultResponseMetadata;
 

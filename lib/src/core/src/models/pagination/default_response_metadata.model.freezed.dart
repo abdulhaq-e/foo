@@ -17,6 +17,8 @@ mixin _$DefaultResponseMetadata implements DiagnosticableTreeMixin {
 
 
 
+  /// Serializes this DefaultResponseMetadata to a JSON map.
+  Map<String, dynamic> toJson();
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -179,7 +181,7 @@ return $default();case _:
 }
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 
 class _DefaultResponseMetadata with DiagnosticableTreeMixin implements DefaultResponseMetadata {
   const _DefaultResponseMetadata();
@@ -188,7 +190,10 @@ class _DefaultResponseMetadata with DiagnosticableTreeMixin implements DefaultRe
 
 
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$DefaultResponseMetadataToJson(this, );
+}
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties

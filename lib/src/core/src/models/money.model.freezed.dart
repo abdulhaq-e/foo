@@ -14,350 +14,282 @@ T _$identity<T>(T value) => value;
 
 /// @nodoc
 mixin _$FooMoney implements DiagnosticableTreeMixin {
-  int get value;
-  int get scale;
-  String get currency;
 
-  /// Create a copy of FooMoney
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  $FooMoneyCopyWith<FooMoney> get copyWith =>
-      _$FooMoneyCopyWithImpl<FooMoney>(this as FooMoney, _$identity);
+ int get value; int get scale; String get currency;
+/// Create a copy of FooMoney
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$FooMoneyCopyWith<FooMoney> get copyWith => _$FooMoneyCopyWithImpl<FooMoney>(this as FooMoney, _$identity);
 
   /// Serializes this FooMoney to a JSON map.
   Map<String, dynamic> toJson();
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'FooMoney'))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('scale', scale))
-      ..add(DiagnosticsProperty('currency', currency));
-  }
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FooMoney'))
+    ..add(DiagnosticsProperty('value', value))..add(DiagnosticsProperty('scale', scale))..add(DiagnosticsProperty('currency', currency));
+}
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is FooMoney &&
-            (identical(other.value, value) || other.value == value) &&
-            (identical(other.scale, scale) || other.scale == scale) &&
-            (identical(other.currency, currency) ||
-                other.currency == currency));
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooMoney&&(identical(other.value, value) || other.value == value)&&(identical(other.scale, scale) || other.scale == scale)&&(identical(other.currency, currency) || other.currency == currency));
+}
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, value, scale, currency);
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value,scale,currency);
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
-  }
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
+}
+
+
 }
 
 /// @nodoc
-abstract mixin class $FooMoneyCopyWith<$Res> {
-  factory $FooMoneyCopyWith(FooMoney value, $Res Function(FooMoney) _then) =
-      _$FooMoneyCopyWithImpl;
-  @useResult
-  $Res call({int value, int scale, String currency});
-}
+abstract mixin class $FooMoneyCopyWith<$Res>  {
+  factory $FooMoneyCopyWith(FooMoney value, $Res Function(FooMoney) _then) = _$FooMoneyCopyWithImpl;
+@useResult
+$Res call({
+ int value, int scale, String currency
+});
 
+
+
+
+}
 /// @nodoc
-class _$FooMoneyCopyWithImpl<$Res> implements $FooMoneyCopyWith<$Res> {
+class _$FooMoneyCopyWithImpl<$Res>
+    implements $FooMoneyCopyWith<$Res> {
   _$FooMoneyCopyWithImpl(this._self, this._then);
 
   final FooMoney _self;
   final $Res Function(FooMoney) _then;
 
-  /// Create a copy of FooMoney
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? value = null,
-    Object? scale = null,
-    Object? currency = null,
-  }) {
-    return _then(_self.copyWith(
-      value: null == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      scale: null == scale
-          ? _self.scale
-          : scale // ignore: cast_nullable_to_non_nullable
-              as int,
-      currency: null == currency
-          ? _self.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+/// Create a copy of FooMoney
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') @override $Res call({Object? value = null,Object? scale = null,Object? currency = null,}) {
+  return _then(_self.copyWith(
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,scale: null == scale ? _self.scale : scale // ignore: cast_nullable_to_non_nullable
+as int,currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
+
+}
+
 
 /// Adds pattern-matching-related methods to [FooMoney].
 extension FooMoneyPatterns on FooMoney {
-  /// A variant of `map` that fallback to returning `orElse`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>(
-    TResult Function(_FooMoney value)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney() when $default != null:
-        return $default(_that);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _FooMoney value)?  $default,{required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _FooMoney() when $default != null:
+return $default(_that);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// Callbacks receives the raw object, upcasted.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case final Subclass2 value:
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>(
-    TResult Function(_FooMoney value) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney():
-        return $default(_that);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _FooMoney value)  $default,){
+final _that = this;
+switch (_that) {
+case _FooMoney():
+return $default(_that);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `map` that fallback to returning `null`.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case final Subclass value:
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>(
-    TResult? Function(_FooMoney value)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney() when $default != null:
-        return $default(_that);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _FooMoney value)?  $default,){
+final _that = this;
+switch (_that) {
+case _FooMoney() when $default != null:
+return $default(_that);case _:
+  return null;
 
-  /// A variant of `when` that fallback to an `orElse` callback.
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return orElse();
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>(
-    TResult Function(int value, int scale, String currency)? $default, {
-    required TResult orElse(),
-  }) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney() when $default != null:
-        return $default(_that.value, _that.scale, _that.currency);
-      case _:
-        return orElse();
-    }
-  }
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( int value,  int scale,  String currency)?  $default,{required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _FooMoney() when $default != null:
+return $default(_that.value,_that.scale,_that.currency);case _:
+  return orElse();
 
-  /// A `switch`-like method, using callbacks.
-  ///
-  /// As opposed to `map`, this offers destructuring.
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case Subclass2(:final field2):
-  ///     return ...;
-  /// }
-  /// ```
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>(
-    TResult Function(int value, int scale, String currency) $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney():
-        return $default(_that.value, _that.scale, _that.currency);
-      case _:
-        throw StateError('Unexpected subclass');
-    }
-  }
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( int value,  int scale,  String currency)  $default,) {final _that = this;
+switch (_that) {
+case _FooMoney():
+return $default(_that.value,_that.scale,_that.currency);case _:
+  throw StateError('Unexpected subclass');
 
-  /// A variant of `when` that fallback to returning `null`
-  ///
-  /// It is equivalent to doing:
-  /// ```dart
-  /// switch (sealedClass) {
-  ///   case Subclass(:final field):
-  ///     return ...;
-  ///   case _:
-  ///     return null;
-  /// }
-  /// ```
+}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
 
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(int value, int scale, String currency)? $default,
-  ) {
-    final _that = this;
-    switch (_that) {
-      case _FooMoney() when $default != null:
-        return $default(_that.value, _that.scale, _that.currency);
-      case _:
-        return null;
-    }
-  }
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( int value,  int scale,  String currency)?  $default,) {final _that = this;
+switch (_that) {
+case _FooMoney() when $default != null:
+return $default(_that.value,_that.scale,_that.currency);case _:
+  return null;
+
+}
+}
+
 }
 
 /// @nodoc
 @JsonSerializable()
+
 class _FooMoney extends FooMoney with DiagnosticableTreeMixin {
-  const _FooMoney(
-      {required this.value, required this.scale, required this.currency})
-      : super._();
-  factory _FooMoney.fromJson(Map<String, dynamic> json) =>
-      _$FooMoneyFromJson(json);
+  const _FooMoney({required this.value, required this.scale, required this.currency}): super._();
+  factory _FooMoney.fromJson(Map<String, dynamic> json) => _$FooMoneyFromJson(json);
 
-  @override
-  final int value;
-  @override
-  final int scale;
-  @override
-  final String currency;
+@override final  int value;
+@override final  int scale;
+@override final  String currency;
 
-  /// Create a copy of FooMoney
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @pragma('vm:prefer-inline')
-  _$FooMoneyCopyWith<_FooMoney> get copyWith =>
-      __$FooMoneyCopyWithImpl<_FooMoney>(this, _$identity);
+/// Create a copy of FooMoney
+/// with the given fields replaced by the non-null parameter values.
+@override @JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$FooMoneyCopyWith<_FooMoney> get copyWith => __$FooMoneyCopyWithImpl<_FooMoney>(this, _$identity);
 
-  @override
-  Map<String, dynamic> toJson() {
-    return _$FooMoneyToJson(
-      this,
-    );
-  }
+@override
+Map<String, dynamic> toJson() {
+  return _$FooMoneyToJson(this, );
+}
+@override
+void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  properties
+    ..add(DiagnosticsProperty('type', 'FooMoney'))
+    ..add(DiagnosticsProperty('value', value))..add(DiagnosticsProperty('scale', scale))..add(DiagnosticsProperty('currency', currency));
+}
 
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    properties
-      ..add(DiagnosticsProperty('type', 'FooMoney'))
-      ..add(DiagnosticsProperty('value', value))
-      ..add(DiagnosticsProperty('scale', scale))
-      ..add(DiagnosticsProperty('currency', currency));
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FooMoney&&(identical(other.value, value) || other.value == value)&&(identical(other.scale, scale) || other.scale == scale)&&(identical(other.currency, currency) || other.currency == currency));
+}
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _FooMoney &&
-            (identical(other.value, value) || other.value == value) &&
-            (identical(other.scale, scale) || other.scale == scale) &&
-            (identical(other.currency, currency) ||
-                other.currency == currency));
-  }
+@JsonKey(includeFromJson: false, includeToJson: false)
+@override
+int get hashCode => Object.hash(runtimeType,value,scale,currency);
 
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  int get hashCode => Object.hash(runtimeType, value, scale, currency);
+@override
+String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
+  return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
+}
 
-  @override
-  String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
-  }
+
 }
 
 /// @nodoc
-abstract mixin class _$FooMoneyCopyWith<$Res>
-    implements $FooMoneyCopyWith<$Res> {
-  factory _$FooMoneyCopyWith(_FooMoney value, $Res Function(_FooMoney) _then) =
-      __$FooMoneyCopyWithImpl;
-  @override
-  @useResult
-  $Res call({int value, int scale, String currency});
-}
+abstract mixin class _$FooMoneyCopyWith<$Res> implements $FooMoneyCopyWith<$Res> {
+  factory _$FooMoneyCopyWith(_FooMoney value, $Res Function(_FooMoney) _then) = __$FooMoneyCopyWithImpl;
+@override @useResult
+$Res call({
+ int value, int scale, String currency
+});
 
+
+
+
+}
 /// @nodoc
-class __$FooMoneyCopyWithImpl<$Res> implements _$FooMoneyCopyWith<$Res> {
+class __$FooMoneyCopyWithImpl<$Res>
+    implements _$FooMoneyCopyWith<$Res> {
   __$FooMoneyCopyWithImpl(this._self, this._then);
 
   final _FooMoney _self;
   final $Res Function(_FooMoney) _then;
 
-  /// Create a copy of FooMoney
-  /// with the given fields replaced by the non-null parameter values.
-  @override
-  @pragma('vm:prefer-inline')
-  $Res call({
-    Object? value = null,
-    Object? scale = null,
-    Object? currency = null,
-  }) {
-    return _then(_FooMoney(
-      value: null == value
-          ? _self.value
-          : value // ignore: cast_nullable_to_non_nullable
-              as int,
-      scale: null == scale
-          ? _self.scale
-          : scale // ignore: cast_nullable_to_non_nullable
-              as int,
-      currency: null == currency
-          ? _self.currency
-          : currency // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+/// Create a copy of FooMoney
+/// with the given fields replaced by the non-null parameter values.
+@override @pragma('vm:prefer-inline') $Res call({Object? value = null,Object? scale = null,Object? currency = null,}) {
+  return _then(_FooMoney(
+value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
+as int,scale: null == scale ? _self.scale : scale // ignore: cast_nullable_to_non_nullable
+as int,currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 // dart format on
