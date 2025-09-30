@@ -16,13 +16,14 @@ class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
     required String label,
     Map<String, String Function(Object)>? validationMessages,
     String? initialValue,
+    Widget? suffixIcon,
     bool obscureText = false,
   }) {
     final widget = ReactiveTextField<T>(
       formControlName: formControlName,
       formControl: formControl,
       validationMessages: validationMessages,
-      decoration: InputDecoration(labelText: label),
+      decoration: InputDecoration(labelText: label, suffixIcon: suffixIcon),
       obscureText: obscureText,
     );
     if (initialValue != null) {
@@ -51,8 +52,9 @@ class FooFormV2ComponentsHelper<FormData, Form extends HasFormV2Group> {
             (e) => DropdownMenuItem(
               value: valueGenerator(e),
               child: childGenerator(e),
-              enabled:
-                  !(disabledValues ?? <Object>{}).contains(valueGenerator(e)),
+              enabled: !(disabledValues ?? <Object>{}).contains(
+                valueGenerator(e),
+              ),
             ),
           )
           .toList(),
