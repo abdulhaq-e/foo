@@ -20,16 +20,20 @@ class PaginatedQueryDataBloc<Query, Item>
   PaginatedQueryDataBloc({
     required PaginatedQueryHandling<Query, Item> queryHandler,
     required QueryUpdater<Query> updateQueryWithPagingKey,
+    EventTransformer<PaginatedQueryStarted<Query>>? startedEventTransformer,
     PageMerger<Item>? onNextPageResult,
     PageMerger<Item>? onPreviousPageResult,
-  })  : _queryHandler = queryHandler,
-        _updateQueryWithPagingKey = updateQueryWithPagingKey,
-        _onNextPageResult =
-            onNextPageResult ?? PageMergingStrategies.mergeByReplacement,
-        _onPreviousPageResult =
-            onPreviousPageResult ?? PageMergingStrategies.mergeByReplacement,
-        super(const PaginatedQueryDataState.initial()) {
-    on<PaginatedQueryStarted<Query>>(_onStarted);
+  }) : _queryHandler = queryHandler,
+       _updateQueryWithPagingKey = updateQueryWithPagingKey,
+       _onNextPageResult =
+           onNextPageResult ?? PageMergingStrategies.mergeByReplacement,
+       _onPreviousPageResult =
+           onPreviousPageResult ?? PageMergingStrategies.mergeByReplacement,
+       super(const PaginatedQueryDataState.initial()) {
+    on<PaginatedQueryStarted<Query>>(
+      _onStarted,
+      transformer: startedEventTransformer,
+    );
     on<PaginatedQueryNextPageRequested>(_onNextPageRequested);
     on<PaginatedQueryPreviousPageRequested>(_onPreviousPageRequested);
   }
@@ -76,8 +80,10 @@ class PaginatedQueryDataBloc<Query, Item>
         PaginationDirection.forward,
       );
       final dataContainer = await _queryHandler(nextQuery);
-      final newItems =
-          _onNextPageResult(currentState.items, dataContainer.data);
+      final newItems = _onNextPageResult(
+        currentState.items,
+        dataContainer.data,
+      );
       emit(
         currentState.copyWith(
           items: newItems,
@@ -113,8 +119,10 @@ class PaginatedQueryDataBloc<Query, Item>
         PaginationDirection.backward,
       );
       final dataContainer = await _queryHandler(prevQuery);
-      final newItems =
-          _onPreviousPageResult(loadedState.items, dataContainer.data);
+      final newItems = _onPreviousPageResult(
+        loadedState.items,
+        dataContainer.data,
+      );
       emit(
         loadedState.copyWith(
           items: newItems,
