@@ -22,6 +22,8 @@ mixin _$PaginatedResponseMetadata implements DiagnosticableTreeMixin {
 @pragma('vm:prefer-inline')
 $PaginatedResponseMetadataCopyWith<PaginatedResponseMetadata> get copyWith => _$PaginatedResponseMetadataCopyWithImpl<PaginatedResponseMetadata>(this as PaginatedResponseMetadata, _$identity);
 
+  /// Serializes this PaginatedResponseMetadata to a JSON map.
+  Map<String, dynamic> toJson();
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -219,7 +221,7 @@ return $default(_that.pagination);case _:
 }
 
 /// @nodoc
-@JsonSerializable(createToJson: false)
+@JsonSerializable()
 
 class _PaginatedResponseMetadata with DiagnosticableTreeMixin implements PaginatedResponseMetadata {
   const _PaginatedResponseMetadata({required this.pagination});
@@ -233,7 +235,10 @@ class _PaginatedResponseMetadata with DiagnosticableTreeMixin implements Paginat
 @pragma('vm:prefer-inline')
 _$PaginatedResponseMetadataCopyWith<_PaginatedResponseMetadata> get copyWith => __$PaginatedResponseMetadataCopyWithImpl<_PaginatedResponseMetadata>(this, _$identity);
 
-
+@override
+Map<String, dynamic> toJson() {
+  return _$PaginatedResponseMetadataToJson(this, );
+}
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties

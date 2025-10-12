@@ -13,3 +13,7 @@ _PaginatedResponseMetadata _$PaginatedResponseMetadataFromJson(
     json['pagination'] as Map<String, dynamic>,
   ),
 );
+
+Map<String, dynamic> _$PaginatedResponseMetadataToJson(
+  _PaginatedResponseMetadata instance,
+) => <String, dynamic>{'pagination': instance.pagination};

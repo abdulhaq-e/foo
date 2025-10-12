@@ -6,7 +6,7 @@ import 'cursor_pagination_metadata.model.dart';
 part 'paginated_response_metadata.model.freezed.dart';
 part 'paginated_response_metadata.model.g.dart';
 
-@Freezed(toJson: false)
+@Freezed(toJson: true, fromJson: true)
 abstract class PaginatedResponseMetadata with _$PaginatedResponseMetadata {
   const factory PaginatedResponseMetadata({
     required CursorPaginationMetadata pagination,
