@@ -18,12 +18,15 @@ class MockGoRouterState extends Mock implements GoRouterState {}
 // Fake classes for fallback values
 class FakeNavigationCommand extends Fake implements NavigationCommand {}
 
+class FakeNavigationState extends Fake implements NavigationState {}
+
 class FakeEndpoint extends Fake implements Endpoint {}
 
 /// Helper to register all common fallback values.
 /// Call this in your test's setUpAll() method.
 void registerCommonFallbackValues() {
   registerFallbackValue(FakeNavigationCommand());
+  registerFallbackValue(FakeNavigationState());
   registerFallbackValue(FakeEndpoint());
   registerFallbackValue(Container());
 }
