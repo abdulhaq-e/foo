@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:foo/src/commands/src/views/command_listener.dart';
 
 class SnackBarCommandListener<Command, Response, Error, ValidationError>
     extends StatelessWidget {
