@@ -8,3 +8,4 @@ export 'src/remote/simple_command_endpoint_factory.dart';
 export 'src/remote/simple_query_endpoint_factory.dart';
 export 'src/remote/composite_response_handler/composite_response_handler.dart';
 export 'src/utils.dart';
+export 'src/remote/json_remote_message_handler.dart';
