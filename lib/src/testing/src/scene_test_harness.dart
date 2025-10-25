@@ -44,9 +44,7 @@ class SceneTestHarness {
     await tester.pumpWidget(
       MaterialApp(
         key: UniqueKey(),
-        home: Scaffold(
-          body: scene,
-        ),
+        home: Scaffold(body: scene),
       ),
     );
   }
@@ -95,16 +93,11 @@ class SceneTestHarness {
   /// );
   /// ```
   CaptureHandler<Q, DataContainer<T, DefaultResponseMetadata>>
-      createSingularHandler<Q, T>({
-    required T Function(Q query) dataBuilder,
-  }) {
+  createSingularHandler<Q, T>({required T Function(Q query) dataBuilder}) {
     return CaptureHandler<Q, DataContainer<T, DefaultResponseMetadata>>(
       responseBuilder: (query) {
         final data = dataBuilder(query);
-        return DataContainer(
-          data: data,
-          metadata: DefaultResponseMetadata(),
-        );
+        return DataContainer(data: data, metadata: DefaultResponseMetadata());
       },
     );
   }
@@ -125,6 +118,7 @@ class SceneTestHarness {
 /// This is useful for verifying that scenes dispatch the correct queries.
 class CaptureHandler<Q, R> {
   final List<Q> capturedQueries = [];
+  int numberOfQueryCalls = 0;
   final FutureOr<R> Function(Q query) responseBuilder;
 
   CaptureHandler({required this.responseBuilder});
@@ -134,6 +128,7 @@ class CaptureHandler<Q, R> {
 
   Future<R> _handle(Q query) async {
     capturedQueries.add(query);
+    this.numberOfQueryCalls += 1;
     return await responseBuilder(query);
   }
 
