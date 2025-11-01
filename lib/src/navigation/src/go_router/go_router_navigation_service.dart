@@ -58,9 +58,7 @@ class GoRouterNavigationService
       if (queryParamsPairs.isNotEmpty) {
         path = '$path?${queryParamsPairs.join("&")}';
       }
-      router.go(
-        path,
-      );
+      router.go(path);
     } else if (command.sceneName != null) {
       final namedRoute = command.sceneName!;
       router.goNamed(
@@ -76,10 +74,7 @@ class GoRouterNavigationService
     router.push('/dialog', extra: scene);
   }
 
-  void registerFlow({
-    required String name,
-    required List<Scene> scenes,
-  }) {
+  void registerFlow({required String name, required List<Scene> scenes}) {
     _flowScenes[name] = scenes;
   }
 
@@ -94,73 +89,67 @@ class GoRouterNavigationService
     return routes;
   }
 
-  List<RouteBase> _convertScenesToRoutes(
-    List<Scene> scenes,
-  ) {
+  List<RouteBase> _convertScenesToRoutes(List<Scene> scenes) {
     return scenes.map(_convertSceneToGoRoute).toList();
   }
 
   RouteBase _convertSceneToGoRoute(Scene scene) {
     return switch (scene) {
       SimpleScene() => GoRoute(
-          parentNavigatorKey: scene.parentNavigatorKey,
-          path: scene.path,
-          name: scene.name,
-          builder: scene.builder != null
-              ? (context, state) => scene.builder!(
-                    context,
-                    _navigationStateFromGoRouterState(state),
-                  )
-              : null,
-          pageBuilder: scene.pageBuilder != null
-              ? (context, state) => scene.pageBuilder!(
-                    context,
-                    _navigationStateFromGoRouterState(state),
-                  )
-              : null,
-          redirect: scene.redirect == null
-              ? null
-              : (context, state) async {
-                  return scene.redirect!(
-                    context,
-                    _navigationStateFromGoRouterState(state),
-                  );
-                },
-          routes: scene.children.isEmpty
-              ? []
-              : [
-                  ..._convertScenesToRoutes(
-                    scene.children,
-                  ),
-                ],
-        ),
+        parentNavigatorKey: scene.parentNavigatorKey,
+        path: scene.path,
+        name: scene.name,
+        builder: scene.builder != null
+            ? (context, state) => scene.builder!(
+                context,
+                _navigationStateFromGoRouterState(state),
+              )
+            : null,
+        pageBuilder: scene.pageBuilder != null
+            ? (context, state) => scene.pageBuilder!(
+                context,
+                _navigationStateFromGoRouterState(state),
+              )
+            : null,
+        redirect: scene.redirect == null
+            ? null
+            : (context, state) async {
+                return scene.redirect!(
+                  context,
+                  _navigationStateFromGoRouterState(state),
+                );
+              },
+        routes: scene.children.isEmpty
+            ? []
+            : [..._convertScenesToRoutes(scene.children)],
+      ),
       ShellScene() => ShellRoute(
-          navigatorKey: scene.navigatorKey,
-          parentNavigatorKey: scene.parentNavigatorKey,
-          routes: _convertScenesToRoutes(scene.children),
-          redirect: scene.redirect == null
-              ? null
-              : (context, state) async {
-                  return scene.redirect!(
-                    context,
-                    _navigationStateFromGoRouterState(state),
-                  );
-                },
-          builder: (BuildContext context, GoRouterState state, Widget child) {
-            return scene.shellBuilder(
-              context,
-              NavigationState(
-                uri: state.uri,
-                path: state.path,
-                pathParameters: state.pathParameters,
-                extra: state.extra != null
-                    ? state.extra! as Map<String, Object>
-                    : {},
-              ),
-              child,
-            );
-          },
-        )
+        navigatorKey: scene.navigatorKey,
+        parentNavigatorKey: scene.parentNavigatorKey,
+        routes: _convertScenesToRoutes(scene.children),
+        redirect: scene.redirect == null
+            ? null
+            : (context, state) async {
+                return scene.redirect!(
+                  context,
+                  _navigationStateFromGoRouterState(state),
+                );
+              },
+        builder: (BuildContext context, GoRouterState state, Widget child) {
+          return scene.shellBuilder(
+            context,
+            NavigationState(
+              uri: state.uri,
+              path: state.path,
+              pathParameters: state.pathParameters,
+              extra: state.extra != null
+                  ? state.extra! as Map<String, Object>
+                  : {},
+            ),
+            child,
+          );
+        },
+      ),
     };
   }
 
@@ -183,6 +172,7 @@ class GoRouterNavigationService
 NavigationState _navigationStateFromGoRouterState(GoRouterState state) {
   return NavigationState(
     path: state.path,
+    name: state.name,
     uri: state.uri,
     pathParameters: state.pathParameters,
     extra: state.extra != null ? state.extra! as Map<String, Object> : {},

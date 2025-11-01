@@ -4,15 +4,18 @@ import 'package:flutter/material.dart';
 
 class NavigationState {
   final String? path;
+  final String? name;
   final Map<String, String> pathParameters;
   final Map<String, Object> extra;
   final Uri uri;
 
-  NavigationState(
-      {required this.path,
-      required this.pathParameters,
-      required this.uri,
-      this.extra = const {}});
+  NavigationState({
+    required this.path,
+    required this.pathParameters,
+    required this.uri,
+    this.name,
+    this.extra = const {},
+  });
 }
 
 class NavigationCommand {
@@ -28,8 +31,10 @@ class NavigationCommand {
     this.pathParameters = const <String, String>{},
     this.queryParameters = const <String, dynamic>{},
     this.extra = const {},
-  }) : assert(path != null || sceneName != null,
-            'path or sceneName must be provided');
+  }) : assert(
+         path != null || sceneName != null,
+         'path or sceneName must be provided',
+       );
 }
 
 abstract class NavigationService {
@@ -43,8 +48,8 @@ abstract class NavigationServiceRoutesAdapter<T> {
   T generateRoutes(List<Scene> scenes);
 }
 
-typedef SceneRedirect = FutureOr<String?> Function(
-    BuildContext context, NavigationState state);
+typedef SceneRedirect =
+    FutureOr<String?> Function(BuildContext context, NavigationState state);
 
 sealed class Scene {}
 
@@ -65,8 +70,10 @@ class SimpleScene extends Scene {
     this.builder,
     this.pageBuilder,
     this.children = const [],
-  }) : assert(pageBuilder != null || builder != null || redirect != null,
-            'builder, pageBuilder, or redirect must be provided');
+  }) : assert(
+         pageBuilder != null || builder != null || redirect != null,
+         'builder, pageBuilder, or redirect must be provided',
+       );
 }
 
 class ShellScene extends Scene {
@@ -91,7 +98,7 @@ abstract class BaseFlowCoordinator {
   final NavigationService _navigationService;
 
   BaseFlowCoordinator({required NavigationService navigationService})
-      : _navigationService = navigationService;
+    : _navigationService = navigationService;
 
   Future<void> navigate(NavigationCommand command) {
     return _navigationService.navigate(command);
