@@ -63,6 +63,8 @@ class SceneTestHarness {
     required List<T> Function(Q query) dataBuilder,
     String? nextCursor,
     String? previousCursor,
+    int? delay,
+    Exception? error,
   }) {
     return CaptureHandler<Q, PaginatedDataContainer<T>>(
       responseBuilder: (query) {
@@ -79,6 +81,8 @@ class SceneTestHarness {
           ),
         );
       },
+      delay: delay,
+      error: error,
     );
   }
 
@@ -93,12 +97,18 @@ class SceneTestHarness {
   /// );
   /// ```
   CaptureHandler<Q, DataContainer<T, DefaultResponseMetadata>>
-  createSingularHandler<Q, T>({required T Function(Q query) dataBuilder}) {
+  createSingularHandler<Q, T>({
+    required T Function(Q query) dataBuilder,
+    int? delay,
+    Exception? error,
+  }) {
     return CaptureHandler<Q, DataContainer<T, DefaultResponseMetadata>>(
       responseBuilder: (query) {
         final data = dataBuilder(query);
         return DataContainer(data: data, metadata: DefaultResponseMetadata());
       },
+      delay: delay,
+      error: error,
     );
   }
 
@@ -108,8 +118,14 @@ class SceneTestHarness {
   /// The responseBuilder can be sync or async.
   CaptureHandler<Q, R> createCaptureHandler<Q, R>({
     required FutureOr<R> Function(Q query) responseBuilder,
+    int? delay,
+    Exception? error,
   }) {
-    return CaptureHandler<Q, R>(responseBuilder: responseBuilder);
+    return CaptureHandler<Q, R>(
+      responseBuilder: responseBuilder,
+      delay: delay,
+      error: error,
+    );
   }
 }
 
@@ -120,8 +136,10 @@ class CaptureHandler<Q, R> {
   final List<Q> capturedQueries = [];
   int numberOfQueryCalls = 0;
   final FutureOr<R> Function(Q query) responseBuilder;
+  int? delay;
+  Exception? error;
 
-  CaptureHandler({required this.responseBuilder});
+  CaptureHandler({required this.responseBuilder, this.delay, this.error});
 
   /// The handler function to pass to composers.
   Future<R> Function(Q) get handler => _handle;
@@ -129,6 +147,12 @@ class CaptureHandler<Q, R> {
   Future<R> _handle(Q query) async {
     capturedQueries.add(query);
     this.numberOfQueryCalls += 1;
+    if (delay != null) {
+      await Future<void>.delayed(Duration(seconds: delay!));
+    }
+    if (error != null) {
+      throw error!;
+    }
     return await responseBuilder(query);
   }
 
