@@ -112,6 +112,20 @@ class SceneTestHarness {
     );
   }
 
+  CaptureHandler<C, void> createVoidCommandHandler<C>({
+    required void Function(C command) commandHandler,
+    int? delay,
+    Exception? error,
+  }) {
+    return CaptureHandler<C, void>(
+      responseBuilder: (command) {
+        commandHandler(command);
+      },
+      delay: delay,
+      error: error,
+    );
+  }
+
   /// Creates a generic capture handler with custom response building logic.
   ///
   /// Use this when you need full control over the response.
@@ -132,20 +146,20 @@ class SceneTestHarness {
 /// A handler that captures queries and returns responses.
 ///
 /// This is useful for verifying that scenes dispatch the correct queries.
-class CaptureHandler<Q, R> {
-  final List<Q> capturedQueries = [];
+class CaptureHandler<M, R> {
+  final List<M> capturedMessages = [];
   int numberOfQueryCalls = 0;
-  final FutureOr<R> Function(Q query) responseBuilder;
+  final FutureOr<R> Function(M message) responseBuilder;
   int? delay;
   Exception? error;
 
   CaptureHandler({required this.responseBuilder, this.delay, this.error});
 
   /// The handler function to pass to composers.
-  Future<R> Function(Q) get handler => _handle;
+  Future<R> Function(M) get handler => _handle;
 
-  Future<R> _handle(Q query) async {
-    capturedQueries.add(query);
+  Future<R> _handle(M message) async {
+    capturedMessages.add(message);
     this.numberOfQueryCalls += 1;
     if (delay != null) {
       await Future<void>.delayed(Duration(seconds: delay!));
@@ -153,11 +167,11 @@ class CaptureHandler<Q, R> {
     if (error != null) {
       throw error!;
     }
-    return await responseBuilder(query);
+    return await responseBuilder(message);
   }
 
   /// Clears all captured queries.
   void clear() {
-    capturedQueries.clear();
+    capturedMessages.clear();
   }
 }
