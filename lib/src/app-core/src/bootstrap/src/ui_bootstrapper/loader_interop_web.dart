@@ -1,8 +1,8 @@
 import 'dart:js_interop';
 
 /// JavaScript interop bindings for the UnderChamberLoader functionality
-@JS('UnderChamberLoader')
-external UnderChamberLoader get _underChamberLoader;
+@JS('Loader')
+external Loader get _loader;
 
 /// Interface for tenant colors JavaScript object
 @JS()
@@ -16,7 +16,7 @@ extension type TenantColorsJS._(JSObject _) implements JSObject {
 /// Interface for the UnderChamberLoader JavaScript object
 @JS()
 @anonymous
-extension type UnderChamberLoader._(JSObject _) implements JSObject {
+extension type Loader._(JSObject _) implements JSObject {
   /// Updates the loading text
   external void updateText(String text);
 
@@ -36,20 +36,20 @@ extension type UnderChamberLoader._(JSObject _) implements JSObject {
 // Platform-specific implementations that match the stub interface
 
 void updateLoaderText(String text) {
-  _underChamberLoader.updateText(text);
+  _loader.updateText(text);
 }
 
 void updateLoaderTenantInfo(String? tenantName, String? primaryColor) {
   final colors = primaryColor != null
       ? TenantColorsJS(primary: primaryColor)
       : null;
-  _underChamberLoader.updateTenantInfo(tenantName, colors);
+  _loader.updateTenantInfo(tenantName, colors);
 }
 
 void showLoaderError(String message) {
-  _underChamberLoader.showError(message);
+  _loader.showError(message);
 }
 
 void hideLoader() {
-  _underChamberLoader.hide();
+  _loader.hide();
 }

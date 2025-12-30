@@ -1,9 +1,8 @@
 import 'package:flutter/foundation.dart';
-import 'package:under_chamber/app/src/utils/under_chamber_loader_interop.dart';
-import 'package:under_chamber/core/core.dart';
+import 'loader_interop.dart';
 
-class LoadingStateManager {
-  const LoadingStateManager();
+class UIBootstrapper {
+  const UIBootstrapper();
 
   void updateLoadingText(String text) {
     if (kIsWeb) {

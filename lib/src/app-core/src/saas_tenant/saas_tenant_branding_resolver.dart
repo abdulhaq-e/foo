@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:under_chamber/app/src/dependencies/saas_tenant/saas_tenant_domain_resolution_utility.dart';
-import 'package:under_chamber/core/core.dart';
+
+import 'package:foo/app-core.dart';
+import 'package:foo/core.dart';
 
 class SaasTenantBrandingResolverException implements Exception {
   final String message;

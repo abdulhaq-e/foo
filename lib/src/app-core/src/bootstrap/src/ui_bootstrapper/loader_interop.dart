@@ -1,11 +1,11 @@
-import 'under_chamber_loader_interop_stub.dart'
-    if (dart.library.js_interop) 'under_chamber_loader_interop_web.dart';
+import 'loader_interop_stub.dart'
+    if (dart.library.js_interop) 'loader_interop_web.dart';
 
-/// Platform-agnostic wrapper for UnderChamberLoader functionality
+/// Platform-agnostic wrapper for LoaderInterop functionality
 ///
 /// On web: calls the JavaScript loader
 /// On other platforms: no-op implementations
-class UnderChamberLoaderInterop {
+class LoaderInterop {
   /// Updates the loading text displayed to the user
   static void updateText(String text) => updateLoaderText(text);
 
