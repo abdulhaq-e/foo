@@ -4,5 +4,6 @@ export 'pagination/cursor_pagination.query.dart';
 export 'pagination/cursor_pagination_metadata.model.dart';
 export 'pagination/default_response_metadata.model.dart';
 export 'pagination/paginated_data_container.model.dart';
+export 'pagination/paginated_query.model.dart';
 export 'pagination/paginated_response_metadata.model.dart';
 export 'pagination/types.dart';

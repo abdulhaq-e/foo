@@ -4,7 +4,9 @@ sealed class PaginatedQueryDataEvent {}
 
 class PaginatedQueryStarted<Query> extends PaginatedQueryDataEvent {
   final Query query;
-  PaginatedQueryStarted(this.query);
+  final int pageSize;
+
+  PaginatedQueryStarted(this.query, {this.pageSize = 30});
 }
 
 class PaginatedQueryNextPageRequested extends PaginatedQueryDataEvent {}

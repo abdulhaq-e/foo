@@ -11,20 +11,18 @@ part 'paginated_query_data.state.dart';
 class PaginatedQueryDataBloc<Query, Item>
     extends Bloc<PaginatedQueryDataEvent, PaginatedQueryDataState<Item>> {
   final PaginatedQueryHandling<Query, Item> _queryHandler;
-  final QueryUpdater<Query> _updateQueryWithPagingKey;
   final PageMerger<Item> _onNextPageResult;
   final PageMerger<Item> _onPreviousPageResult;
 
   Query? _initialQuery;
+  int _pageSize = 30;
 
   PaginatedQueryDataBloc({
     required PaginatedQueryHandling<Query, Item> queryHandler,
-    required QueryUpdater<Query> updateQueryWithPagingKey,
     EventTransformer<PaginatedQueryStarted<Query>>? startedEventTransformer,
     PageMerger<Item>? onNextPageResult,
     PageMerger<Item>? onPreviousPageResult,
   }) : _queryHandler = queryHandler,
-       _updateQueryWithPagingKey = updateQueryWithPagingKey,
        _onNextPageResult =
            onNextPageResult ?? PageMergingStrategies.mergeByReplacement,
        _onPreviousPageResult =
@@ -38,14 +36,32 @@ class PaginatedQueryDataBloc<Query, Item>
     on<PaginatedQueryPreviousPageRequested>(_onPreviousPageRequested);
   }
 
+  /// Creates a paginated query wrapper from the business query and pagination params
+  PaginatedQuery<Query> _createPaginatedQuery({
+    String? cursor,
+    PaginationDirection? direction,
+  }) {
+    return PaginatedQuery(
+      innerQuery: _initialQuery!,
+      pagination: CursorPaginationQuery(
+        cursorInput: cursor != null && direction != null
+            ? CursorInput(cursor: cursor, direction: direction)
+            : null,
+        limit: _pageSize,
+      ),
+    );
+  }
+
   Future<void> _onStarted(
     PaginatedQueryStarted<Query> event,
     Emitter<PaginatedQueryDataState<Item>> emit,
   ) async {
     _initialQuery = event.query;
+    _pageSize = event.pageSize;
     emit(const PaginatedQueryDataState.loading());
     try {
-      final dataContainer = await _queryHandler(event.query);
+      final paginatedQuery = _createPaginatedQuery();
+      final dataContainer = await _queryHandler(paginatedQuery);
       emit(
         PaginatedQueryDataState.loaded(
           items: dataContainer.data,
@@ -74,12 +90,11 @@ class PaginatedQueryDataBloc<Query, Item>
     emit(currentState.copyWith(isFetchingNextPage: true, nextPageError: null));
 
     try {
-      final nextQuery = _updateQueryWithPagingKey(
-        _initialQuery!,
-        currentState.nextPagingKey,
-        PaginationDirection.forward,
+      final paginatedQuery = _createPaginatedQuery(
+        cursor: currentState.nextPagingKey,
+        direction: PaginationDirection.forward,
       );
-      final dataContainer = await _queryHandler(nextQuery);
+      final dataContainer = await _queryHandler(paginatedQuery);
       final newItems = _onNextPageResult(
         currentState.items,
         dataContainer.data,
@@ -113,12 +128,11 @@ class PaginatedQueryDataBloc<Query, Item>
     emit(loadedState.copyWith(isFetchingPreviousPage: true));
 
     try {
-      final prevQuery = _updateQueryWithPagingKey(
-        _initialQuery!,
-        loadedState.previousPagingKey,
-        PaginationDirection.backward,
+      final paginatedQuery = _createPaginatedQuery(
+        cursor: loadedState.previousPagingKey,
+        direction: PaginationDirection.backward,
       );
-      final dataContainer = await _queryHandler(prevQuery);
+      final dataContainer = await _queryHandler(paginatedQuery);
       final newItems = _onPreviousPageResult(
         loadedState.items,
         dataContainer.data,
