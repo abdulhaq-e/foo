@@ -22,6 +22,7 @@ class PaginatedQueryDataBloc<Query, Item>
     EventTransformer<PaginatedQueryStarted<Query>>? startedEventTransformer,
     PageMerger<Item>? onNextPageResult,
     PageMerger<Item>? onPreviousPageResult,
+    Stream<void>? refreshTrigger,
   }) : _queryHandler = queryHandler,
        _onNextPageResult =
            onNextPageResult ?? PageMergingStrategies.mergeByReplacement,
@@ -29,7 +30,7 @@ class PaginatedQueryDataBloc<Query, Item>
            onPreviousPageResult ?? PageMergingStrategies.mergeByReplacement,
        super(const PaginatedQueryDataState.initial()) {
     on<PaginatedQueryStarted<Query>>(
-      _onStarted,
+      (event, emit) => _onStarted(event, emit, refreshTrigger),
       transformer: startedEventTransformer,
     );
     on<PaginatedQueryNextPageRequested>(_onNextPageRequested);
@@ -52,28 +53,50 @@ class PaginatedQueryDataBloc<Query, Item>
     );
   }
 
-  Future<void> _onStarted(
-    PaginatedQueryStarted<Query> event,
+  Future<PaginatedQueryDataState<Item>> _executeInitialQuery(
     Emitter<PaginatedQueryDataState<Item>> emit,
   ) async {
-    _initialQuery = event.query;
-    _pageSize = event.pageSize;
     emit(const PaginatedQueryDataState.loading());
     try {
       final paginatedQuery = _createPaginatedQuery();
       final dataContainer = await _queryHandler(paginatedQuery);
-      emit(
-        PaginatedQueryDataState.loaded(
-          items: dataContainer.data,
-          nextPagingKey: dataContainer.metadata.pagination.nextCursor,
-          previousPagingKey: dataContainer.metadata.pagination.previousCursor,
-          hasNextPage: dataContainer.metadata.pagination.nextCursor != null,
-          hasPreviousPage:
-              dataContainer.metadata.pagination.previousCursor != null,
-        ),
+      return PaginatedQueryDataState.loaded(
+        items: dataContainer.data,
+        nextPagingKey: dataContainer.metadata.pagination.nextCursor,
+        previousPagingKey: dataContainer.metadata.pagination.previousCursor,
+        hasNextPage: dataContainer.metadata.pagination.nextCursor != null,
+        hasPreviousPage:
+            dataContainer.metadata.pagination.previousCursor != null,
       );
     } catch (e) {
-      emit(PaginatedQueryDataState.error(error: e));
+      return PaginatedQueryDataState.error(error: e);
+    }
+  }
+
+  Stream<PaginatedQueryDataState<Item>> _mapTrigger(
+    Stream<void> trigger,
+    Emitter<PaginatedQueryDataState<Item>> emit,
+  ) {
+    return trigger.asyncMap((_) async {
+      return _executeInitialQuery(emit);
+    });
+  }
+
+  Future<void> _onStarted(
+    PaginatedQueryStarted<Query> event,
+    Emitter<PaginatedQueryDataState<Item>> emit,
+    Stream<void>? refreshTrigger,
+  ) async {
+    _initialQuery = event.query;
+    _pageSize = event.pageSize;
+
+    // Initial load
+    final initialState = await _executeInitialQuery(emit);
+    emit(initialState);
+
+    // Setup refresh listener if provided
+    if (refreshTrigger != null) {
+      await emit.forEach(_mapTrigger(refreshTrigger, emit), onData: (d) => d);
     }
   }
 
