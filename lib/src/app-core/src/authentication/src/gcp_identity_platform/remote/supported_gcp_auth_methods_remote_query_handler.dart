@@ -1,0 +1,41 @@
+import 'dart:typed_data';
+
+import 'package:api_tools/api_tools.dart';
+import 'package:foo/core.dart';
+import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/domain/domain.dart';
+import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/dependencies.dart';
+import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/domain/saas_tenant_auth_platform.model.dart';
+
+SupportedGCPAuthMethodsQueryHandler supportedGCPAuthMethodsRemoteQueryHandler(
+  APIClient apiClient,
+) {
+  Future<SupportedGCPAuthMethods> handle(
+    SupportedGCPAuthMethodsQuery query,
+  ) async {
+    final apiResponse =
+        await JsonRemoteMessageHandlerHelper.createGenericApiHandlerForLists(
+          apiClient: apiClient,
+          fromJsonT: SaasTenantAuthPlatform.fromJson,
+          fromJsonM: DefaultResponseMetadata.fromJson,
+          endpointBuilder: (SupportedGCPAuthMethodsQuery query) =>
+              simpleQueryEndpointFactory(
+                path: 'api/queries/v1/saas-tenancy/auth-platforms',
+                queryParameters: {"domain": query.saasTenantDomain},
+              ),
+        )(query);
+    SaasTenantAuthPlatform? gcpAuthPlatform = apiResponse.data
+        .where((e) => e.platformName == "GCP_IDENTITY_PLATFORM")
+        .firstOrNull;
+    if (gcpAuthPlatform == null) {
+      throw Exception("SaasTenant does not support GCP_IDENTITY_PLATFORM");
+    }
+
+    try {
+      return SupportedGCPAuthMethods.fromJson(gcpAuthPlatform.config);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  return handle;
+}

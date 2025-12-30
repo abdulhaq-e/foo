@@ -23,6 +23,15 @@ dependencies:
   json_annotation: ^4.9.0
   reactive_forms: ^18.0.0
   uuid: ^4.2.1
+  flutter_secure_storage:
+    git:
+      url: https://github.com/juliansteenbakker/flutter_secure_storage.git
+      ref: develop
+      path: flutter_secure_storage
+  firebase_auth: ^6.0.1
+  flutter_signin_button: ^2.0.0
+  firebase_core: ^4.1.0
+  flutter_dotenv: ^6.0.0
 
 # dependency_overrides:
 #   intl: ^0.20.2
