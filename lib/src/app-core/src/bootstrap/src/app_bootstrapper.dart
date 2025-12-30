@@ -1,67 +1,43 @@
 import 'dart:async';
 
+import 'package:api_tools/api_tools.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
+import 'package:foo/core.dart';
+import 'package:http/http.dart' as http;
 
 import 'package:foo/app-core.dart';
-import 'package:foo/core.dart';
 
+import 'auth_bootstrapper.dart';
 import 'feature_registration.dart';
 import 'feature_registry.dart';
-import 'firebase_bootstrapper.dart';
 import 'ui_bootstrapper/ui_bootstrapper.dart';
 import 'saas_tenant_bootstrapper.dart';
+import 'bootrap_context.dart';
 
-/// Context passed to the app builder containing all bootstrapped dependencies
-class BootstrapContext<TDependencyContainer> {
-  final DotEnv env;
-  final SaasTenantBranding saasTenantBranding;
-  final TDependencyContainer dependencyContainer;
-  final Environment environment;
-
-  BootstrapContext({
-    required this.env,
-    required this.saasTenantBranding,
-    required this.dependencyContainer,
-    required this.environment,
-  });
-}
-
-class AppBootstrapper<TAppContext, TDependencyContainer> {
+class AppBootstrapper<TAppContext> {
   final Map<String, FirebaseOptions> firebaseEnvOptions;
   final Future<void> Function(FutureOr<Widget>) appRunner;
 
-  /// Creates the dependency container from env and tenant info
-  final TDependencyContainer Function(
-    DotEnv env,
-    SaasTenantBranding saasTenantBranding,
-  )
-  createDependencyContainer;
+  final ServiceRegistry Function(DotEnv env) createServiceRegistry;
 
-  /// Creates the app-specific context used for feature registration
-  /// This is called after the dependency container is created but before features are registered
-  final TAppContext Function(
-    BootstrapContext<TDependencyContainer> bootstrapContext,
-  )
+  final TAppContext Function(BootstrapContext bootstrapContext)
   createAppContext;
 
-  /// Builds the main app widget
-  /// Called after all features are registered
   final Widget Function(
-    BootstrapContext<TDependencyContainer> bootstrapContext,
+    BootstrapContext bootstrapContext,
     TAppContext appContext,
   )
   buildApp;
 
-  /// List of features to register during bootstrap
   final List<FeatureRegistration<TAppContext>> features;
 
   AppBootstrapper({
     required this.firebaseEnvOptions,
     required this.appRunner,
-    required this.createDependencyContainer,
+    required this.createServiceRegistry,
     required this.createAppContext,
     required this.buildApp,
     this.features = const [],
@@ -72,62 +48,119 @@ class AppBootstrapper<TAppContext, TDependencyContainer> {
     usePathUrlStrategy();
     WidgetsFlutterBinding.ensureInitialized();
 
-    // 1. Load environment configuration
     final env = await const EnvConfigLoader().load(
       flavourEnvFile: environment.envFile,
     );
 
-    // 2. Initialize Firebase
-    await FirebaseBootstrapper(
-      envOptions: this.firebaseEnvOptions,
-    ).bootstrapIfNeeded(env);
+    final appConfig = _createAppConfig(environment, env);
+    final serviceRegistry = createServiceRegistry(env);
+    final bootstrapContext = BootstrapContext(
+      env: env,
+      appConfig: appConfig,
+      environment: environment,
+      serviceRegistry: serviceRegistry,
+    );
+    await _ensureEssentialServices(bootstrapContext);
 
-    // 3. Resolve SaaS tenant
     const uiBootstrapper = UIBootstrapper();
     final saasTenantBootstrapper = SaasTenantBootstrapper(
       onLoadingTextUpdate: uiBootstrapper.updateLoadingText,
       onTenantInfoUpdate: uiBootstrapper.updateTenantInfo,
       onLoadingError: uiBootstrapper.showError,
-      priority: _parseSaasTenantResolutionPriority(env),
     );
-    final resolvedSaasTenant = await saasTenantBootstrapper.resolveTenant(env);
+    await saasTenantBootstrapper.bootstrap(bootrapContext: bootstrapContext);
 
-    // 4. Create dependency container (app-specific)
-    final dependencyContainer = createDependencyContainer(
-      env,
-      resolvedSaasTenant,
+    final authBootstrapper = AuthBootstrapper(
+      firebaseEnvOptions: firebaseEnvOptions,
     );
+    await authBootstrapper.bootstrap(bootstrapContext: bootstrapContext);
 
-    // 5. Create bootstrap context
-    final bootstrapContext = BootstrapContext<TDependencyContainer>(
-      env: env,
-      saasTenantBranding: resolvedSaasTenant,
-      dependencyContainer: dependencyContainer,
-      environment: environment,
-    );
-
-    // 6. Create app context (app-specific)
+    await _setupAuthenticatedApiClient(bootstrapContext);
     final appContext = createAppContext(bootstrapContext);
 
-    // 7. Register all features
     final featureRegistry = FeatureRegistry<TAppContext>();
     for (final feature in features) {
       featureRegistry.add(feature);
     }
     featureRegistry.registerAll(appContext);
 
-    // 8. Build the app widget
     Widget app = buildApp(bootstrapContext, appContext);
 
-    // 9. Wrap in environment banner if needed
     final bannerName = environment.bannerName;
     final bannerColor = environment.bannerColor;
     final wrappedApp = (bannerName != null && bannerColor != null)
         ? wrapInBanner(child: app, color: bannerColor, name: bannerName)
         : app;
 
-    // 10. Run the app
+    // 12. Run the app
     await appRunner(wrappedApp);
+  }
+
+  Future<void> _ensureEssentialServices(BootstrapContext bootrapContext) async {
+    final env = bootrapContext.env;
+    final serviceRegistry = bootrapContext.serviceRegistry;
+    final appConfig = bootrapContext.appConfig;
+
+    if (serviceRegistry.tryGet<BaseAPIClientType>() == null) {
+      final apiUrl = env.get('BACKEND_API_URL');
+      final apiClient = HttpAPIClient(
+        baseURL: apiUrl,
+        client: http.Client() as http.BaseClient,
+      );
+      serviceRegistry.register<BaseAPIClientType>(apiClient);
+    }
+
+    serviceRegistry.register(
+      SaasTenantDomainResolver(
+        domainFromEnv: appConfig.domainFromEnv,
+        priority: appConfig.domainResolutionPriority,
+      ),
+    );
+  }
+
+  Future<void> _setupAuthenticatedApiClient(
+    BootstrapContext bootrapContext,
+  ) async {
+    final serviceRegistry = bootrapContext.serviceRegistry;
+    final apiClient = serviceRegistry.get<BaseAPIClientType>();
+    final authenticationInteractor = serviceRegistry
+        .get<AuthenticationInteractor>();
+    final tokenProvider = AuthenticationInteractorTokenProvider(
+      authenticationInteractor: authenticationInteractor,
+    );
+    final saasTenantEntityIdProvider =
+        AuthenticationInteractorSaasEntityIdProvider(
+          authenticationInteractor: authenticationInteractor,
+        );
+    final saasTenantAPIClient = SaasTenantAPIClient(
+      client: apiClient,
+      tenantProvider: saasTenantEntityIdProvider,
+    );
+
+    final additionalHeaders = <String, String>{};
+
+    final authProvider = bootrapContext.appConfig.authProvider;
+    switch (authProvider) {
+      case AuthProvider.gcpIdentityPlatform:
+        additionalHeaders['X-AUTH-PROVIDER'] = 'GCP_IDENTITY_PLATFORM';
+      default:
+    }
+    final secureAPIClient = SecureAPIClient(
+      client: saasTenantAPIClient,
+      tokenProvider: tokenProvider,
+      additionalHeaders: additionalHeaders,
+    );
+
+    final tokenRefreshLock = TokenRefreshLock(tokenProvider: tokenProvider);
+    final authenticatedApiClient = RefreshableAPIClient(
+      client: secureAPIClient,
+      tokenRefreshLock: tokenRefreshLock,
+    );
+
+    serviceRegistry.register(tokenRefreshLock);
+    serviceRegistry.register<AuthenticatedAPIClientType>(
+      authenticatedApiClient,
+    );
   }
 
   Environment _parseEnvironment() {
@@ -154,5 +187,35 @@ class AppBootstrapper<TAppContext, TDependencyContainer> {
       'ENV' => SaasTenantResolutionPriority.env,
       _ => SaasTenantResolutionPriority.host,
     };
+  }
+
+  AppConfig _createAppConfig(Environment environment, DotEnv env) {
+    final apiUrl = env.get('BACKEND_URL');
+    late AuthProvider authProvider;
+
+    if (env.get('AUTH_PROVIDER') == 'FIXED_TOKEN') {
+      authProvider = AuthProvider.fixedToken;
+    } else if (env.get('AUTH_PROVIDER') == 'GCP_IDENTITY_PLATFORM') {
+      authProvider = AuthProvider.gcpIdentityPlatform;
+    } else {
+      throw Exception('Unknown auth provider or no auth provider set');
+    }
+
+    SaasTenantResolutionPriority priority = _parseSaasTenantResolutionPriority(
+      env,
+    );
+
+    String domainFromEnvVal = env.get('SAAS_TENANT_DOMAIN', fallback: '');
+    String? domainFromEnv = domainFromEnvVal.isEmpty ? null : domainFromEnvVal;
+
+    switch (environment) {
+      default:
+        return AppConfig(
+          apiURL: apiUrl,
+          authProvider: authProvider,
+          domainFromEnv: domainFromEnv,
+          domainResolutionPriority: priority,
+        );
+    }
   }
 }

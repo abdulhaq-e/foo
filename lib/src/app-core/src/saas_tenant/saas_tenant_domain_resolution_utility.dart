@@ -12,7 +12,7 @@ class SaasTenantDomainResolutionException implements Exception {
 }
 
 class SaasTenantDomainResolutionUtility {
-  static String resolveDomain({
+  static String resolve({
     required String? domainFromEnv,
     required SaasTenantResolutionPriority priority,
   }) {

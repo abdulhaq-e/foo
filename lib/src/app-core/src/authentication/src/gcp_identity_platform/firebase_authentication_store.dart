@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:foo/core.dart' hide User;
 
 import 'dependencies.dart';
 import 'domain/domain.dart';
@@ -10,9 +11,8 @@ class FirebaseAuthenticationStore implements AuthenticationStore {
     required AuthenticationStore authenticationStore,
   }) : _authenticationStore = authenticationStore {
     // Listen to both our auth store and Firebase auth changes
-    _authStoreSubscription = _authenticationStore.authenticationStateStream.listen(
-      (authResponse) => _onAuthStateChange(),
-    );
+    _authStoreSubscription = _authenticationStore.authenticationStateStream
+        .listen((authResponse) => _onAuthStateChange());
 
     _firebaseAuthSubscription = FirebaseAuth.instance.authStateChanges().listen(
       (firebaseUser) => _onAuthStateChange(),
@@ -33,7 +33,8 @@ class FirebaseAuthenticationStore implements AuthenticationStore {
   @override
   Future<AuthenticationResponse?> getCurrentAuthenticationData() async {
     // First check our authentication store
-    final authResponse = await _authenticationStore.getCurrentAuthenticationData();
+    final authResponse = await _authenticationStore
+        .getCurrentAuthenticationData();
 
     // Then check Firebase current user
     final firebaseUser = FirebaseAuth.instance.currentUser;

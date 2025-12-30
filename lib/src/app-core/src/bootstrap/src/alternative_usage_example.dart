@@ -44,42 +44,44 @@ void alternativeMain() async {
   featureRegistry.add(StudentsFeatureRegistration<MyDependencyContainer>());
   // ... add more features
 
-  final bootstrapper = AppBootstrapper<
-      DeferredAppContext<MyDependencyContainer>,
-      MyDependencyContainer>(
-    firebaseEnvOptions: {
-      'dev': myDevFirebaseOptions,
-      'prod': myProdFirebaseOptions,
-    },
-    appRunner: (app) => runApp(app),
+  final bootstrapper =
+      AppBootstrapper<
+        DeferredAppContext<MyDependencyContainer>,
+        MyDependencyContainer
+      >(
+        firebaseEnvOptions: {
+          'dev': myDevFirebaseOptions,
+          'prod': myProdFirebaseOptions,
+        },
+        appRunner: (app) => runApp(app),
 
-    createDependencyContainer: (env, saasTenant) {
-      return MyDependencyContainer(env: env, saasTenant: saasTenant);
-    },
+        createServiceRegistry: (env, saasTenant) {
+          return MyDependencyContainer(env: env, saasTenant: saasTenant);
+        },
 
-    // Create app context WITHOUT navigation service
-    createAppContext: (bootstrapContext) {
-      appContext = DeferredAppContext<MyDependencyContainer>(
-        dependencyContainer: bootstrapContext.dependencyContainer,
-        saasTenantBranding: bootstrapContext.saasTenantBranding,
-        scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
+        // Create app context WITHOUT navigation service
+        createAppContext: (bootstrapContext) {
+          appContext = DeferredAppContext<MyDependencyContainer>(
+            dependencyContainer: bootstrapContext.dependencyContainer,
+            saasTenantBranding: bootstrapContext.saasTenantBranding,
+            scaffoldMessengerKey: GlobalKey<ScaffoldMessengerState>(),
+          );
+          return appContext;
+        },
+
+        // Build app widget and pass feature registry
+        buildApp: (bootstrapContext, appContext) {
+          return MyAppWithDeferredRegistration(
+            dependencyContainer: bootstrapContext.dependencyContainer,
+            saasTenantBranding: bootstrapContext.saasTenantBranding,
+            appContext: appContext,
+            featureRegistry: featureRegistry,
+          );
+        },
+
+        // No features registered here - done in app widget
+        features: [],
       );
-      return appContext;
-    },
-
-    // Build app widget and pass feature registry
-    buildApp: (bootstrapContext, appContext) {
-      return MyAppWithDeferredRegistration(
-        dependencyContainer: bootstrapContext.dependencyContainer,
-        saasTenantBranding: bootstrapContext.saasTenantBranding,
-        appContext: appContext,
-        featureRegistry: featureRegistry,
-      );
-    },
-
-    // No features registered here - done in app widget
-    features: [],
-  );
 
   await bootstrapper.bootstrap();
 }
@@ -255,20 +257,25 @@ class MyNavigationService {
 }
 
 class HomeScenesBuilder {}
+
 class StudentsScenesBuilder {
   StudentsScenesBuilder({required container, required scaffoldMessengerKey});
 }
+
 class RootScenesBuilder {
   RootScenesBuilder({required container, required saasTenantBranding});
 }
+
 class HomeFlowCoordinator {
   HomeFlowCoordinator({required navigationService, required scenesBuilder});
   List<dynamic> get scenes => [];
 }
+
 class StudentsFlowCoordinator {
   StudentsFlowCoordinator({required navigationService, required scenesBuilder});
   List<dynamic> get scenes => [];
 }
+
 class RootFlowCoordinator {
   RootFlowCoordinator({
     required navigationService,
@@ -279,6 +286,7 @@ class RootFlowCoordinator {
   void appendSubscenes(List<dynamic> scenes) {}
   List<dynamic> get scenes => [];
 }
+
 class WelcomeFlowCoordinator {
   WelcomeFlowCoordinator({required navigationService, required container});
   List<dynamic> get scenes => [];

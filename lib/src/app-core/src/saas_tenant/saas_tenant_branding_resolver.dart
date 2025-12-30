@@ -24,9 +24,9 @@ class SaasTenantBrandingResolver {
        _domainFromEnv = domainFromEnv,
        _priority = priority;
 
-  Future<SaasTenantBranding> resolveTenantBranding() async {
+  Future<SaasTenantBranding> resolve() async {
     try {
-      final saasTenantDomain = SaasTenantDomainResolutionUtility.resolveDomain(
+      final saasTenantDomain = SaasTenantDomainResolutionUtility.resolve(
         domainFromEnv: _domainFromEnv,
         priority: _priority,
       );

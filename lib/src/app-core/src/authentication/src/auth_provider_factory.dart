@@ -1,5 +1,7 @@
+import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 
+import 'fixed_token/fixed_token.dart';
 import 'gcp_identity_platform/gcp_identity_platform.dart';
 
 enum AuthProvider { gcpIdentityPlatform, fixedToken }

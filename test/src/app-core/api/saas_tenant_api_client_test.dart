@@ -52,7 +52,7 @@ void main() {
     group('request', () {
       test('adds tenant ID header to request', () async {
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {'Content-Type': 'application/json'},
         );
@@ -77,7 +77,7 @@ void main() {
         );
 
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {},
         );
@@ -85,8 +85,10 @@ void main() {
         await client.request(endpoint);
 
         expect(capturedEndpoint, isNotNull);
-        expect(capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
-            equals('test-tenant-123'));
+        expect(
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('test-tenant-123'),
+        );
       });
 
       test('uses custom tenant header key when provided', () async {
@@ -104,7 +106,7 @@ void main() {
         );
 
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {},
         );
@@ -112,11 +114,14 @@ void main() {
         await client.request(endpoint);
 
         expect(capturedEndpoint, isNotNull);
-        expect(capturedEndpoint!.headers['X-Custom-Tenant-ID'],
-            equals('test-tenant-123'));
         expect(
-            capturedEndpoint!.headers.containsKey('SAAS_TENANT_ENTITY_ID'),
-            isFalse);
+          capturedEndpoint!.headers['X-Custom-Tenant-ID'],
+          equals('test-tenant-123'),
+        );
+        expect(
+          capturedEndpoint!.headers.containsKey('SAAS_TENANT_ENTITY_ID'),
+          isFalse,
+        );
       });
 
       test('preserves existing headers from endpoint', () async {
@@ -133,7 +138,7 @@ void main() {
         );
 
         final endpoint = Endpoint(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/test",
           headers: {
             'Content-Type': 'application/json',
@@ -144,17 +149,23 @@ void main() {
         await client.request(endpoint);
 
         expect(capturedEndpoint, isNotNull);
-        expect(capturedEndpoint!.headers['Content-Type'],
-            equals('application/json'));
-        expect(capturedEndpoint!.headers['Authorization'],
-            equals('Bearer token123'));
-        expect(capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
-            equals('test-tenant-123'));
+        expect(
+          capturedEndpoint!.headers['Content-Type'],
+          equals('application/json'),
+        );
+        expect(
+          capturedEndpoint!.headers['Authorization'],
+          equals('Bearer token123'),
+        );
+        expect(
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('test-tenant-123'),
+        );
       });
 
       test('retrieves tenant ID from provider for each request', () async {
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {},
         );
@@ -176,15 +187,12 @@ void main() {
         );
 
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {},
         );
 
-        expect(
-          () => client.request(endpoint),
-          throwsA(isA<Exception>()),
-        );
+        expect(() => client.request(endpoint), throwsA(isA<Exception>()));
       });
 
       test('returns response from underlying client', () async {
@@ -198,7 +206,7 @@ void main() {
         );
 
         final endpoint = Endpoint(
-          method: "GET",
+          httpMethod: HttpMethod.get,
           path: "/api/test",
           headers: {},
         );
@@ -212,7 +220,7 @@ void main() {
     group('requestMultipart', () {
       test('adds tenant ID header to multipart request', () async {
         final endpoint = EndpointMultipart(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/upload",
           headers: {'Accept': 'application/json'},
           fields: {},
@@ -238,7 +246,7 @@ void main() {
         );
 
         final endpoint = EndpointMultipart(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/upload",
           headers: {},
           fields: {},
@@ -247,41 +255,48 @@ void main() {
         await client.requestMultipart(endpoint);
 
         expect(capturedEndpoint, isNotNull);
-        expect(capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
-            equals('test-tenant-123'));
-      });
-
-      test('uses custom tenant header key for multipart when provided',
-          () async {
-        EndpointMultipart? capturedEndpoint;
-        baseClient = APIClientTestDouble(
-          requestMultipartCallback: (endpoint) async {
-            capturedEndpoint = endpoint;
-            return dummyAPIResponse();
-          },
-        );
-        client = SaasTenantAPIClient(
-          client: baseClient,
-          tenantProvider: tenantProvider,
-          tenantHeaderKey: 'X-Custom-Tenant-ID',
-        );
-
-        final endpoint = EndpointMultipart(
-          method: "POST",
-          path: "/api/upload",
-          headers: {},
-          fields: {},
-        );
-
-        await client.requestMultipart(endpoint);
-
-        expect(capturedEndpoint, isNotNull);
-        expect(capturedEndpoint!.headers['X-Custom-Tenant-ID'],
-            equals('test-tenant-123'));
         expect(
-            capturedEndpoint!.headers.containsKey('SAAS_TENANT_ENTITY_ID'),
-            isFalse);
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('test-tenant-123'),
+        );
       });
+
+      test(
+        'uses custom tenant header key for multipart when provided',
+        () async {
+          EndpointMultipart? capturedEndpoint;
+          baseClient = APIClientTestDouble(
+            requestMultipartCallback: (endpoint) async {
+              capturedEndpoint = endpoint;
+              return dummyAPIResponse();
+            },
+          );
+          client = SaasTenantAPIClient(
+            client: baseClient,
+            tenantProvider: tenantProvider,
+            tenantHeaderKey: 'X-Custom-Tenant-ID',
+          );
+
+          final endpoint = EndpointMultipart(
+            httpMethod: HttpMethod.post,
+            path: "/api/upload",
+            headers: {},
+            fields: {},
+          );
+
+          await client.requestMultipart(endpoint);
+
+          expect(capturedEndpoint, isNotNull);
+          expect(
+            capturedEndpoint!.headers['X-Custom-Tenant-ID'],
+            equals('test-tenant-123'),
+          );
+          expect(
+            capturedEndpoint!.headers.containsKey('SAAS_TENANT_ENTITY_ID'),
+            isFalse,
+          );
+        },
+      );
 
       test('preserves existing headers from multipart endpoint', () async {
         EndpointMultipart? capturedEndpoint;
@@ -297,7 +312,7 @@ void main() {
         );
 
         final endpoint = EndpointMultipart(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/upload",
           headers: {
             'Accept': 'application/json',
@@ -310,29 +325,34 @@ void main() {
 
         expect(capturedEndpoint, isNotNull);
         expect(capturedEndpoint!.headers['Accept'], equals('application/json'));
-        expect(capturedEndpoint!.headers['Authorization'],
-            equals('Bearer token123'));
-        expect(capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
-            equals('test-tenant-123'));
-      });
-
-      test('retrieves tenant ID from provider for each multipart request',
-          () async {
-        final endpoint = EndpointMultipart(
-          method: "POST",
-          path: "/api/upload",
-          headers: {},
-          fields: {},
+        expect(
+          capturedEndpoint!.headers['Authorization'],
+          equals('Bearer token123'),
         );
-
-        await client.requestMultipart(endpoint);
-        await client.requestMultipart(endpoint);
-
-        expect(tenantProvider.getTenantIdCallCount, equals(2));
+        expect(
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('test-tenant-123'),
+        );
       });
 
-      test('propagates exceptions from tenant provider in multipart',
-          () async {
+      test(
+        'retrieves tenant ID from provider for each multipart request',
+        () async {
+          final endpoint = EndpointMultipart(
+            httpMethod: HttpMethod.post,
+            path: "/api/upload",
+            headers: {},
+            fields: {},
+          );
+
+          await client.requestMultipart(endpoint);
+          await client.requestMultipart(endpoint);
+
+          expect(tenantProvider.getTenantIdCallCount, equals(2));
+        },
+      );
+
+      test('propagates exceptions from tenant provider in multipart', () async {
         final throwingProvider = ThrowingSaasTenantEntityIdProviderTestDouble(
           Exception('Failed to get tenant ID'),
         );
@@ -342,7 +362,7 @@ void main() {
         );
 
         final endpoint = EndpointMultipart(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/upload",
           headers: {},
           fields: {},
@@ -365,7 +385,7 @@ void main() {
         );
 
         final endpoint = EndpointMultipart(
-          method: "POST",
+          httpMethod: HttpMethod.post,
           path: "/api/upload",
           headers: {},
           fields: {},
@@ -394,13 +414,13 @@ void main() {
           tenantProvider: tenantA,
         );
 
-        await clientA.request(Endpoint(
-          method: "GET",
-          path: "/api/test",
-          headers: {},
-        ));
+        await clientA.request(
+          Endpoint(httpMethod: HttpMethod.get, path: "/api/test", headers: {}),
+        );
         expect(
-            capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'], equals('tenant-a'));
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('tenant-a'),
+        );
 
         // Second client with tenant B
         final tenantB = SaasTenantEntityIdProviderTestDouble('tenant-b');
@@ -409,13 +429,13 @@ void main() {
           tenantProvider: tenantB,
         );
 
-        await clientB.request(Endpoint(
-          method: "GET",
-          path: "/api/test",
-          headers: {},
-        ));
+        await clientB.request(
+          Endpoint(httpMethod: HttpMethod.get, path: "/api/test", headers: {}),
+        );
         expect(
-            capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'], equals('tenant-b'));
+          capturedEndpoint!.headers['SAAS_TENANT_ENTITY_ID'],
+          equals('tenant-b'),
+        );
       });
     });
   });

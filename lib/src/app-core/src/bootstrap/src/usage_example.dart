@@ -81,65 +81,67 @@ class StudentsFeatureRegistration<TDependencyContainer>
 
 /// Example main.dart showing how to use the bootstrapper
 void exampleMain() async {
-  final bootstrapper = AppBootstrapper<
-      MyAppContext<MyDependencyContainer>,
-      MyDependencyContainer>(
-    firebaseEnvOptions: {
-      'dev': myDevFirebaseOptions,
-      'prod': myProdFirebaseOptions,
-    },
-    appRunner: (app) => runApp(app),
+  final bootstrapper =
+      AppBootstrapper<
+        MyAppContext<MyDependencyContainer>,
+        MyDependencyContainer
+      >(
+        firebaseEnvOptions: {
+          'dev': myDevFirebaseOptions,
+          'prod': myProdFirebaseOptions,
+        },
+        appRunner: (app) => runApp(app),
 
-    // Create dependency container
-    createDependencyContainer: (env, saasTenant) {
-      return MyDependencyContainer(env: env, saasTenant: saasTenant);
-    },
+        // Create dependency container
+        createServiceRegistry: (env, saasTenant) {
+          return MyDependencyContainer(env: env, saasTenant: saasTenant);
+        },
 
-    // Create app context
-    createAppContext: (bootstrapContext) {
-      // Here you can create navigation service, root flow coordinator, etc.
-      final navigationService = MyNavigationService();
-      final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
+        // Create app context
+        createAppContext: (bootstrapContext) {
+          // Here you can create navigation service, root flow coordinator, etc.
+          final navigationService = MyNavigationService();
+          final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-      // Create root flow coordinator (if you create it here)
-      // Or you might create it in buildApp and pass it differently
-      final rootFlowCoordinator = RootFlowCoordinator(
-        navigationService: navigationService,
-        shellNavigatorKey: GlobalKey<NavigatorState>(debugLabel: 'shell'),
-        scenesBuilder: RootScenesBuilder(
-          container: bootstrapContext.dependencyContainer.root,
-          saasTenantBranding: bootstrapContext.saasTenantBranding,
-        ),
-        saasTenant: bootstrapContext.saasTenantBranding,
+          // Create root flow coordinator (if you create it here)
+          // Or you might create it in buildApp and pass it differently
+          final rootFlowCoordinator = RootFlowCoordinator(
+            navigationService: navigationService,
+            shellNavigatorKey: GlobalKey<NavigatorState>(debugLabel: 'shell'),
+            scenesBuilder: RootScenesBuilder(
+              container: bootstrapContext.dependencyContainer.root,
+              saasTenantBranding: bootstrapContext.saasTenantBranding,
+            ),
+            saasTenant: bootstrapContext.saasTenantBranding,
+          );
+
+          return MyAppContext<MyDependencyContainer>(
+            dependencyContainer: bootstrapContext.dependencyContainer,
+            navigationService: navigationService,
+            scaffoldMessengerKey: scaffoldMessengerKey,
+            rootFlowCoordinator: rootFlowCoordinator,
+          );
+        },
+
+        // Build the app widget
+        buildApp: (bootstrapContext, appContext) {
+          return MyApp(
+            dependencyContainer: bootstrapContext.dependencyContainer,
+            saasTenantBranding: bootstrapContext.saasTenantBranding,
+            navigationService: appContext.navigationService,
+            scaffoldMessengerKey: appContext.scaffoldMessengerKey,
+          );
+        },
+
+        // Register all features
+        features: [
+          HomeFeatureRegistration<MyDependencyContainer>(),
+          StudentsFeatureRegistration<MyDependencyContainer>(),
+          // FinanceFeatureRegistration<MyDependencyContainer>(),
+          // GroupsFeatureRegistration<MyDependencyContainer>(),
+          // ... etc
+        ],
       );
-
-      return MyAppContext<MyDependencyContainer>(
-        dependencyContainer: bootstrapContext.dependencyContainer,
-        navigationService: navigationService,
-        scaffoldMessengerKey: scaffoldMessengerKey,
-        rootFlowCoordinator: rootFlowCoordinator,
-      );
-    },
-
-    // Build the app widget
-    buildApp: (bootstrapContext, appContext) {
-      return MyApp(
-        dependencyContainer: bootstrapContext.dependencyContainer,
-        saasTenantBranding: bootstrapContext.saasTenantBranding,
-        navigationService: appContext.navigationService,
-        scaffoldMessengerKey: appContext.scaffoldMessengerKey,
-      );
-    },
-
-    // Register all features
-    features: [
-      HomeFeatureRegistration<MyDependencyContainer>(),
-      StudentsFeatureRegistration<MyDependencyContainer>(),
-      // FinanceFeatureRegistration<MyDependencyContainer>(),
-      // GroupsFeatureRegistration<MyDependencyContainer>(),
-      // ... etc
-    ],
-  );
 
   await bootstrapper.bootstrap();
 }
@@ -243,20 +245,25 @@ class MyNavigationService {
 }
 
 class HomeScenesBuilder {}
+
 class StudentsScenesBuilder {
   StudentsScenesBuilder({required container, required scaffoldMessengerKey});
 }
+
 class RootScenesBuilder {
   RootScenesBuilder({required container, required saasTenantBranding});
 }
+
 class HomeFlowCoordinator {
   HomeFlowCoordinator({required navigationService, required scenesBuilder});
   List<dynamic> get scenes => [];
 }
+
 class StudentsFlowCoordinator {
   StudentsFlowCoordinator({required navigationService, required scenesBuilder});
   List<dynamic> get scenes => [];
 }
+
 class RootFlowCoordinator {
   RootFlowCoordinator({
     required navigationService,

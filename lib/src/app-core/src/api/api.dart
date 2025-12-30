@@ -7,3 +7,5 @@ export 'src/simple_command_endpoint_factory.dart';
 export 'src/simple_query_endpoint_factory.dart';
 export 'src/composite_response_handler/composite_response_handler.dart';
 export 'src/json_remote_message_handler.dart';
+export 'src/authentication_interactor_saas_tenant_entity_id_provider.dart';
+export 'src/authentication_interactor_token_provider.dart';

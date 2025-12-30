@@ -39,5 +39,7 @@ class FixedTokenAuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<AuthenticationResponse> refresh() async {}
+  Future<AuthenticationResponse> refresh() async {
+    throw UnimplementedError();
+  }
 }

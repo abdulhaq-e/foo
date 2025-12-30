@@ -15,26 +15,6 @@ class InMemoryAuthenticationStore implements AuthenticationStore {
   Object? _additionalAuthData;
 
   @override
-  Future<void> deleteAuthenticationData() async {
-    _token = null;
-    _saasTenantEntityId = null;
-    _additionalAuthData = null;
-  }
-
-  @override
-  Future<AuthenticationResponse> getAuthenticationData() async {
-    if (_token != null && _saasTenantEntityId != null) {
-      return AuthenticationResponse(
-        token: _token!,
-        additionalData: _additionalAuthData,
-        saasTenantEntityId: _saasTenantEntityId!,
-      );
-    }
-
-    throw Exception("No logged in user");
-  }
-
-  @override
   Future<void> saveAuthenticationData(
     AuthenticationResponse authenticationResponse,
   ) async {
@@ -48,5 +28,23 @@ class InMemoryAuthenticationStore implements AuthenticationStore {
     _token = null;
     _saasTenantEntityId = null;
     _additionalAuthData = null;
+  }
+
+  @override
+  // TODO: implement authenticationStateStream
+  Stream<AuthenticationResponse?> get authenticationStateStream =>
+      throw UnimplementedError();
+
+  @override
+  Future<AuthenticationResponse?> getCurrentAuthenticationData() async {
+    if (_token != null && _saasTenantEntityId != null) {
+      return AuthenticationResponse(
+        token: _token!,
+        additionalData: _additionalAuthData,
+        saasTenantEntityId: _saasTenantEntityId!,
+      );
+    }
+
+    throw Exception("No logged in user");
   }
 }

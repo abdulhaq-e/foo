@@ -3,3 +3,5 @@ export 'composer.dart';
 export 'domain/domain.dart';
 export 'composite_firebase_authentication_store.dart';
 export 'firebase_authentication_store.dart';
+export 'remote/supported_gcp_auth_methods_remote_query_handler.dart';
+export 'dependencies.dart';

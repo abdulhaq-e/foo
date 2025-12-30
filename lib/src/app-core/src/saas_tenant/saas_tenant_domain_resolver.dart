@@ -11,7 +11,7 @@ class SaasTenantDomainResolver {
        _priority = priority;
 
   String resolveDomain() {
-    return SaasTenantDomainResolutionUtility.resolveDomain(
+    return SaasTenantDomainResolutionUtility.resolve(
       domainFromEnv: _domainFromEnv,
       priority: _priority,
     );

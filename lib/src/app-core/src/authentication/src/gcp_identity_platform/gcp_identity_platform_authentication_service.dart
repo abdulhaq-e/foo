@@ -65,6 +65,30 @@ class GcpIdentityPlatformAuthenticationService
 
   void _handleAuthenticationError(dynamic error) {}
 
+  Future<AuthenticationResponse> _processAuthentication(User user, {bool forceRefresh = false}) async {
+    final token = await user.getIdToken(forceRefresh);
+    if (token == null) {
+      throw GcpIdentityPlatformException(
+        "Account not authenticated (null) or idToken is null",
+      );
+    }
+
+    final domain = _domainResolver.resolveDomain();
+    final response = await _backendAuthCallbackCommandHandler(
+      BackendAuthCallbackCommand(
+        token: "Bearer $token",
+        authProvider: "GCP_IDENTITY_PLATFORM",
+        saasTenantDomain: domain,
+      ),
+    );
+
+    return AuthenticationResponse(
+      token: token,
+      saasTenantEntityId: response.saasTenantEntityId,
+      additionalData: null,
+    );
+  }
+
   Future<void> _handlePostAuthStateChange(User? user) async {
     if (user == null) {
       final error = GcpIdentityPlatformException(
@@ -73,40 +97,19 @@ class GcpIdentityPlatformAuthenticationService
       _controller.add(FailedAuthenticationEvent(error: error));
       return;
     }
-    final token = await user.getIdToken();
-    if (token != null) {
-      final domain = _domainResolver.resolveDomain();
-      try {
-        var response = await _backendAuthCallbackCommandHandler(
-          BackendAuthCallbackCommand(
-            token: "Bearer $token",
-            authProvider: "GCP_IDENTITY_PLATFORM",
-            saasTenantDomain: domain,
-          ),
-        );
 
-        final authResponse = AuthenticationResponse(
-          token: token,
-          saasTenantEntityId: response.saasTenantEntityId,
-          additionalData: null,
-        );
-
-        _controller.add(
-          SuccessfulAuthenticationEvent(authenticationResponse: authResponse),
-        );
-      } catch (e) {
-        final error = GcpIdentityPlatformException(
-          "Backend authentication callback error ${e}",
-        );
-        _controller.add(FailedAuthenticationEvent(error: error));
-        _isSigningOutDueToBackendFailure = true;
-        await _firebaseAuth.signOut();
-      }
-    } else {
+    try {
+      final authResponse = await _processAuthentication(user);
+      _controller.add(
+        SuccessfulAuthenticationEvent(authenticationResponse: authResponse),
+      );
+    } catch (e) {
       final error = GcpIdentityPlatformException(
-        "Account not authenticated (null) or idToken is null",
+        "Backend authentication callback error ${e}",
       );
       _controller.add(FailedAuthenticationEvent(error: error));
+      _isSigningOutDueToBackendFailure = true;
+      await _firebaseAuth.signOut();
     }
   }
 
@@ -208,5 +211,13 @@ class GcpIdentityPlatformAuthenticationService
   }
 
   @override
-  Future<AuthenticationResponse> refresh() async {}
+  Future<AuthenticationResponse> refresh() async {
+    final user = _firebaseAuth.currentUser;
+
+    if (user == null) {
+      throw GcpIdentityPlatformException("No authenticated user");
+    }
+
+    return await _processAuthentication(user, forceRefresh: true);
+  }
 }
