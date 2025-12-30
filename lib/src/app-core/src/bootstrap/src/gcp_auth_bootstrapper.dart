@@ -1,7 +1,6 @@
 import 'package:api_tools/api_tools.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 import 'package:foo/src/app-core/src/authentication/src/gcp_identity_platform/gcp_identity_platform.dart';
@@ -18,8 +17,8 @@ class GCPAuthBootstrapper {
   });
 
   Future<void> bootstrap({required BootstrapContext bootstrapContext}) async {
-    final env = bootstrapContext.env;
-    String firebaseOptionsFile = env.get("FIREBASE_OPTIONS");
+    final appConfig = bootstrapContext.appConfig;
+    String firebaseOptionsFile = appConfig.firebaseOptions;
     FirebaseOptions options = this.firebaseEnvOptions[firebaseOptionsFile]!;
     await Firebase.initializeApp(options: options);
 

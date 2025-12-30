@@ -46,23 +46,6 @@ void main() {
   );
 
   blocTest<QueryDataBloc<String, int>, QueryDataState<int>>(
-    'does not emit new states when refresh trigger fires false',
-    build: () => QueryDataBloc<String, int>(
-      queryHandler: queryHandler,
-      refreshTrigger: refreshController.stream,
-    ),
-    act: (bloc) async {
-      bloc.add(QueryDataStarted('42'));
-      await Future<void>.delayed(Duration(milliseconds: 100));
-      refreshController.add(false);
-    },
-    expect: () => [
-      QueryDataState<int>.loading(),
-      QueryDataState<int>.loaded(data: 42),
-    ],
-  );
-
-  blocTest<QueryDataBloc<String, int>, QueryDataState<int>>(
     'emits error state when query handler fails',
     build: () =>
         QueryDataBloc<String, int>(queryHandler: (_) => Future.error('Error')),

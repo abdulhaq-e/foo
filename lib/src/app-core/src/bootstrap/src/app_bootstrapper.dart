@@ -97,14 +97,12 @@ class AppBootstrapper<TAppContext> {
   }
 
   Future<void> _ensureEssentialServices(BootstrapContext bootrapContext) async {
-    final env = bootrapContext.env;
     final serviceRegistry = bootrapContext.serviceRegistry;
     final appConfig = bootrapContext.appConfig;
 
     if (serviceRegistry.tryGet<BaseAPIClientType>() == null) {
-      final apiUrl = env.get('BACKEND_API_URL');
       final apiClient = HttpAPIClient(
-        baseURL: apiUrl,
+        baseURL: appConfig.apiURL,
         client: http.Client() as http.BaseClient,
       );
       serviceRegistry.register<BaseAPIClientType>(apiClient);
@@ -208,6 +206,22 @@ class AppBootstrapper<TAppContext> {
     String domainFromEnvVal = env.get('SAAS_TENANT_DOMAIN', fallback: '');
     String? domainFromEnv = domainFromEnvVal.isEmpty ? null : domainFromEnvVal;
 
+    // SaaS Tenant Branding Configuration
+    final saasTenantBrandingQueryHandler = env.get('SAAS_TENANT_BRANDING_QUERY_HANDLER');
+    final localSaasTenantName = env.maybeGet('LOCAL_SAAS_TENANT_NAME');
+    final localSaasTenantDescription = env.maybeGet('LOCAL_SAAS_TENANT_DESCRIPTION');
+    final localSaasTenantPrimaryColour = env.maybeGet('LOCAL_SAAS_TENANT_PRIMARY_COLOUR');
+    final localSaasTenantTestingSleepTimeStr = env.maybeGet('LOCAL_SAAS_TENANT_TESTING_SLEEP_TIME');
+    final localSaasTenantTestingSleepTime = localSaasTenantTestingSleepTimeStr != null
+        ? int.tryParse(localSaasTenantTestingSleepTimeStr)
+        : null;
+
+    // Firebase Configuration
+    final firebaseOptions = env.get('FIREBASE_OPTIONS');
+
+    // Fixed Token Authentication
+    final fixedTokenApiToken = env.maybeGet('FIXED_TOKEN_API_TOKEN');
+
     switch (environment) {
       default:
         return AppConfig(
@@ -215,6 +229,13 @@ class AppBootstrapper<TAppContext> {
           authProvider: authProvider,
           domainFromEnv: domainFromEnv,
           domainResolutionPriority: priority,
+          saasTenantBrandingQueryHandler: saasTenantBrandingQueryHandler,
+          localSaasTenantName: localSaasTenantName,
+          localSaasTenantDescription: localSaasTenantDescription,
+          localSaasTenantPrimaryColour: localSaasTenantPrimaryColour,
+          localSaasTenantTestingSleepTime: localSaasTenantTestingSleepTime,
+          firebaseOptions: firebaseOptions,
+          fixedTokenApiToken: fixedTokenApiToken,
         );
     }
   }

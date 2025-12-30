@@ -47,21 +47,19 @@ class SaasTenantBootstrapper {
   GetSaasTenantBrandingQueryHandling _createQueryHandler(
     BootstrapContext bootrapContext,
   ) {
-    final env = bootrapContext.env;
-    final handlerType = env.get('SAAS_TENANT_BRANDING_QUERY_HANDLER');
+    final appConfig = bootrapContext.appConfig;
+    final handlerType = appConfig.saasTenantBrandingQueryHandler;
 
     if (handlerType == 'LOCAL') {
       return getSaasTenantBrandingLocalQueryHandler(
-        tenantName: env.get('LOCAL_SAAS_TENANT_NAME'),
-        description: env.get('LOCAL_SAAS_TENANT_DESCRIPTION'),
+        tenantName: appConfig.localSaasTenantName!,
+        description: appConfig.localSaasTenantDescription!,
         colors: SaasTenantBrandingColors(
           primary: _parseColorFromEnv(
-            env.get('LOCAL_SAAS_TENANT_PRIMARY_COLOUR'),
+            appConfig.localSaasTenantPrimaryColour,
           ),
         ),
-        testingSleep: int.parse(
-          env.get('LOCAL_SAAS_TENANT_TESTING_SLEEP_TIME'),
-        ),
+        testingSleep: appConfig.localSaasTenantTestingSleepTime!,
       );
     } else if (handlerType == 'REMOTE') {
       final apiClient = bootrapContext.serviceRegistry.get<BaseAPIClientType>();
