@@ -1,4 +1,4 @@
-import 'package:under_chamber/app/src/dependencies/saas_tenant/saas_tenant_domain_resolution_utility.dart';
+import 'package:foo/app-core.dart';
 
 class SaasTenantDomainResolver {
   final String? _domainFromEnv;

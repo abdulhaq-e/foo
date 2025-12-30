@@ -1,10 +1,9 @@
 import 'package:api_tools/api_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:foo/app-core.dart';
+import 'package:foo/core.dart';
 import 'package:http/http.dart' as http;
-import 'package:under_chamber/app/src/dependencies/saas_tenant/local/get_saas_tenant_branding_local_query_handler.dart';
-import 'package:under_chamber/app/src/dependencies/saas_tenant/remote/get_saas_tenant_branding_remote_query_handler.dart';
-import 'package:under_chamber/core/core.dart';
 
 class SaasTenantQueryHandlerFactory {
   const SaasTenantQueryHandlerFactory();

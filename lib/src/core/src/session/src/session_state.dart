@@ -1,4 +1,4 @@
-import 'package:under_chamber/core/user/user.dart';
+import 'package:foo/core.dart';
 
 /// Session status representing the combined state of authentication + user data
 enum SessionStatus {
@@ -33,10 +33,12 @@ class SessionState {
   });
 
   /// True when we're done initializing and know the session state
-  bool get isReady => status != SessionStatus.unknown && status != SessionStatus.loading;
+  bool get isReady =>
+      status != SessionStatus.unknown && status != SessionStatus.loading;
 
   /// True when authenticated AND have user data
-  bool get isAuthenticated => status == SessionStatus.authenticated && user != null;
+  bool get isAuthenticated =>
+      status == SessionStatus.authenticated && user != null;
 
   SessionState copyWith({
     SessionStatus? status,

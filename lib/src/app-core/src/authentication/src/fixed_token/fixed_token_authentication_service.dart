@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:under_chamber/core/authentication/authentication.dart';
+import 'package:foo/core.dart';
 
 class FixedTokenAuthenticationService implements AuthenticationService {
   final String apiToken;
@@ -39,7 +39,5 @@ class FixedTokenAuthenticationService implements AuthenticationService {
   }
 
   @override
-  Future<String?> refreshToken() async {
-    return null;
-  }
+  Future<AuthenticationResponse> refresh() async {}
 }

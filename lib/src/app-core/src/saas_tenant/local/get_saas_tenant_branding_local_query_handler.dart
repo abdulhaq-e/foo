@@ -1,4 +1,4 @@
-import 'package:under_chamber/core/core.dart';
+import 'package:foo/core.dart';
 
 GetSaasTenantBrandingQueryHandling getSaasTenantBrandingLocalQueryHandler({
   required String tenantName,

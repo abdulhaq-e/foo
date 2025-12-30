@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:under_chamber/core/authentication/authentication.dart';
-import 'package:under_chamber/core/user/user.dart';
+import 'package:foo/core.dart';
 
 import 'session_state.dart';
 

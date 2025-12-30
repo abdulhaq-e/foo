@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:foo/core.dart';
 import 'loader_interop.dart';
 
 class UIBootstrapper {
@@ -7,7 +8,7 @@ class UIBootstrapper {
   void updateLoadingText(String text) {
     if (kIsWeb) {
       try {
-        UnderChamberLoaderInterop.updateText(text);
+        LoaderInterop.updateText(text);
       } catch (e) {
         // Ignore JS errors on non-web platforms or if loader not available
       }
@@ -24,10 +25,7 @@ class UIBootstrapper {
               '#${color.value.toRadixString(16).padLeft(8, '0').substring(2)}';
         }
 
-        UnderChamberLoaderInterop.updateTenantInfo(
-          tenant.tenantName,
-          hexString,
-        );
+        LoaderInterop.updateTenantInfo(tenant.tenantName, hexString);
       } catch (e) {
         // Ignore JS errors on non-web platforms or if loader not available
       }
@@ -37,7 +35,7 @@ class UIBootstrapper {
   void showError(String message) {
     if (kIsWeb) {
       try {
-        UnderChamberLoaderInterop.showError(message);
+        LoaderInterop.showError(message);
       } catch (e) {
         // Ignore JS errors on non-web platforms or if loader not available
       }

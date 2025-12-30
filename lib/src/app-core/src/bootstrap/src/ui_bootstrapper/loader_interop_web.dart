@@ -1,6 +1,5 @@
 import 'dart:js_interop';
 
-/// JavaScript interop bindings for the UnderChamberLoader functionality
 @JS('Loader')
 external Loader get _loader;
 
@@ -13,7 +12,6 @@ extension type TenantColorsJS._(JSObject _) implements JSObject {
   external String get primary;
 }
 
-/// Interface for the UnderChamberLoader JavaScript object
 @JS()
 @anonymous
 extension type Loader._(JSObject _) implements JSObject {

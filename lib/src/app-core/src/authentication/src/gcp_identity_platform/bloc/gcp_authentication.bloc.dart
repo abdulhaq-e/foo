@@ -1,12 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:foo/queries.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/gcp_identity_platform_authentication_service.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/dependencies.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/domain/domain.dart';
-import 'package:under_chamber/app/src/dependencies/saas_tenant/saas_tenant_domain_resolver.dart';
-import 'package:under_chamber/core/authentication/authentication.dart';
+import 'package:foo/app-core.dart';
+import 'package:foo/core.dart';
+
+import '../internal.dart';
 
 part 'gcp_authentication.state.dart';
 part 'gcp_authentication.events.dart';

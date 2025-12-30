@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/third_party_auth/third_party_auth.dart';
-import 'package:under_chamber/app/src/dependencies/saas_tenant/saas_tenant_domain_resolver.dart';
-import 'package:under_chamber/core/authentication/authentication.dart';
+import 'package:foo/app-core.dart';
+import 'package:foo/core.dart' hide User;
 
 enum AuthMethod { emailPassword, oidc }
 
@@ -209,5 +208,5 @@ class GcpIdentityPlatformAuthenticationService
   }
 
   @override
-  Future<String?> refreshToken() async {}
+  Future<AuthenticationResponse> refresh() async {}
 }

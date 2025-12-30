@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:api_tools/api_tools.dart';
+import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/domain/domain.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/dependencies.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/domain/saas_tenant_auth_platform.model.dart';
+
+import '../internal.dart';
 
 SupportedGCPAuthMethodsQueryHandler supportedGCPAuthMethodsRemoteQueryHandler(
   APIClient apiClient,

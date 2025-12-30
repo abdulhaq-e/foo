@@ -1,8 +1,9 @@
 import 'dart:convert';
 
 import 'package:api_tools/api_tools.dart';
-import 'package:foo/core.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/third_party_auth/third_party_auth.dart';
+import 'package:foo/app-core.dart';
+
+import 'backend_auth_callback_response.model.dart';
 
 BackendAuthCallbackCommandHandling backendAuthCallbackRemoteCommandHandler(
   APIClient apiClient,

@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:under_chamber/app/src/dependencies/authentication/gcp_identity_platform/gcp_identity_platform_authentication_service.dart';
 
 part 'supported_gcp_auth_methods.model.freezed.dart';
 part 'supported_gcp_auth_methods.model.g.dart';

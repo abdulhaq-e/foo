@@ -1,4 +1,4 @@
-import 'package:under_chamber/core/authentication/authentication.dart';
+import 'package:foo/core.dart';
 
 class InMemoryAuthenticationStore implements AuthenticationStore {
   static final InMemoryAuthenticationStore _singleton =
@@ -25,9 +25,10 @@ class InMemoryAuthenticationStore implements AuthenticationStore {
   Future<AuthenticationResponse> getAuthenticationData() async {
     if (_token != null && _saasTenantEntityId != null) {
       return AuthenticationResponse(
-          token: _token!,
-          additionalData: _additionalAuthData,
-          saasTenantEntityId: _saasTenantEntityId!);
+        token: _token!,
+        additionalData: _additionalAuthData,
+        saasTenantEntityId: _saasTenantEntityId!,
+      );
     }
 
     throw Exception("No logged in user");
@@ -35,9 +36,17 @@ class InMemoryAuthenticationStore implements AuthenticationStore {
 
   @override
   Future<void> saveAuthenticationData(
-      AuthenticationResponse authenticationResponse) async {
+    AuthenticationResponse authenticationResponse,
+  ) async {
     _token = authenticationResponse.token;
     _saasTenantEntityId = authenticationResponse.saasTenantEntityId;
     _additionalAuthData = authenticationResponse.additionalData;
+  }
+
+  @override
+  Future<void> clearAuthentication() async {
+    _token = null;
+    _saasTenantEntityId = null;
+    _additionalAuthData = null;
   }
 }

@@ -2,14 +2,15 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:foo/core.dart';
 
-import 'dependencies.dart';
-import 'domain/domain.dart';
+class CompositeFirebaseAuthenticationStore implements AuthenticationStore {
+  final String authResponseStorageKey;
 
-class SecureAuthenticationStore implements AuthenticationStore {
-  static const String _authResponseStorageKey = 'UNDER_CHAMBER_AUTH_RESPONSE';
+  CompositeFirebaseAuthenticationStore({required this.authResponseStorageKey});
+
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
     ),
@@ -25,7 +26,7 @@ class SecureAuthenticationStore implements AuthenticationStore {
     }
 
     try {
-      final authData = await _secureStorage.read(key: _authResponseStorageKey);
+      final authData = await _secureStorage.read(key: authResponseStorageKey);
       if (authData != null) {
         final authJson = jsonDecode(authData) as Map<String, dynamic>;
         _cachedResponse = AuthenticationResponse.fromJson(authJson);
@@ -47,7 +48,7 @@ class SecureAuthenticationStore implements AuthenticationStore {
   Future<void> saveAuthenticationData(AuthenticationResponse response) async {
     try {
       final authJson = jsonEncode(response.toJson());
-      await _secureStorage.write(key: _authResponseStorageKey, value: authJson);
+      await _secureStorage.write(key: authResponseStorageKey, value: authJson);
       _cachedResponse = response;
       _controller.add(response);
     } catch (e) {
@@ -58,7 +59,7 @@ class SecureAuthenticationStore implements AuthenticationStore {
   @override
   Future<void> clearAuthentication() async {
     try {
-      await _secureStorage.delete(key: _authResponseStorageKey);
+      await _secureStorage.delete(key: authResponseStorageKey);
       _cachedResponse = null;
       _controller.add(null);
     } catch (e) {

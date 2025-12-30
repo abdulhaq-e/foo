@@ -1,8 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:api_tools/api_tools.dart';
+import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
-import 'package:under_chamber/core/core.dart';
 
 GetSaasTenantBrandingQueryHandling getSaasTenantBrandingRemoteQueryHandler(
   APIClient apiClient,
