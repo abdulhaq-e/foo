@@ -15,6 +15,7 @@ import 'feature_registration.dart';
 import 'feature_registry.dart';
 import 'ui_bootstrapper/ui_bootstrapper.dart';
 import 'saas_tenant_bootstrapper.dart';
+import 'user_session_bootstrapper.dart';
 import 'bootrap_context.dart';
 
 class AppBootstrapper<TAppContext> {
@@ -76,6 +77,10 @@ class AppBootstrapper<TAppContext> {
     await authBootstrapper.bootstrap(bootstrapContext: bootstrapContext);
 
     await _setupAuthenticatedApiClient(bootstrapContext);
+
+    final userSessionBootstrapper = UserSessionBootstrapper();
+    await userSessionBootstrapper.bootstrap(bootstrapContext: bootstrapContext);
+
     final appContext = createAppContext(bootstrapContext);
 
     final featureRegistry = FeatureRegistry<TAppContext>();

@@ -7,7 +7,7 @@ import 'package:foo/core.dart';
 class SecureUserStore implements UserStore {
   final String _storageKey;
   static const FlutterSecureStorage _secureStorage = FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
+    aOptions: AndroidOptions(),
     iOptions: IOSOptions(
       accessibility: KeychainAccessibility.first_unlock_this_device,
     ),

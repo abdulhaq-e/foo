@@ -5,4 +5,5 @@ export 'src/authentication/authentication.dart';
 export 'src/bootstrap/bootstrap.dart';
 export 'src/config/config.dart';
 export 'src/saas_tenant/saas_tenant.dart';
+export 'src/user/user.dart';
 export 'src/service_registry/service_registry.dart';

@@ -5,5 +5,6 @@ export 'src/models/models.dart';
 export 'src/navigation/navigation.dart';
 export 'src/queries/queries.dart';
 export 'src/saas_tenant/saas_tenant.dart';
+export 'src/session/session.dart';
 export 'src/types.dart';
 export 'src/user/user.dart';
