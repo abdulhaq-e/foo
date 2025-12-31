@@ -192,22 +192,36 @@ class JsonRemoteMessageHandlerHelper {
     };
   }
 
-  static AsyncFactory<Q, PaginatedDataContainer<T>>
+  static AsyncFactory<PaginatedQuery<Q>, PaginatedDataContainer<T>>
   createPaginatedRemoteQueryHandler<Q, T>({
     required APIClient apiClient,
     required T Function(Map<String, dynamic>) fromJson,
     required String path,
-    required Map<String, String> Function(Q) queryParamsBuilder,
+    required Map<String, String> Function(PaginatedQuery<Q>) queryParamsBuilder,
   }) => (query) async {
     final apiResponse =
         await JsonRemoteMessageHandlerHelper.createGenericApiHandlerForLists(
           apiClient: apiClient,
           fromJsonT: fromJson,
           fromJsonM: PaginatedResponseMetadata.fromJson,
-          endpointBuilder: (Q query) {
+          endpointBuilder: (PaginatedQuery<Q> query) {
+            final paginationParams = <String, String>{
+              'limit': query.pagination.limit.toString(),
+            };
+
+            if (query.pagination.cursorInput != null) {
+              paginationParams['cursor'] = query.pagination.cursorInput!.cursor;
+              paginationParams['direction'] =
+                  query.pagination.cursorInput!.direction.name;
+            }
+
+            final userParams = queryParamsBuilder(query);
+
+            final queryParameters = {...paginationParams, ...userParams};
+
             return simpleQueryEndpointFactory(
               path: path,
-              queryParameters: queryParamsBuilder(query),
+              queryParameters: queryParameters,
             );
           },
         )(query);
