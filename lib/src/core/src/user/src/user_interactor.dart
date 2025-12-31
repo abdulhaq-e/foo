@@ -8,10 +8,10 @@ import 'domain/domain.dart';
 class UserInteractor {
   UserInteractor({
     required Stream<AuthenticationStatus> authenticationStatusStream,
-    required UserQueryHandling Function() userQueryHandlerFactory,
+    required UserQueryHandling userQueryHandler,
     required UserStore userStore,
   }) {
-    _userQueryHandlerFactory = userQueryHandlerFactory;
+    _userQueryHandler = userQueryHandler;
     _userStore = userStore;
 
     _authStatusSubscription = authenticationStatusStream.listen((status) async {
@@ -30,7 +30,7 @@ class UserInteractor {
     });
   }
 
-  late UserQueryHandling Function() _userQueryHandlerFactory;
+  late UserQueryHandling _userQueryHandler;
   late UserStore _userStore;
 
   final _controller = StreamController<User?>.broadcast();
@@ -39,8 +39,7 @@ class UserInteractor {
 
   Future<void> _fetchAndSaveUser() async {
     try {
-      final userQueryHandler = _userQueryHandlerFactory();
-      final user = await userQueryHandler(());
+      final user = await _userQueryHandler(());
       await _userStore.saveUser(user);
       _currentUser = user;
       _controller.add(user);
