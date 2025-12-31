@@ -8,7 +8,7 @@ part of 'user.model.dart';
 
 _User _$UserFromJson(Map<String, dynamic> json) => _User(
   userEntityId: json['userEntityId'] as String,
-  name: json['name'] as String,
+  name: json['name'] as String? ?? '',
   email: json['email'] as String,
   permissions: (json['permissions'] as List<dynamic>)
       .map((e) => e as String)

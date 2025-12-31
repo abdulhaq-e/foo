@@ -7,7 +7,7 @@ part 'user.model.g.dart';
 abstract class User with _$User {
   const factory User({
     required String userEntityId,
-    required String name,
+    @Default('') String name,
     required String email,
     required List<String> permissions,
     String? avatarUrl,

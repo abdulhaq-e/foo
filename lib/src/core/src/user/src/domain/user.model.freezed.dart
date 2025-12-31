@@ -214,11 +214,11 @@ return $default(_that.userEntityId,_that.name,_that.email,_that.permissions,_tha
 @JsonSerializable()
 
 class _User implements User {
-  const _User({required this.userEntityId, required this.name, required this.email, required final  List<String> permissions, this.avatarUrl, final  Map<String, dynamic>? additionalData}): _permissions = permissions,_additionalData = additionalData;
+  const _User({required this.userEntityId, this.name = '', required this.email, required final  List<String> permissions, this.avatarUrl, final  Map<String, dynamic>? additionalData}): _permissions = permissions,_additionalData = additionalData;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  String userEntityId;
-@override final  String name;
+@override@JsonKey() final  String name;
 @override final  String email;
  final  List<String> _permissions;
 @override List<String> get permissions {
