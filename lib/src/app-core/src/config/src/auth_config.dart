@@ -1,7 +1,8 @@
 abstract class AuthConfig {}
 
 class GCPAuthConfig implements AuthConfig {
-  const GCPAuthConfig();
+  final String clientType;
+  const GCPAuthConfig({required this.clientType});
 }
 
 class FixedTokenAuthConfig implements AuthConfig {

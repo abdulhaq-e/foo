@@ -3,6 +3,7 @@ import 'package:foo/core.dart';
 
 class AppConfig {
   final String apiURL;
+  final String clientType;
   final AuthProvider authProvider;
   final String? domainFromEnv;
   final SaasTenantResolutionPriority domainResolutionPriority;
@@ -22,6 +23,7 @@ class AppConfig {
 
   const AppConfig({
     required this.apiURL,
+    required this.clientType,
     required this.authProvider,
     required this.domainFromEnv,
     required this.domainResolutionPriority,

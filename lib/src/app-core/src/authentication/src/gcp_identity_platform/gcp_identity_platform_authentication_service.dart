@@ -22,13 +22,16 @@ class GcpIdentityPlatformAuthenticationService
 
   final BackendAuthCallbackCommandHandling _backendAuthCallbackCommandHandler;
   final SaasTenantDomainResolver _domainResolver;
+  final String _clientType;
 
   GcpIdentityPlatformAuthenticationService({
     required BackendAuthCallbackCommandHandling
     backendAuthCallbackCommandHandler,
     required SaasTenantDomainResolver domainResolver,
+    required String clientType,
   }) : _backendAuthCallbackCommandHandler = backendAuthCallbackCommandHandler,
-       _domainResolver = domainResolver {
+       _domainResolver = domainResolver,
+       _clientType = clientType {
     _firebaseAuth = FirebaseAuth.instance;
     _firebaseAuthChangesSubscription = _firebaseAuth.authStateChanges().listen(
       _handleAuthenticationEvent,
@@ -65,7 +68,10 @@ class GcpIdentityPlatformAuthenticationService
 
   void _handleAuthenticationError(dynamic error) {}
 
-  Future<AuthenticationResponse> _processAuthentication(User user, {bool forceRefresh = false}) async {
+  Future<AuthenticationResponse> _processAuthentication(
+    User user, {
+    bool forceRefresh = false,
+  }) async {
     final token = await user.getIdToken(forceRefresh);
     if (token == null) {
       throw GcpIdentityPlatformException(
@@ -79,6 +85,7 @@ class GcpIdentityPlatformAuthenticationService
         token: "Bearer $token",
         authProvider: "GCP_IDENTITY_PLATFORM",
         saasTenantDomain: domain,
+        clientType: _clientType,
       ),
     );
 

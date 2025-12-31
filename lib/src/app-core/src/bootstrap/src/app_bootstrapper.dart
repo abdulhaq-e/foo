@@ -197,6 +197,7 @@ class AppBootstrapper<TAppContext> {
 
   AppConfig _createAppConfig(Environment environment, DotEnv env) {
     final apiUrl = env.get('BACKEND_URL');
+    final clientType = env.get('CLIENT_TYPE');
     late AuthProvider authProvider;
 
     if (env.get('AUTH_PROVIDER') == 'FIXED_TOKEN') {
@@ -243,6 +244,7 @@ class AppBootstrapper<TAppContext> {
       default:
         return AppConfig(
           apiURL: apiUrl,
+          clientType: clientType,
           authProvider: authProvider,
           domainFromEnv: domainFromEnv,
           domainResolutionPriority: priority,

@@ -10,5 +10,6 @@ abstract class BackendAuthCallbackCommand with _$BackendAuthCallbackCommand {
     required String token,
     required String authProvider,
     required String saasTenantDomain,
+    @JsonKey(includeToJson: false) required String clientType,
   }) = _BackendAuthCallbackCommand;
 }

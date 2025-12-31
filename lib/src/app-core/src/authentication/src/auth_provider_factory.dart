@@ -16,6 +16,7 @@ class AuthProviderFactory {
     return GCPAuthProvider.createService(
       backendAuthCallbackCommandHandler: backendAuthCallbackCommandHandler,
       domainResolver: domainResolver,
+      clientType: authConfig.clientType,
     );
   }
 
@@ -31,10 +32,12 @@ class GCPAuthProvider {
     required BackendAuthCallbackCommandHandling
     backendAuthCallbackCommandHandler,
     required SaasTenantDomainResolver domainResolver,
+    required String clientType,
   }) {
     return GcpIdentityPlatformAuthenticationService(
       backendAuthCallbackCommandHandler: backendAuthCallbackCommandHandler,
       domainResolver: domainResolver,
+      clientType: clientType,
     );
   }
 }

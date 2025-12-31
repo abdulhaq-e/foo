@@ -14,7 +14,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$BackendAuthCallbackCommand implements DiagnosticableTreeMixin {
 
- String get token; String get authProvider; String get saasTenantDomain;
+ String get token; String get authProvider; String get saasTenantDomain;@JsonKey(includeToJson: false) String get clientType;
 /// Create a copy of BackendAuthCallbackCommand
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -28,21 +28,21 @@ $BackendAuthCallbackCommandCopyWith<BackendAuthCallbackCommand> get copyWith => 
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'BackendAuthCallbackCommand'))
-    ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('authProvider', authProvider))..add(DiagnosticsProperty('saasTenantDomain', saasTenantDomain));
+    ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('authProvider', authProvider))..add(DiagnosticsProperty('saasTenantDomain', saasTenantDomain))..add(DiagnosticsProperty('clientType', clientType));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is BackendAuthCallbackCommand&&(identical(other.token, token) || other.token == token)&&(identical(other.authProvider, authProvider) || other.authProvider == authProvider)&&(identical(other.saasTenantDomain, saasTenantDomain) || other.saasTenantDomain == saasTenantDomain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is BackendAuthCallbackCommand&&(identical(other.token, token) || other.token == token)&&(identical(other.authProvider, authProvider) || other.authProvider == authProvider)&&(identical(other.saasTenantDomain, saasTenantDomain) || other.saasTenantDomain == saasTenantDomain)&&(identical(other.clientType, clientType) || other.clientType == clientType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token,authProvider,saasTenantDomain);
+int get hashCode => Object.hash(runtimeType,token,authProvider,saasTenantDomain,clientType);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BackendAuthCallbackCommand(token: $token, authProvider: $authProvider, saasTenantDomain: $saasTenantDomain)';
+  return 'BackendAuthCallbackCommand(token: $token, authProvider: $authProvider, saasTenantDomain: $saasTenantDomain, clientType: $clientType)';
 }
 
 
@@ -53,7 +53,7 @@ abstract mixin class $BackendAuthCallbackCommandCopyWith<$Res>  {
   factory $BackendAuthCallbackCommandCopyWith(BackendAuthCallbackCommand value, $Res Function(BackendAuthCallbackCommand) _then) = _$BackendAuthCallbackCommandCopyWithImpl;
 @useResult
 $Res call({
- String token, String authProvider, String saasTenantDomain
+ String token, String authProvider, String saasTenantDomain,@JsonKey(includeToJson: false) String clientType
 });
 
 
@@ -70,11 +70,12 @@ class _$BackendAuthCallbackCommandCopyWithImpl<$Res>
 
 /// Create a copy of BackendAuthCallbackCommand
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? token = null,Object? authProvider = null,Object? saasTenantDomain = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? token = null,Object? authProvider = null,Object? saasTenantDomain = null,Object? clientType = null,}) {
   return _then(_self.copyWith(
 token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,authProvider: null == authProvider ? _self.authProvider : authProvider // ignore: cast_nullable_to_non_nullable
 as String,saasTenantDomain: null == saasTenantDomain ? _self.saasTenantDomain : saasTenantDomain // ignore: cast_nullable_to_non_nullable
+as String,clientType: null == clientType ? _self.clientType : clientType // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String token,  String authProvider,  String saasTenantDomain)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String token,  String authProvider,  String saasTenantDomain, @JsonKey(includeToJson: false)  String clientType)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _BackendAuthCallbackCommand() when $default != null:
-return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
+return $default(_that.token,_that.authProvider,_that.saasTenantDomain,_that.clientType);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String token,  String authProvider,  String saasTenantDomain)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String token,  String authProvider,  String saasTenantDomain, @JsonKey(includeToJson: false)  String clientType)  $default,) {final _that = this;
 switch (_that) {
 case _BackendAuthCallbackCommand():
-return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
+return $default(_that.token,_that.authProvider,_that.saasTenantDomain,_that.clientType);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String token,  String authProvider,  String saasTenantDomain)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String token,  String authProvider,  String saasTenantDomain, @JsonKey(includeToJson: false)  String clientType)?  $default,) {final _that = this;
 switch (_that) {
 case _BackendAuthCallbackCommand() when $default != null:
-return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
+return $default(_that.token,_that.authProvider,_that.saasTenantDomain,_that.clientType);case _:
   return null;
 
 }
@@ -216,12 +217,13 @@ return $default(_that.token,_that.authProvider,_that.saasTenantDomain);case _:
 @JsonSerializable(createFactory: false)
 
 class _BackendAuthCallbackCommand with DiagnosticableTreeMixin implements BackendAuthCallbackCommand {
-  const _BackendAuthCallbackCommand({required this.token, required this.authProvider, required this.saasTenantDomain});
+  const _BackendAuthCallbackCommand({required this.token, required this.authProvider, required this.saasTenantDomain, @JsonKey(includeToJson: false) required this.clientType});
   
 
 @override final  String token;
 @override final  String authProvider;
 @override final  String saasTenantDomain;
+@override@JsonKey(includeToJson: false) final  String clientType;
 
 /// Create a copy of BackendAuthCallbackCommand
 /// with the given fields replaced by the non-null parameter values.
@@ -237,21 +239,21 @@ Map<String, dynamic> toJson() {
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
   properties
     ..add(DiagnosticsProperty('type', 'BackendAuthCallbackCommand'))
-    ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('authProvider', authProvider))..add(DiagnosticsProperty('saasTenantDomain', saasTenantDomain));
+    ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('authProvider', authProvider))..add(DiagnosticsProperty('saasTenantDomain', saasTenantDomain))..add(DiagnosticsProperty('clientType', clientType));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BackendAuthCallbackCommand&&(identical(other.token, token) || other.token == token)&&(identical(other.authProvider, authProvider) || other.authProvider == authProvider)&&(identical(other.saasTenantDomain, saasTenantDomain) || other.saasTenantDomain == saasTenantDomain));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _BackendAuthCallbackCommand&&(identical(other.token, token) || other.token == token)&&(identical(other.authProvider, authProvider) || other.authProvider == authProvider)&&(identical(other.saasTenantDomain, saasTenantDomain) || other.saasTenantDomain == saasTenantDomain)&&(identical(other.clientType, clientType) || other.clientType == clientType));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token,authProvider,saasTenantDomain);
+int get hashCode => Object.hash(runtimeType,token,authProvider,saasTenantDomain,clientType);
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'BackendAuthCallbackCommand(token: $token, authProvider: $authProvider, saasTenantDomain: $saasTenantDomain)';
+  return 'BackendAuthCallbackCommand(token: $token, authProvider: $authProvider, saasTenantDomain: $saasTenantDomain, clientType: $clientType)';
 }
 
 
@@ -262,7 +264,7 @@ abstract mixin class _$BackendAuthCallbackCommandCopyWith<$Res> implements $Back
   factory _$BackendAuthCallbackCommandCopyWith(_BackendAuthCallbackCommand value, $Res Function(_BackendAuthCallbackCommand) _then) = __$BackendAuthCallbackCommandCopyWithImpl;
 @override @useResult
 $Res call({
- String token, String authProvider, String saasTenantDomain
+ String token, String authProvider, String saasTenantDomain,@JsonKey(includeToJson: false) String clientType
 });
 
 
@@ -279,11 +281,12 @@ class __$BackendAuthCallbackCommandCopyWithImpl<$Res>
 
 /// Create a copy of BackendAuthCallbackCommand
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? token = null,Object? authProvider = null,Object? saasTenantDomain = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? token = null,Object? authProvider = null,Object? saasTenantDomain = null,Object? clientType = null,}) {
   return _then(_BackendAuthCallbackCommand(
 token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,authProvider: null == authProvider ? _self.authProvider : authProvider // ignore: cast_nullable_to_non_nullable
 as String,saasTenantDomain: null == saasTenantDomain ? _self.saasTenantDomain : saasTenantDomain // ignore: cast_nullable_to_non_nullable
+as String,clientType: null == clientType ? _self.clientType : clientType // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -15,11 +15,17 @@ BackendAuthCallbackCommandHandling backendAuthCallbackRemoteCommandHandler(
         await JsonRemoteMessageHandlerHelper.createApiHandlerForSingularItem(
           apiClient: apiClient,
           fromJsonT: BackendAuthCallbackResponse.fromJson,
-          endpointBuilder: (BackendAuthCallbackCommand command) =>
-              simpleCommandEndpointFactory(
-                path: 'api/v1/auth/callback',
-                data: jsonEncode(command.toJson()),
-              ),
+          endpointBuilder: (BackendAuthCallbackCommand command) {
+            final Map<String, String> headers = {};
+            if (command.clientType != null) {
+              headers['X-CLIENT-TYPE'] = command.clientType!;
+            }
+            return simpleCommandEndpointFactory(
+              path: 'api/v1/auth/callback',
+              data: jsonEncode(command.toJson()),
+              headers: headers,
+            );
+          },
         )(command);
 
     return apiResponse;

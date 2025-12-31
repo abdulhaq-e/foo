@@ -35,5 +35,5 @@ Map<String, dynamic> _$SaasTenantBrandingToJson(_SaasTenantBranding instance) =>
       'tenantName': instance.tenantName,
       'description': instance.description,
       'logoUrl': instance.logoUrl,
-      'colors': instance.colors?.toJson(),
+      'colors': instance.colors,
     };

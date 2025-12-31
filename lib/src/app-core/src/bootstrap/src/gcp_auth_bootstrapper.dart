@@ -31,7 +31,7 @@ class GCPAuthBootstrapper {
     final domainResolver = serviceRegistry.get<SaasTenantDomainResolver>();
     final authService =
         AuthProviderFactory.createGCPAuthService(
-              authConfig: const GCPAuthConfig(),
+              authConfig: GCPAuthConfig(clientType: appConfig.clientType),
               backendAuthCallbackCommandHandler: backendAuthCallbackHandler,
               domainResolver: domainResolver,
             )
