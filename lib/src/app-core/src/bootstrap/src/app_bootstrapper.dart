@@ -19,7 +19,7 @@ import 'bootrap_context.dart';
 
 class AppBootstrapper<TAppContext> {
   final Map<String, FirebaseOptions> firebaseEnvOptions;
-  final Future<void> Function(FutureOr<Widget>) appRunner;
+  final Future<void> Function(FutureOr<Widget> Function()) appRunner;
 
   final ServiceRegistry Function(DotEnv env) createServiceRegistry;
 
@@ -84,16 +84,19 @@ class AppBootstrapper<TAppContext> {
     }
     featureRegistry.registerAll(appContext);
 
-    Widget app = buildApp(bootstrapContext, appContext);
+    Widget appBuilder() {
+      Widget app = buildApp(bootstrapContext, appContext);
 
-    final bannerName = environment.bannerName;
-    final bannerColor = environment.bannerColor;
-    final wrappedApp = (bannerName != null && bannerColor != null)
-        ? wrapInBanner(child: app, color: bannerColor, name: bannerName)
-        : app;
+      final bannerName = environment.bannerName;
+      final bannerColor = environment.bannerColor;
+      final wrappedApp = (bannerName != null && bannerColor != null)
+          ? wrapInBanner(child: app, color: bannerColor, name: bannerName)
+          : app;
 
-    // 12. Run the app
-    await appRunner(wrappedApp);
+      return wrappedApp;
+    }
+
+    await appRunner(appBuilder);
   }
 
   Future<void> _ensureEssentialServices(BootstrapContext bootrapContext) async {
@@ -207,12 +210,21 @@ class AppBootstrapper<TAppContext> {
     String? domainFromEnv = domainFromEnvVal.isEmpty ? null : domainFromEnvVal;
 
     // SaaS Tenant Branding Configuration
-    final saasTenantBrandingQueryHandler = env.get('SAAS_TENANT_BRANDING_QUERY_HANDLER');
+    final saasTenantBrandingQueryHandler = env.get(
+      'SAAS_TENANT_BRANDING_QUERY_HANDLER',
+    );
     final localSaasTenantName = env.maybeGet('LOCAL_SAAS_TENANT_NAME');
-    final localSaasTenantDescription = env.maybeGet('LOCAL_SAAS_TENANT_DESCRIPTION');
-    final localSaasTenantPrimaryColour = env.maybeGet('LOCAL_SAAS_TENANT_PRIMARY_COLOUR');
-    final localSaasTenantTestingSleepTimeStr = env.maybeGet('LOCAL_SAAS_TENANT_TESTING_SLEEP_TIME');
-    final localSaasTenantTestingSleepTime = localSaasTenantTestingSleepTimeStr != null
+    final localSaasTenantDescription = env.maybeGet(
+      'LOCAL_SAAS_TENANT_DESCRIPTION',
+    );
+    final localSaasTenantPrimaryColour = env.maybeGet(
+      'LOCAL_SAAS_TENANT_PRIMARY_COLOUR',
+    );
+    final localSaasTenantTestingSleepTimeStr = env.maybeGet(
+      'LOCAL_SAAS_TENANT_TESTING_SLEEP_TIME',
+    );
+    final localSaasTenantTestingSleepTime =
+        localSaasTenantTestingSleepTimeStr != null
         ? int.tryParse(localSaasTenantTestingSleepTimeStr)
         : null;
 
