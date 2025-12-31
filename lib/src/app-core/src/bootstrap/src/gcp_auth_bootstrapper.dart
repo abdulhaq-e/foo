@@ -23,7 +23,7 @@ class GCPAuthBootstrapper {
     await Firebase.initializeApp(options: options);
 
     final serviceRegistry = bootstrapContext.serviceRegistry;
-    final apiClient = serviceRegistry.get<BaseAPIClientType>();
+    final apiClient = serviceRegistry.get<APIClient>(name: 'base');
     final backendAuthCallbackHandler = backendAuthCallbackRemoteCommandHandler(
       apiClient,
     );
@@ -63,8 +63,9 @@ class GCPAuthBootstrapper {
       domainResolver: domainResolver,
       baseApiClient: apiClient,
     );
-    serviceRegistry.register<AuthenticationComponentBuilder>(
+    serviceRegistry.register<WidgetBuilder>(
       authComponentBuilder,
+      name: 'authWidgetBuilder',
     );
   }
 

@@ -108,12 +108,12 @@ class AppBootstrapper<TAppContext> {
     final serviceRegistry = bootrapContext.serviceRegistry;
     final appConfig = bootrapContext.appConfig;
 
-    if (serviceRegistry.tryGet<BaseAPIClientType>() == null) {
+    if (serviceRegistry.tryGet<APIClient>(name: 'base') == null) {
       final apiClient = HttpAPIClient(
         baseURL: appConfig.apiURL,
         client: http.Client() as http.BaseClient,
       );
-      serviceRegistry.register<BaseAPIClientType>(apiClient);
+      serviceRegistry.register<APIClient>(apiClient, name: 'base');
     }
 
     serviceRegistry.register(
@@ -128,7 +128,7 @@ class AppBootstrapper<TAppContext> {
     BootstrapContext bootrapContext,
   ) async {
     final serviceRegistry = bootrapContext.serviceRegistry;
-    final apiClient = serviceRegistry.get<BaseAPIClientType>();
+    final apiClient = serviceRegistry.get<APIClient>(name: 'base');
     final authenticationInteractor = serviceRegistry
         .get<AuthenticationInteractor>();
     final tokenProvider = AuthenticationInteractorTokenProvider(
@@ -164,8 +164,9 @@ class AppBootstrapper<TAppContext> {
     );
 
     serviceRegistry.register(tokenRefreshLock);
-    serviceRegistry.register<AuthenticatedAPIClientType>(
+    serviceRegistry.register<APIClient>(
       authenticatedApiClient,
+      name: 'authenticated',
     );
   }
 

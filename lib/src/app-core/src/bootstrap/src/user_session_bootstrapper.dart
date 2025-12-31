@@ -1,3 +1,4 @@
+import 'package:api_tools/api_tools.dart';
 import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 
@@ -9,7 +10,7 @@ class UserSessionBootstrapper {
   Future<void> bootstrap({required BootstrapContext bootstrapContext}) async {
     final serviceRegistry = bootstrapContext.serviceRegistry;
 
-    final apiClient = serviceRegistry.get<AuthenticatedAPIClientType>();
+    final apiClient = serviceRegistry.get<APIClient>(name: 'authenticated');
     final authenticationInteractor = serviceRegistry
         .get<AuthenticationInteractor>();
     final userQueryHandler = userRemoteQueryHandler(apiClient);

@@ -1,3 +1,4 @@
+import 'package:api_tools/api_tools.dart';
 import 'package:flutter/material.dart';
 import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
@@ -55,14 +56,14 @@ class SaasTenantBootstrapper {
         tenantName: appConfig.localSaasTenantName!,
         description: appConfig.localSaasTenantDescription!,
         colors: SaasTenantBrandingColors(
-          primary: _parseColorFromEnv(
-            appConfig.localSaasTenantPrimaryColour,
-          ),
+          primary: _parseColorFromEnv(appConfig.localSaasTenantPrimaryColour),
         ),
         testingSleep: appConfig.localSaasTenantTestingSleepTime!,
       );
     } else if (handlerType == 'REMOTE') {
-      final apiClient = bootrapContext.serviceRegistry.get<BaseAPIClientType>();
+      final apiClient = bootrapContext.serviceRegistry.get<APIClient>(
+        name: 'base',
+      );
       return getSaasTenantBrandingRemoteQueryHandler(apiClient);
     } else {
       throw Exception(
