@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:foo/core.dart';
 
 /// A decorator that wraps a command handler to trigger notifications on success and failure.
@@ -11,6 +13,9 @@ import 'package:foo/core.dart';
 /// ```dart
 /// final decorator = CommandHandlerNotificationDecorator(
 ///   commandHandler: myHandler,
+///   onStart: (command, response) {
+///     notificationService.showLoading('Creating user...');
+///   },
 ///   onSuccess: (command, response) {
 ///     notificationService.showSuccess('User ${response.name} created!');
 ///   },
@@ -21,24 +26,27 @@ import 'package:foo/core.dart';
 /// ```
 class CommandHandlerNotificationDecorator<Command, Response> {
   final CommandHandling<Command, Response> commandHandler;
-  final void Function(Command command, Response response)? onSuccess;
-  final void Function(Command command, Object error)? onFailure;
+  final FutureOr<void> Function(Command command)? onStart;
+  final FutureOr<void> Function(Command command, Response response)? onSuccess;
+  final FutureOr<void> Function(Command command, Object error)? onFailure;
 
   CommandHandlerNotificationDecorator({
     required this.commandHandler,
+    this.onStart,
     this.onSuccess,
     this.onFailure,
   });
 
   Future<Response> call(Command command) async {
+    await onStart?.call(command);
     try {
       final response = await commandHandler(command);
 
-      onSuccess?.call(command, response);
+      await onSuccess?.call(command, response);
 
       return response;
     } catch (error) {
-      onFailure?.call(command, error);
+      await onFailure?.call(command, error);
 
       rethrow;
     }
