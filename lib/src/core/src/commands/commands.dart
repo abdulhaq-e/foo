@@ -1,5 +1,7 @@
 export 'src/bloc/command.bloc.dart';
 export 'src/bloc/null_error_handler.dart';
+export 'src/command_handler_notification_decorator.dart';
+export 'src/command_handler_stream_decorator.dart';
 export 'src/triggered_command_executor_widget.dart';
 export 'src/views/command_builder.dart';
 export 'src/views/command_button.dart';
