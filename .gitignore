@@ -42,3 +42,4 @@ app.*.map.json
 # Test related
 coverage
 .projectile-cache.eld
+ASYNC_POLLING_INTEGRATION.md

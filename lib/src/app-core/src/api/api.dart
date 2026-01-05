@@ -1,5 +1,6 @@
 export 'src/api_command_factory.dart';
 export 'src/domain/generic_api_response.model.dart';
+export 'src/get_operation_status_remote_query_handler.dart';
 export 'src/remote_message_handler.dart';
 export 'src/saas_tenant_api_client.dart';
 export 'src/saas_tenant_entity_id_provider.dart';

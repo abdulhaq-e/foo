@@ -255,4 +255,75 @@ class JsonRemoteMessageHandlerHelper {
     }
     return itemFromJson(json as Map<String, Object?>);
   }
+
+  /// Create a handler that supports both sync (HTTP 200) and async (HTTP 202) commands.
+  ///
+  /// This handler automatically detects 202 responses and returns [AsyncCommandResponse]
+  /// with the operation ID. For 200 responses, it returns the normal response type parsed
+  /// using [fromJsonT].
+  ///
+  /// Use this for commands that may be processed asynchronously depending on backend load
+  /// or complexity. Pair with [CommandHandlerAsyncPollingDecorator] to handle the polling.
+  ///
+  /// ## Example
+  ///
+  /// ```dart
+  /// static RegisterStudentCommandHandling
+  /// registerStudentRemoteCommandHandlerFactory({required APIClient apiClient}) {
+  ///   return JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler(
+  ///     apiClient: apiClient,
+  ///     fromJsonT: (_) {}, // For sync 200 responses
+  ///     endpointBuilder: (RegisterStudentCommand command) =>
+  ///         simpleCommandEndpointFactory(
+  ///           data: jsonEncode(apiCommandFactory(data: command.toJson())),
+  ///           path: "api/commands/v1/students",
+  ///         ),
+  ///   );
+  /// }
+  /// ```
+  static AsyncFactory<Input, CommandResult<Output>>
+  createAsyncAwareCommandHandler<Input, Output>({
+    required APIClient apiClient,
+    required Output Function(Map<String, Object?> json) fromJsonT,
+    required Endpoint Function(Input input) endpointBuilder,
+  }) {
+    return (Input input) async {
+      final responseHandler = CompositeResponseHandler<CommandResult<Output>>(
+        processors: [
+          ProblemDetailsProcessor(),
+          AsyncResponseProcessor(),
+          StatusCodeProcessor.ok200Range(),
+          JsonDataProcessor(),
+        ],
+        extractor: DataExtractorFactory.create((responseContext) {
+          final jsonData = responseContext.get<Map<String, dynamic>>(
+            "jsonData",
+          );
+          final isAsync =
+              responseContext.get<bool>("isAsyncOperation") ?? false;
+
+          if (isAsync) {
+            // Parse as AsyncCommandResponse for 202 responses
+            final asyncResp = AsyncCommandResponse.fromJson(
+              jsonData as Map<String, dynamic>,
+            );
+            return AsyncResult<Output>(asyncResp);
+          } else {
+            final data = jsonData == null
+                ? fromJsonT(<String, Object?>{})
+                : fromJsonT(jsonData as Map<String, Object?>);
+            return SyncResult<Output>(data);
+          }
+        }),
+      );
+
+      final handler = RemoteMessageHandler<Input, CommandResult<Output>>(
+        apiClient: apiClient,
+        responseHandler: responseHandler.call,
+        endpointBuilder: endpointBuilder,
+      );
+
+      return handler(input);
+    };
+  }
 }

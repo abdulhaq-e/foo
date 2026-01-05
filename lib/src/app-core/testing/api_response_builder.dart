@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:api_tools/api_tools.dart';
+import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 
 /// Builder for creating mock API responses with proper structure.
@@ -44,7 +45,7 @@ class ApiResponseBuilder<T, M> {
   /// }
   /// ```
   static ApiResponseBuilder<Map<String, dynamic>, DefaultResponseMetadata>
-      forNestedItem<T>(
+  forNestedItem<T>(
     T data, {
     required String nestedKey,
     DefaultResponseMetadata? metadata,
