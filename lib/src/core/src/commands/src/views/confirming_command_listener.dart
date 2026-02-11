@@ -12,6 +12,7 @@ class ConfirmingCommandListener<Command, Response, Error, ValidationError>
     this.onSucceeded,
     this.onError,
     this.onValidationError,
+    this.commandFilter,
   });
   final Widget child;
   final String title;
@@ -19,6 +20,7 @@ class ConfirmingCommandListener<Command, Response, Error, ValidationError>
   final CommandSucceededCallback<Response>? onSucceeded;
   final CommandFailedCallback<Error>? onError;
   final CommandValidationErrorCallback<ValidationError>? onValidationError;
+  final bool Function(Command)? commandFilter;
 
   @override
   Widget build(BuildContext context) {
@@ -27,6 +29,9 @@ class ConfirmingCommandListener<Command, Response, Error, ValidationError>
 
     return CommandListener<Command, Response, Error, ValidationError>(
       onConfirmationRequested: (context, command) async {
+        if (commandFilter != null && !commandFilter!(command)) {
+          return;
+        }
         final confirmed = await showDialog<bool>(
           context: context,
           builder: (c) => AlertDialog(
