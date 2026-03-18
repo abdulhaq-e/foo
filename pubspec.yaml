@@ -29,7 +29,10 @@ dependencies:
       ref: develop
       path: flutter_secure_storage
   firebase_auth: ^6.0.1
-  flutter_signin_button: ^2.0.0
+  flutter_signin_button:
+    git:
+      url: https://github.com/abdulhaq-e/Flutter-Sign-in-Button.git
+      ref: feat/font_awesome_upgrade
   firebase_core: ^4.1.0
   flutter_dotenv: ^6.0.0
 
