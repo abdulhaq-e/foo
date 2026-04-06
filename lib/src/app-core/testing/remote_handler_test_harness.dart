@@ -1,9 +1,8 @@
 import 'package:api_tools/api_tools.dart';
+import 'package:api_tools/src/testing.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 
 import 'api_response_builder.dart';
-import 'mock_factories.dart';
 
 /// Test harness for testing remote query/command handlers.
 ///
@@ -48,47 +47,55 @@ import 'mock_factories.dart';
 /// });
 /// ```
 class RemoteHandlerTestHarness {
-  late MockAPIClient mockApiClient;
+  final List<Endpoint> _capturedEndpoints = [];
+  final Map<String, APIResponse> _responses = {};
+  APIResponse? _defaultResponse;
+
+  late final APIClientTestDouble apiClient;
 
   RemoteHandlerTestHarness() {
-    mockApiClient = MockAPIClient();
+    apiClient = APIClientTestDouble(
+      requestCallback: (endpoint) async {
+        _capturedEndpoints.add(endpoint);
+        final response = _responses[endpoint.path] ?? _defaultResponse;
+        if (response == null) {
+          throw StateError('No response configured for ${endpoint.path}');
+        }
+        return response;
+      },
+    );
   }
 
   /// Mocks the API client to return a successful response with the given data.
   /// Uses ApiResponseBuilder to create properly formatted GenericAPIResponse.
   /// Use this for handlers that use `createGenericApiHandlerForSingularData`.
   void mockApiResponseWith<T>(T data) {
-    final response = ApiResponseBuilder.forSingleItem(data).build();
-    when(() => mockApiClient.request(any())).thenAnswer((_) async => response);
+    _defaultResponse = ApiResponseBuilder.forSingleItem(data).build();
   }
 
   /// Mocks the API client to return a nested response where data is wrapped under a key.
   /// Use this for handlers that expect data nested like: {"data": {"config": {...}}}
   void mockNestedApiResponseWith<T>(T data, {required String nestedKey}) {
-    final response = ApiResponseBuilder.forNestedItem(
+    _defaultResponse = ApiResponseBuilder.forNestedItem(
       data,
       nestedKey: nestedKey,
     ).build();
-    when(() => mockApiClient.request(any())).thenAnswer((_) async => response);
   }
 
   /// Mocks the API client to return a raw response without GenericAPIResponse wrapper.
   /// Use this for handlers that use `createApiHandlerForSingularItem`.
   void mockRawApiResponseWith<T>(T data) {
-    final response = ApiResponseBuilder.forRawItem(data).build();
-    when(() => mockApiClient.request(any())).thenAnswer((_) async => response);
+    _defaultResponse = ApiResponseBuilder.forRawItem(data).build();
   }
 
   /// Mocks the API client to return a paginated list response.
   void mockPaginatedResponseWith<T>(List<T> data) {
-    final response = ApiResponseBuilder.forPaginatedList(data).build();
-    when(() => mockApiClient.request(any())).thenAnswer((_) async => response);
+    _defaultResponse = ApiResponseBuilder.forPaginatedList(data).build();
   }
 
   /// Mocks the API client to return a list response.
   void mockListResponseWith<T>(List<T> data) {
-    final response = ApiResponseBuilder.forList(data).build();
-    when(() => mockApiClient.request(any())).thenAnswer((_) async => response);
+    _defaultResponse = ApiResponseBuilder.forList(data).build();
   }
 
   /// Verifies that an endpoint with the specified properties was called exactly once.
@@ -98,18 +105,19 @@ class RemoteHandlerTestHarness {
     Map<String, String>? queryParameters,
     String? body,
   }) {
-    verify(
-      () => mockApiClient.request(
-        any(
-          that: _endpointMatcher(
-            path: path,
-            httpMethod: httpMethod,
-            queryParameters: queryParameters,
-            body: body,
-          ),
-        ),
-      ),
-    ).called(1);
+    final matches = _capturedEndpoints.where((endpoint) {
+      if (endpoint.path != path || endpoint.httpMethod != httpMethod) {
+        return false;
+      }
+      if (queryParameters != null) {
+        for (final entry in queryParameters.entries) {
+          if (endpoint.queryParameters[entry.key] != entry.value) return false;
+        }
+      }
+      if (body != null && endpoint.data != body) return false;
+      return true;
+    });
+    expect(matches, hasLength(1));
   }
 
   /// Verifies that the endpoint was called with specific query parameters present.
@@ -130,54 +138,17 @@ class RemoteHandlerTestHarness {
     required String path,
     HttpMethod httpMethod = HttpMethod.get,
   }) {
-    verify(
-      () => mockApiClient.request(
-        any(
-          that: predicate<Endpoint>(
-            (endpoint) =>
-                endpoint.path == path &&
-                endpoint.httpMethod == httpMethod &&
-                endpoint.queryParameters.isEmpty,
-          ),
-        ),
-      ),
-    ).called(1);
+    final matches = _capturedEndpoints.where(
+      (endpoint) =>
+          endpoint.path == path &&
+          endpoint.httpMethod == httpMethod &&
+          endpoint.queryParameters.isEmpty,
+    );
+    expect(matches, hasLength(1));
   }
 
   /// Captures the endpoint that was sent to verify its contents.
   Endpoint captureEndpoint() {
-    return verify(() => mockApiClient.request(captureAny())).captured.single
-        as Endpoint;
-  }
-
-  /// Internal helper to create an endpoint matcher.
-  Matcher _endpointMatcher({
-    required String path,
-    required HttpMethod httpMethod,
-    Map<String, String>? queryParameters,
-    String? body,
-  }) {
-    return predicate<Endpoint>((endpoint) {
-      // Always check path and method
-      if (endpoint.path != path || endpoint.httpMethod != httpMethod) {
-        return false;
-      }
-
-      // Check query parameters if provided
-      if (queryParameters != null) {
-        for (final entry in queryParameters.entries) {
-          if (endpoint.queryParameters[entry.key] != entry.value) {
-            return false;
-          }
-        }
-      }
-
-      // Check body if provided
-      if (body != null && endpoint.data != body) {
-        return false;
-      }
-
-      return true;
-    });
+    return _capturedEndpoints.single;
   }
 }
