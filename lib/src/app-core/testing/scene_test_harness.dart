@@ -44,7 +44,7 @@ class SceneTestHarness {
     await tester.pumpWidget(
       MaterialApp(
         key: UniqueKey(),
-        home: Scaffold(body: scene),
+        home: MaterialUiCompatibilityBridge(child: Scaffold(body: scene)),
       ),
     );
   }

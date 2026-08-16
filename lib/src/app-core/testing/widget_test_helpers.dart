@@ -12,7 +12,7 @@ class WidgetTestHelpers {
   }) async {
     await tester.pumpWidget(
       MaterialApp(
-        home: Scaffold(body: widget),
+        home: MaterialUiCompatibilityBridge(child: Scaffold(body: widget)),
         theme: theme,
       ),
     );
