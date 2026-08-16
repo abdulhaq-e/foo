@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 
 /// A helper for showing snackbars using a GlobalKey<ScaffoldMessengerState>.
 /// This avoids BuildContext issues when showing notifications from outside the widget tree.

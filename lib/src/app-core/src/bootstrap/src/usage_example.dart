@@ -3,7 +3,7 @@
 /// This example shows how to eliminate the mess in salisos_app.dart and app_builder.dart
 /// by using the feature registration system.
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app_bootstrapper.dart';

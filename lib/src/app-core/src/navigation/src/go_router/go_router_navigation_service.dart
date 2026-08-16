@@ -1,4 +1,4 @@
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 import 'package:go_router/go_router.dart';

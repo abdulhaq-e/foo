@@ -4,7 +4,7 @@
 /// navigation service is created in the app widget's initState.
 /// Features are registered after the widget is created but before router init.
 
-import 'package:flutter/material.dart';
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app_bootstrapper.dart';
