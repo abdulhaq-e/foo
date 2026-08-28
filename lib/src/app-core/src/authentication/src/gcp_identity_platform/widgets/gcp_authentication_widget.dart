@@ -1,5 +1,4 @@
-import 'package:flutter/material.dart' show InputDecoration, OutlineInputBorder;
-import 'package:material_ui/material_ui.dart' hide InputDecoration, OutlineInputBorder;
+import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:reactive_forms/reactive_forms.dart';
