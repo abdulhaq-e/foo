@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:api_tools/api_tools.dart';
 import 'package:api_tools/src/testing.dart';
 import 'package:foo/app-core.dart';
@@ -23,23 +22,6 @@ class CreateReportCommand {
   };
 }
 
-// Test response for sync flow
-class CreateReportResponse {
-  final String reportId;
-  final String status;
-
-  const CreateReportResponse({required this.reportId, required this.status});
-
-  factory CreateReportResponse.fromJson(Map<String, dynamic> json) {
-    return CreateReportResponse(
-      reportId: json['reportId'] as String,
-      status: json['status'] as String,
-    );
-  }
-
-  Map<String, dynamic> toJson() => {'reportId': reportId, 'status': status};
-}
-
 // Test notification tracker
 class NotificationTracker {
   final List<String> notifications = [];
@@ -57,8 +39,13 @@ void main() {
     late APIClientTestDouble apiClient;
     late OperationPollingService pollingService;
     late NotificationTracker notificationTracker;
-    late StreamController<CommandExecutionResult<CreateReportResponse>>
-    refreshController;
+    late StreamController<CommandExecutionResult<dynamic>> refreshController;
+
+    Endpoint reportEndpointBuilder(CreateReportCommand command) => Endpoint(
+      httpMethod: HttpMethod.post,
+      path: 'api/reports',
+      headers: {},
+    );
 
     setUp(() {
       apiClient = APIClientTestDouble(
@@ -69,8 +56,7 @@ void main() {
             getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
       );
       notificationTracker = NotificationTracker();
-      refreshController =
-          StreamController<CommandExecutionResult<CreateReportResponse>>();
+      refreshController = StreamController<CommandExecutionResult<dynamic>>();
     });
 
     tearDown(() {
@@ -109,20 +95,11 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        // Create the handler
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        // Create the handler - already known to be async, no fromJsonT needed
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
         // Decorate with async polling support
         final config = OperationPollingConfig(
@@ -130,28 +107,24 @@ void main() {
           timeout: Duration(seconds: 10),
         );
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              streamController: refreshController,
-              onSubmitted: (command) {
-                notificationTracker.showLoading('Creating report...');
-              },
-              onPollingStarted: (command, operationId) {
-                notificationTracker.showInfo('Processing report generation...');
-              },
-              onSuccess: (command, data) {
-                notificationTracker.showSuccess('Report created successfully!');
-              },
-              onFailure: (command, error) {
-                notificationTracker.showError('Failed to create report');
-              },
-              configBuilder: (_) => config,
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          streamController: refreshController,
+          onSubmitted: (command) {
+            notificationTracker.showLoading('Creating report...');
+          },
+          onPollingStarted: (command, operationId) {
+            notificationTracker.showInfo('Processing report generation...');
+          },
+          onSuccess: (command, data) {
+            notificationTracker.showSuccess('Report created successfully!');
+          },
+          onFailure: (command, error) {
+            notificationTracker.showError('Failed to create report');
+          },
+          configBuilder: (_) => config,
+        );
 
         final refreshEvents = <CommandExecutionResult>[];
         refreshController.stream.listen((event) => refreshEvents.add(event));
@@ -162,10 +135,9 @@ void main() {
           reportType: 'sales',
         );
 
-        final result =
-            await handler(command) as AsyncResult<CreateReportResponse>;
+        final result = await handler(command);
 
-        expect(result.response.operationId, equals('report-op-123'));
+        expect(result.operationId, equals('report-op-123'));
         expect(commandRequestCount, equals(1));
 
         // Wait for polling to complete
@@ -206,38 +178,28 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              dynamic
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              streamController: refreshController,
-              onSubmitted: (command) {
-                notificationTracker.showLoading('Creating report...');
-              },
-              onPollingStarted: (command, operationId) {
-                notificationTracker.showInfo('Processing...');
-              },
-              onSuccess: (command, data) {
-                notificationTracker.showSuccess('Report created!');
-              },
-              onFailure: (command, error) {
-                notificationTracker.showError('Failed to create report');
-              },
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          streamController: refreshController,
+          onSubmitted: (command) {
+            notificationTracker.showLoading('Creating report...');
+          },
+          onPollingStarted: (command, operationId) {
+            notificationTracker.showInfo('Processing...');
+          },
+          onSuccess: (command, data) {
+            notificationTracker.showSuccess('Report created!');
+          },
+          onFailure: (command, error) {
+            notificationTracker.showError('Failed to create report');
+          },
+        );
 
         final refreshEvents = <CommandExecutionResult>[];
         refreshController.stream.listen((event) => refreshEvents.add(event));
@@ -276,43 +238,33 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              dynamic
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
         final config = OperationPollingConfig(
           pollingInterval: Duration(milliseconds: 30),
           timeout: Duration(milliseconds: 100),
         );
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              onSubmitted: (command) {
-                notificationTracker.showLoading('Creating report...');
-              },
-              onPollingStarted: (command, operationId) {
-                notificationTracker.showInfo('Processing...');
-              },
-              onSuccess: (command, data) {
-                notificationTracker.showSuccess('Success!');
-              },
-              onFailure: (command, error) {
-                notificationTracker.showError('Operation timed out');
-              },
-              configBuilder: (_) => config,
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          onSubmitted: (command) {
+            notificationTracker.showLoading('Creating report...');
+          },
+          onPollingStarted: (command, operationId) {
+            notificationTracker.showInfo('Processing...');
+          },
+          onSuccess: (command, data) {
+            notificationTracker.showSuccess('Success!');
+          },
+          onFailure: (command, error) {
+            notificationTracker.showError('Operation timed out');
+          },
+          configBuilder: (_) => config,
+        );
 
         await handler(
           CreateReportCommand(reportName: 'Test', reportType: 'test'),
@@ -324,72 +276,6 @@ void main() {
           notificationTracker.notifications.last,
           equals('error: Operation timed out'),
         );
-      });
-
-      test('submit command → 200 → immediate success', () async {
-        apiClient = APIClientTestDouble(
-          requestCallback: (endpoint) async {
-            return ApiResponseBuilder.forRawItem(
-              CreateReportResponse(
-                reportId: 'report-sync-123',
-                status: 'completed',
-              ),
-            ).build();
-          },
-        );
-
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
-
-        final handler =
-            CommandHandlerAsyncPollingDecorator<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              onSubmitted: (command) {
-                notificationTracker.showLoading('Creating report...');
-              },
-              onSuccess: (command, data) {
-                notificationTracker.showSuccess('Report created instantly!');
-              },
-              onFailure: (command, error) {
-                notificationTracker.showError('Failed');
-              },
-            );
-
-        final result =
-            await handler(
-                  CreateReportCommand(
-                    reportName: 'Quick Report',
-                    reportType: 'quick',
-                  ),
-                )
-                as SyncResult<CreateReportResponse>;
-
-        // Verify sync response
-        expect(result.data.reportId, equals('report-sync-123'));
-
-        // Verify no polling started
-        expect(pollingService.activeOperationCount, equals(0));
-
-        // Verify immediate success notification
-        expect(notificationTracker.notifications, [
-          'loading: Creating report...',
-          'success: Report created instantly!',
-        ]);
       });
     });
 
@@ -417,31 +303,18 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              onSuccess: (command, data) {
-                completedReports.add(command.reportName);
-              },
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          onSuccess: (command, data) {
+            completedReports.add(command.reportName);
+          },
+        );
 
         // Submit multiple commands
         await handler(
@@ -500,19 +373,10 @@ void main() {
                 ),
           );
 
-          final rawHandler =
-              JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-                CreateReportCommand,
-                CreateReportResponse
-              >(
-                apiClient: apiClient,
-                fromJsonT: CreateReportResponse.fromJson,
-                endpointBuilder: (command) => Endpoint(
-                  httpMethod: HttpMethod.post,
-                  path: 'api/reports',
-                  headers: {},
-                ),
-              );
+          final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+            apiClient: apiClient,
+            endpointBuilder: reportEndpointBuilder,
+          );
 
           final config = OperationPollingConfig(
             pollingInterval: Duration(milliseconds: 50),
@@ -520,18 +384,14 @@ void main() {
 
           Map<String, dynamic>? finalData;
 
-          final handler =
-              CommandHandlerAsyncPollingDecorator<
-                CreateReportCommand,
-                CreateReportResponse
-              >(
-                commandHandler: rawHandler,
-                pollingService: pollingService,
-                onSuccess: (command, data) {
-                  finalData = data;
-                },
-                configBuilder: (_) => config,
-              );
+          final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+            commandHandler: rawHandler,
+            pollingService: pollingService,
+            onSuccess: (command, data) {
+              finalData = data;
+            },
+            configBuilder: (_) => config,
+          );
 
           await handler(
             CreateReportCommand(reportName: 'Realistic', reportType: 'test'),
@@ -568,33 +428,20 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
         var errorOccurred = false;
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              onFailure: (command, error) {
-                errorOccurred = true;
-              },
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          onFailure: (command, error) {
+            errorOccurred = true;
+          },
+        );
 
         await handler(
           CreateReportCommand(reportName: 'Test', reportType: 'test'),
@@ -627,37 +474,24 @@ void main() {
               getOperationStatusRemoteQueryHandlerFactory(apiClient: apiClient),
         );
 
-        final rawHandler =
-            JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              apiClient: apiClient,
-              fromJsonT: CreateReportResponse.fromJson,
-              endpointBuilder: (command) => Endpoint(
-                httpMethod: HttpMethod.post,
-                path: 'api/reports',
-                headers: {},
-              ),
-            );
+        final rawHandler = JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+          apiClient: apiClient,
+          endpointBuilder: reportEndpointBuilder,
+        );
 
-        final handler =
-            CommandHandlerAsyncPollingDecorator<
-              CreateReportCommand,
-              CreateReportResponse
-            >(
-              commandHandler: rawHandler,
-              pollingService: pollingService,
-              onSubmitted: (command) {
-                executionOrder.add('onSubmitted');
-              },
-              onPollingStarted: (command, operationId) {
-                executionOrder.add('onPollingStarted');
-              },
-              onSuccess: (command, data) {
-                executionOrder.add('onSuccess');
-              },
-            );
+        final handler = CommandHandlerAsyncPollingDecorator<CreateReportCommand, dynamic>(
+          commandHandler: rawHandler,
+          pollingService: pollingService,
+          onSubmitted: (command) {
+            executionOrder.add('onSubmitted');
+          },
+          onPollingStarted: (command, operationId) {
+            executionOrder.add('onPollingStarted');
+          },
+          onSuccess: (command, data) {
+            executionOrder.add('onSuccess');
+          },
+        );
 
         await handler(
           CreateReportCommand(reportName: 'Order Test', reportType: 'test'),

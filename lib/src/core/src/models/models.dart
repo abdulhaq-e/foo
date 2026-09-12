@@ -1,5 +1,4 @@
 export 'async_command_response.model.dart';
-export 'command_result.model.dart';
 export 'data_container.model.dart';
 export 'money.model.dart';
 export 'operation_status.model.dart';

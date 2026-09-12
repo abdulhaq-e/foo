@@ -3,19 +3,19 @@ import 'dart:async';
 import 'package:foo/app-core.dart';
 import 'package:foo/core.dart';
 
-/// Decorator that handles async commands (those that return HTTP 202 Accepted).
+/// Decorator for a command already known to be async (HTTP 202 always) —
+/// see [AsyncCommandHandling] for why that's decided by the caller up front,
+/// not detected from the response.
 ///
-/// This decorator bridges the gap between command handlers and the async operation
-/// polling system. It detects when a command returns [AsyncCommandResponse],
-/// registers the operation with [OperationPollingService], and fires notifications
-/// and stream events when the polling completes.
+/// Bridges the gap between the command handler and the async operation
+/// polling system: submits the command, registers the returned operation id
+/// with [OperationPollingService], and fires notifications and stream events
+/// when the polling completes.
 ///
-/// For synchronous commands (HTTP 200), this decorator behaves like
-/// [CommandHandlerNotificationDecorator], firing success callbacks immediately.
-///
-/// This decorator is critical for optimistic UI patterns where users can dismiss
-/// modals after submitting commands - the polling continues in the background via
-/// the app-wide service and shows notifications when operations complete.
+/// This decorator is critical for optimistic UI patterns where users can
+/// dismiss modals after submitting commands - the polling continues in the
+/// background via the app-wide service and shows notifications when
+/// operations complete.
 ///
 /// ## Usage
 ///
@@ -41,7 +41,7 @@ import 'package:foo/core.dart';
 /// }
 /// ```
 class CommandHandlerAsyncPollingDecorator<Command, Response> {
-  final AsyncCommandHandling<Command, Response> commandHandler;
+  final AsyncCommandHandling<Command> commandHandler;
 
   final OperationPollingService pollingService;
 
@@ -70,63 +70,48 @@ class CommandHandlerAsyncPollingDecorator<Command, Response> {
     this.configBuilder,
   });
 
-  /// Execute the command and handle sync/async responses appropriately.
-  Future<CommandResult<Response>> call(Command command) async {
+  /// Submit the command and start polling its operation. Returns as soon as
+  /// the operation id is known — the eventual outcome arrives later via
+  /// [onSuccess]/[onFailure] and [streamController], not via this future.
+  Future<AsyncCommandResponse> call(Command command) async {
     await onSubmitted?.call(command);
 
     try {
-      final result = await commandHandler(command);
+      final asyncResponse = await commandHandler(command);
+      final operationId = asyncResponse.operationId;
+      final config =
+          configBuilder?.call(command) ?? OperationPollingConfig.defaultConfig;
 
-      switch (result) {
-        case AsyncResult(response: final asyncResp):
-          await _handleAsyncResponse(command, asyncResp);
-          return result;
+      await onPollingStarted?.call(command, operationId);
 
-        case SyncResult(data: final data):
-          await onSuccess?.call(command, null);
-          streamController?.add(const CommandExecutionSuccess());
-          return result;
-      }
+      // Start polling (this continues in background even if BLoC is disposed)
+      final completionStream = pollingService.startPolling(
+        operationId: operationId,
+        config: config,
+      );
+
+      // Listen for completion events and fire appropriate callbacks
+      completionStream.listen((event) async {
+        switch (event) {
+          case OperationSucceeded(:final data):
+            await onSuccess?.call(command, data);
+            streamController?.add(const CommandExecutionSuccess());
+
+          case OperationFailed(:final error):
+            await onFailure?.call(command, error);
+            streamController?.add(const CommandExecutionFailure());
+
+          case OperationTimedOut():
+            await onFailure?.call(command, 'Operation timed out');
+            streamController?.add(const CommandExecutionFailure());
+        }
+      });
+
+      return asyncResponse;
     } catch (error) {
       await onFailure?.call(command, error);
       streamController?.add(const CommandExecutionFailure());
       rethrow;
     }
-  }
-
-  /// Handle async command response by starting polling and listening for completion.
-  Future<void> _handleAsyncResponse(
-    Command command,
-    AsyncCommandResponse asyncResponse,
-  ) async {
-    final operationId = asyncResponse.operationId;
-    final config =
-        configBuilder?.call(command) ?? OperationPollingConfig.defaultConfig;
-
-    // Notify that polling has started
-    await onPollingStarted?.call(command, operationId);
-
-    // Start polling (this continues in background even if BLoC is disposed)
-    final completionStream = pollingService.startPolling(
-      operationId: operationId,
-      config: config,
-    );
-
-    // Listen for completion events and fire appropriate callbacks
-    completionStream.listen((event) async {
-      switch (event) {
-        case OperationSucceeded(:final data):
-          await onSuccess?.call(command, data);
-          streamController?.add(const CommandExecutionSuccess());
-
-        case OperationFailed(:final error):
-          await onFailure?.call(command, error);
-          streamController?.add(const CommandExecutionFailure());
-
-        case OperationTimedOut():
-          await onFailure?.call(command, 'Operation timed out');
-          streamController?.add(const CommandExecutionFailure());
-      }
-    });
   }
 }

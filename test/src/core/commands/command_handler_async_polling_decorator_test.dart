@@ -9,21 +9,21 @@ class TestCommand {
   const TestCommand(this.name);
 }
 
-// Test response
+// Test response (phantom type for the stream controller only)
 class TestResponse {
   final String result;
   const TestResponse(this.result);
 }
 
 // Test double for command handler
-class CommandHandlerTestDouble<Command, Response> {
-  final Future<CommandResult<Response>> Function(Command command) handler;
+class CommandHandlerTestDouble<Command> {
+  final Future<AsyncCommandResponse> Function(Command command) handler;
   int callCount = 0;
   Command? lastCommand;
 
   CommandHandlerTestDouble({required this.handler});
 
-  Future<CommandResult<Response>> call(Command command) async {
+  Future<AsyncCommandResponse> call(Command command) async {
     callCount++;
     lastCommand = command;
     return handler(command);
@@ -91,14 +91,15 @@ class OperationPollingServiceTestDouble implements OperationPollingService {
 
 void main() {
   group('CommandHandlerAsyncPollingDecorator', () {
-    late CommandHandlerTestDouble<TestCommand, TestResponse> commandHandler;
+    late CommandHandlerTestDouble<TestCommand> commandHandler;
     late OperationPollingServiceTestDouble pollingService;
     late StreamController<CommandExecutionResult<TestResponse>>
     streamController;
 
     setUp(() {
       commandHandler = CommandHandlerTestDouble(
-        handler: (command) async => SyncResult(TestResponse('sync-result')),
+        handler: (command) async =>
+            AsyncCommandResponse(operationId: 'op-123'),
       );
       pollingService = OperationPollingServiceTestDouble();
       streamController =
@@ -110,350 +111,187 @@ void main() {
       pollingService.dispose();
     });
 
-    group('SyncResult', () {
-      test('calls onSubmitted before execution', () async {
-        var submittedCommand;
-        var onSubmittedCalled = false;
+    test('calls onSubmitted before execution', () async {
+      var onSubmittedCalled = false;
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onSubmitted: (command) {
-                submittedCommand = command;
-                onSubmittedCalled = true;
-              },
-            );
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            onSubmitted: (command) => onSubmittedCalled = true,
+          );
 
-        final command = TestCommand('test');
-        await decorator(command);
+      await decorator(TestCommand('test'));
 
-        expect(onSubmittedCalled, isTrue);
-        expect(submittedCommand, equals(command));
-      });
-
-      test('calls onSuccess immediately', () async {
-        var successCommand;
-        var successData;
-        var onSuccessCalled = false;
-
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onSuccess: (command, data) {
-                successCommand = command;
-                successData = data;
-                onSuccessCalled = true;
-              },
-            );
-
-        final command = TestCommand('test');
-        await decorator(command);
-
-        expect(onSuccessCalled, isTrue);
-        expect(successCommand, equals(command));
-        expect(
-          successData,
-          isNull,
-          reason: 'Sync commands have no data parameter',
-        );
-      });
-
-      test('emits CommandExecutionSuccess to stream', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              streamController: streamController,
-            );
-
-        final events = <CommandExecutionResult<TestResponse>>[];
-        streamController.stream.listen((event) => events.add(event));
-
-        await decorator(TestCommand('test'));
-
-        await Future.delayed(Duration(milliseconds: 50));
-        expect(events.length, equals(1));
-        expect(events.first, isA<CommandExecutionSuccess<TestResponse>>());
-      });
-
-      test('returns decorated command result', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-            );
-
-        final result =
-            await decorator(TestCommand('test')) as SyncResult<TestResponse>;
-
-        expect(result.data.result, equals('sync-result'));
-      });
-
-      test('does not start polling for sync commands', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-            );
-
-        await decorator(TestCommand('test'));
-
-        expect(pollingService.startedOperations, isEmpty);
-      });
-
-      test('handles errors with onFailure', () async {
-        var failureCommand;
-        var failureError;
-
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async =>
-              throw Exception('Command execution failed'),
-        );
-
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onFailure: (command, error) {
-                failureCommand = command;
-                failureError = error;
-              },
-            );
-
-        final command = TestCommand('test');
-
-        expect(() => decorator(command), throwsA(isA<Exception>()));
-
-        await Future.delayed(Duration(milliseconds: 50));
-
-        expect(failureCommand, equals(command));
-        expect(failureError, isA<Exception>());
-      });
-
-      test('emits failure event on error', () async {
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async => throw Exception('Failed'),
-        );
-
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              streamController: streamController,
-            );
-
-        final events = <CommandExecutionResult<TestResponse>>[];
-        streamController.stream.listen((event) => events.add(event));
-
-        try {
-          await decorator(TestCommand('test'));
-        } catch (_) {}
-
-        await Future.delayed(Duration(milliseconds: 50));
-
-        expect(events.length, equals(1));
-        expect(events.first, isA<CommandExecutionFailure<TestResponse>>());
-      });
+      expect(onSubmittedCalled, isTrue);
     });
 
-    group('AsyncResult', () {
-      setUp(() {
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async =>
-              AsyncResult(AsyncCommandResponse(operationId: 'op-123')),
-        );
-      });
+    test('calls onPollingStarted with operationId', () async {
+      var pollingCommand;
+      var pollingOperationId;
 
-      test('calls onSubmitted before execution', () async {
-        var onSubmittedCalled = false;
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            onPollingStarted: (command, operationId) {
+              pollingCommand = command;
+              pollingOperationId = operationId;
+            },
+          );
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onSubmitted: (command) => onSubmittedCalled = true,
-            );
+      final command = TestCommand('test');
+      await decorator(command);
 
-        await decorator(TestCommand('test'));
+      expect(pollingCommand, equals(command));
+      expect(pollingOperationId, equals('op-123'));
+    });
 
-        expect(onSubmittedCalled, isTrue);
-      });
+    test('starts polling via OperationPollingService', () async {
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+          );
 
-      test('calls onPollingStarted with operationId', () async {
-        var pollingCommand;
-        var pollingOperationId;
+      await decorator(TestCommand('test'));
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onPollingStarted: (command, operationId) {
-                pollingCommand = command;
-                pollingOperationId = operationId;
-              },
-            );
+      expect(pollingService.startedOperations, contains('op-123'));
+    });
 
-        final command = TestCommand('test');
-        await decorator(command);
+    test('returns the operation id immediately, without waiting for polling', () async {
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+          );
 
-        expect(pollingCommand, equals(command));
-        expect(pollingOperationId, equals('op-123'));
-      });
+      final result = await decorator(TestCommand('test'));
 
-      test('starts polling via OperationPollingService', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-            );
+      expect(result.operationId, equals('op-123'));
+    });
 
-        await decorator(TestCommand('test'));
+    test('calls onSuccess when operation succeeds', () async {
+      var successCommand;
+      var successData;
 
-        expect(pollingService.startedOperations, contains('op-123'));
-      });
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            onSuccess: (command, data) {
+              successCommand = command;
+              successData = data;
+            },
+          );
 
-      test('calls onSuccess when operation succeeds', () async {
-        var successCommand;
-        var successData;
+      final command = TestCommand('test');
+      await decorator(command);
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onSuccess: (command, data) {
-                successCommand = command;
-                successData = data;
-              },
-            );
+      final resultData = {'userId': 'user-123'};
+      pollingService.emitSuccess('op-123', resultData);
 
-        final command = TestCommand('test');
-        await decorator(command);
+      await Future.delayed(Duration(milliseconds: 50));
 
-        final resultData = {'userId': 'user-123'};
-        pollingService.emitSuccess('op-123', resultData);
+      expect(successCommand, equals(command));
+      expect(successData, equals(resultData));
+    });
 
-        await Future.delayed(Duration(milliseconds: 50));
+    test('calls onFailure when operation fails', () async {
+      var failureCommand;
+      var failureError;
 
-        expect(successCommand, equals(command));
-        expect(successData, equals(resultData));
-      });
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            onFailure: (command, error) {
+              failureCommand = command;
+              failureError = error;
+            },
+          );
 
-      test('calls onFailure when operation fails', () async {
-        var failureCommand;
-        var failureError;
+      final command = TestCommand('test');
+      await decorator(command);
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onFailure: (command, error) {
-                failureCommand = command;
-                failureError = error;
-              },
-            );
+      final errorData = {'message': 'Validation failed'};
+      pollingService.emitFailure('op-123', errorData);
 
-        final command = TestCommand('test');
-        await decorator(command);
+      await Future.delayed(Duration(milliseconds: 50));
 
-        final errorData = {'message': 'Validation failed'};
-        pollingService.emitFailure('op-123', errorData);
+      expect(failureCommand, equals(command));
+      expect(failureError, equals(errorData));
+    });
 
-        await Future.delayed(Duration(milliseconds: 50));
+    test('calls onFailure on timeout', () async {
+      var failureCommand;
+      var failureError;
 
-        expect(failureCommand, equals(command));
-        expect(failureError, equals(errorData));
-      });
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            onFailure: (command, error) {
+              failureCommand = command;
+              failureError = error;
+            },
+          );
 
-      test('calls onFailure on timeout', () async {
-        var failureCommand;
-        var failureError;
+      final command = TestCommand('test');
+      await decorator(command);
 
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              onFailure: (command, error) {
-                failureCommand = command;
-                failureError = error;
-              },
-            );
+      pollingService.emitTimeout('op-123');
 
-        final command = TestCommand('test');
-        await decorator(command);
+      await Future.delayed(Duration(milliseconds: 50));
 
-        pollingService.emitTimeout('op-123');
+      expect(failureCommand, equals(command));
+      expect(failureError, equals('Operation timed out'));
+    });
 
-        await Future.delayed(Duration(milliseconds: 50));
+    test('emits stream success event on completion', () async {
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            streamController: streamController,
+          );
 
-        expect(failureCommand, equals(command));
-        expect(failureError, equals('Operation timed out'));
-      });
+      final events = <CommandExecutionResult<TestResponse>>[];
+      streamController.stream.listen((event) => events.add(event));
 
-      test('emits stream events for completion', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              streamController: streamController,
-            );
+      await decorator(TestCommand('test'));
 
-        final events = <CommandExecutionResult<TestResponse>>[];
-        streamController.stream.listen((event) => events.add(event));
+      pollingService.emitSuccess('op-123');
 
-        await decorator(TestCommand('test'));
+      await Future.delayed(Duration(milliseconds: 50));
 
-        pollingService.emitSuccess('op-123');
+      expect(events.length, equals(1));
+      expect(events.first, isA<CommandExecutionSuccess>());
+    });
 
-        await Future.delayed(Duration(milliseconds: 50));
+    test('emits stream failure event when operation fails', () async {
+      final decorator =
+          CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+            commandHandler: commandHandler,
+            pollingService: pollingService,
+            streamController: streamController,
+          );
 
-        expect(events.length, equals(1));
-        expect(events.first, isA<CommandExecutionSuccess>());
-      });
+      final events = <CommandExecutionResult<TestResponse>>[];
+      streamController.stream.listen((event) => events.add(event));
 
-      test('emits failure event when operation fails', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-              streamController: streamController,
-            );
+      await decorator(TestCommand('test'));
 
-        final events = <CommandExecutionResult<TestResponse>>[];
-        streamController.stream.listen((event) => events.add(event));
+      pollingService.emitFailure('op-123');
 
-        await decorator(TestCommand('test'));
+      await Future.delayed(Duration(milliseconds: 50));
 
-        pollingService.emitFailure('op-123');
-
-        await Future.delayed(Duration(milliseconds: 50));
-
-        expect(events.length, equals(1));
-        expect(events.first, isA<CommandExecutionFailure>());
-      });
-
-      test('returns decorated command result', () async {
-        final decorator =
-            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
-              commandHandler: commandHandler,
-              pollingService: pollingService,
-            );
-
-        final result =
-            await decorator(TestCommand('test')) as AsyncResult<TestResponse>;
-
-        expect(result.response.operationId, equals('op-123'));
-      });
+      expect(events.length, equals(1));
+      expect(events.first, isA<CommandExecutionFailure>());
     });
 
     group('Configuration', () {
       test('uses default config when no configBuilder', () async {
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async =>
-              AsyncResult(AsyncCommandResponse(operationId: 'op-123')),
-        );
-
         final decorator =
             CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
               commandHandler: commandHandler,
@@ -470,11 +308,6 @@ void main() {
       });
 
       test('uses custom config from configBuilder', () async {
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async =>
-              AsyncResult(AsyncCommandResponse(operationId: 'op-123')),
-        );
-
         final customConfig = OperationPollingConfig(
           pollingInterval: Duration(seconds: 5),
           timeout: Duration(seconds: 120),
@@ -546,13 +379,26 @@ void main() {
         );
       });
 
+      test('does not start polling when the command handler throws', () async {
+        commandHandler = CommandHandlerTestDouble(
+          handler: (command) async => throw Exception('Handler failed'),
+        );
+
+        final decorator =
+            CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(
+              commandHandler: commandHandler,
+              pollingService: pollingService,
+            );
+
+        try {
+          await decorator(TestCommand('test'));
+        } catch (_) {}
+
+        expect(pollingService.startedOperations, isEmpty);
+      });
+
       test('polling error triggers onFailure', () async {
         var failureError;
-
-        commandHandler = CommandHandlerTestDouble(
-          handler: (command) async =>
-              AsyncResult(AsyncCommandResponse(operationId: 'op-123')),
-        );
 
         final decorator =
             CommandHandlerAsyncPollingDecorator<TestCommand, TestResponse>(

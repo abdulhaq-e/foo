@@ -256,23 +256,26 @@ class JsonRemoteMessageHandlerHelper {
     return itemFromJson(json as Map<String, Object?>);
   }
 
-  /// Create a handler that supports both sync (HTTP 200) and async (HTTP 202) commands.
+  /// Create a handler for an action already known to always respond 202 with
+  /// an operation id — never a direct result. Which handler to build
+  /// (this one, or [createApiHandlerForSingularItem]) is a choice the caller
+  /// makes from the action's own descriptor (`isAsync`) before ever making
+  /// the call — not something detected from the response's status code.
+  /// There is deliberately no handler that returns "whichever shape came
+  /// back": an endpoint that sometimes resolves in-request and sometimes
+  /// makes the client poll, depending on runtime timing, is exactly the
+  /// client-facing ambiguity this action framework avoids.
   ///
-  /// This handler automatically detects 202 responses and returns [AsyncCommandResponse]
-  /// with the operation ID. For 200 responses, it returns the normal response type parsed
-  /// using [fromJsonT].
-  ///
-  /// Use this for commands that may be processed asynchronously depending on backend load
-  /// or complexity. Pair with [CommandHandlerAsyncPollingDecorator] to handle the polling.
+  /// Pair with [CommandHandlerAsyncPollingDecorator] to handle the polling
+  /// once you have the operation id.
   ///
   /// ## Example
   ///
   /// ```dart
-  /// static RegisterStudentCommandHandling
+  /// static AsyncCommandHandling<RegisterStudentCommand>
   /// registerStudentRemoteCommandHandlerFactory({required APIClient apiClient}) {
-  ///   return JsonRemoteMessageHandlerHelper.createAsyncAwareCommandHandler(
+  ///   return JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
   ///     apiClient: apiClient,
-  ///     fromJsonT: (_) {}, // For sync 200 responses
   ///     endpointBuilder: (RegisterStudentCommand command) =>
   ///         simpleCommandEndpointFactory(
   ///           data: jsonEncode(apiCommandFactory(data: command.toJson())),
@@ -281,49 +284,15 @@ class JsonRemoteMessageHandlerHelper {
   ///   );
   /// }
   /// ```
-  static AsyncFactory<Input, CommandResult<Output>>
-  createAsyncAwareCommandHandler<Input, Output>({
+  static AsyncFactory<Input, AsyncCommandResponse>
+  createAsyncCommandHandler<Input>({
     required APIClient apiClient,
-    required Output Function(Map<String, Object?> json) fromJsonT,
     required Endpoint Function(Input input) endpointBuilder,
   }) {
-    return (Input input) async {
-      final responseHandler = CompositeResponseHandler<CommandResult<Output>>(
-        processors: [
-          ProblemDetailsProcessor(),
-          AsyncResponseProcessor(),
-          StatusCodeProcessor.ok200Range(),
-          JsonDataProcessor(),
-        ],
-        extractor: DataExtractorFactory.create((responseContext) {
-          final jsonData = responseContext.get<Map<String, dynamic>>(
-            "jsonData",
-          );
-          final isAsync =
-              responseContext.get<bool>("isAsyncOperation") ?? false;
-
-          if (isAsync) {
-            // Parse as AsyncCommandResponse for 202 responses
-            final asyncResp = AsyncCommandResponse.fromJson(
-              jsonData as Map<String, dynamic>,
-            );
-            return AsyncResult<Output>(asyncResp);
-          } else {
-            final data = jsonData == null
-                ? fromJsonT(<String, Object?>{})
-                : fromJsonT(jsonData as Map<String, Object?>);
-            return SyncResult<Output>(data);
-          }
-        }),
-      );
-
-      final handler = RemoteMessageHandler<Input, CommandResult<Output>>(
-        apiClient: apiClient,
-        responseHandler: responseHandler.call,
-        endpointBuilder: endpointBuilder,
-      );
-
-      return handler(input);
-    };
+    return JsonRemoteMessageHandlerHelper.createApiHandlerForSingularItem(
+      apiClient: apiClient,
+      fromJsonT: AsyncCommandResponse.fromJson,
+      endpointBuilder: endpointBuilder,
+    );
   }
 }
