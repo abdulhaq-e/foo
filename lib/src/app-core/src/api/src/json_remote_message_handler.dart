@@ -256,43 +256,87 @@ class JsonRemoteMessageHandlerHelper {
     return itemFromJson(json as Map<String, Object?>);
   }
 
-  /// Create a handler for an action already known to always respond 202 with
-  /// an operation id — never a direct result. Which handler to build
-  /// (this one, or [createApiHandlerForSingularItem]) is a choice the caller
-  /// makes from the action's own descriptor (`isAsync`) before ever making
-  /// the call — not something detected from the response's status code.
-  /// There is deliberately no handler that returns "whichever shape came
-  /// back": an endpoint that sometimes resolves in-request and sometimes
-  /// makes the client poll, depending on runtime timing, is exactly the
-  /// client-facing ambiguity this action framework avoids.
+  /// Create a command handler that resolves once the command has completed.
   ///
-  /// Pair with [CommandHandlerAsyncPollingDecorator] to handle the polling
-  /// once you have the operation id.
+  /// A synchronous response (any 2xx other than 202) is decoded with
+  /// [fromJsonT] directly. When the backend accepts the command
+  /// asynchronously (202 + `operationId`, i.e. `shouldPoll: false`), the
+  /// handler polls the operation via [pollOperation] and decodes its
+  /// `result`. A failed operation surfaces as [ProblemDetailsException], one
+  /// still pending after the polling timeout as
+  /// [OperationPollingTimeoutException].
+  ///
+  /// Set [awaitOperation] to `false` for fire-and-forget commands: the handler
+  /// then resolves as soon as the command is accepted, decoding the 202 body.
   ///
   /// ## Example
   ///
   /// ```dart
-  /// static AsyncCommandHandling<RegisterStudentCommand>
-  /// registerStudentRemoteCommandHandlerFactory({required APIClient apiClient}) {
-  ///   return JsonRemoteMessageHandlerHelper.createAsyncCommandHandler(
+  /// RegisterEmployeeCommandHandling registerEmployeeRemoteCommandHandlerFactory({
+  ///   required APIClient apiClient,
+  /// }) {
+  ///   return JsonRemoteMessageHandlerHelper.createCommandHandler(
   ///     apiClient: apiClient,
-  ///     endpointBuilder: (RegisterStudentCommand command) =>
+  ///     fromJsonT: (_) {},
+  ///     endpointBuilder: (RegisterEmployeeCommand command) =>
   ///         simpleCommandEndpointFactory(
-  ///           data: jsonEncode(apiCommandFactory(data: command.toJson())),
-  ///           path: "api/commands/v1/students",
+  ///           data: jsonEncode(apiCommandFactory(
+  ///             data: command.toJson(),
+  ///             shouldPoll: false,
+  ///           )),
+  ///           path: "api/commands/v2/employees",
   ///         ),
   ///   );
   /// }
   /// ```
-  static AsyncFactory<Input, AsyncCommandResponse>
-  createAsyncCommandHandler<Input>({
+  static AsyncFactory<Input, Output> createCommandHandler<Input, Output>({
     required APIClient apiClient,
+    required Output Function(Map<String, Object?> json) fromJsonT,
     required Endpoint Function(Input input) endpointBuilder,
+    bool awaitOperation = true,
+    OperationPollingOptions pollingOptions = const OperationPollingOptions(),
   }) {
-    return JsonRemoteMessageHandlerHelper.createApiHandlerForSingularItem(
+    final responseHandler =
+        CompositeResponseHandler<(int, Map<String, Object?>)>(
+          processors: [
+            ProblemDetailsProcessor(),
+            StatusCodeProcessor.ok200Range(),
+            JsonDataProcessor(),
+          ],
+          extractor: DataExtractorFactory.create((responseContext) {
+            final json = responseContext.get<Object?>("jsonData");
+            return (
+              responseContext.apiResponse.statusCode,
+              json == null ? <String, Object?>{} : json as Map<String, Object?>,
+            );
+          }),
+        );
+    final handler = RemoteMessageHandler<Input, (int, Map<String, Object?>)>(
       apiClient: apiClient,
-      fromJsonT: AsyncCommandResponse.fromJson,
+      responseHandler: responseHandler.call,
       endpointBuilder: endpointBuilder,
     );
+
+    return (Input input) async {
+      final (statusCode, json) = await handler(input);
+
+      if (statusCode != 202 || !awaitOperation) {
+        return fromJsonT(json);
+      }
+
+      final operationId = json['operationId'];
+      if (operationId is! String) {
+        throw const FormatException(
+          'Command was accepted (202) but the response has no operationId',
+        );
+      }
+
+      final result = await pollOperation(
+        apiClient,
+        operationId,
+        options: pollingOptions,
+      );
+      return fromJsonT(result ?? <String, Object?>{});
+    };
   }
 }
