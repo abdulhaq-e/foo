@@ -1,7 +1,7 @@
+import 'package:bind_forms/bind_forms.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 import '../internal.dart';
 
@@ -24,6 +24,12 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
   });
 
   bool _isSignUp = false;
+
+  @override
+  void dispose() {
+    _formGroup.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -120,79 +126,87 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
 
           // Email/Password Form
           if (supportedMethods.emailPasswordEnabled) ...[
-            ReactiveForm(
-              formGroup: _formGroup,
-              child: Column(
-                children: [
-                  ReactiveTextField<String>(
-                    formControlName: 'email',
-                    decoration: const InputDecoration(
+            Column(
+              children: [
+                TextControlBuilder(
+                  control: _formGroup.formControl<String>('email'),
+                  builder: (context, field) => TextField(
+                    controller: field,
+                    focusNode: field.focusNode,
+                    decoration: InputDecoration(
                       labelText: 'Email',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.email),
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.email),
+                      errorText: field.errorText(context),
                     ),
                     keyboardType: TextInputType.emailAddress,
                   ),
-                  const SizedBox(height: 16),
-                  ReactiveTextField<String>(
-                    formControlName: 'password',
-                    decoration: const InputDecoration(
+                ),
+                const SizedBox(height: 16),
+                TextControlBuilder(
+                  control: _formGroup.formControl<String>('password'),
+                  builder: (context, field) => TextField(
+                    controller: field,
+                    focusNode: field.focusNode,
+                    decoration: InputDecoration(
                       labelText: 'Password',
-                      border: OutlineInputBorder(),
-                      prefixIcon: Icon(Icons.lock),
+                      border: const OutlineInputBorder(),
+                      prefixIcon: const Icon(Icons.lock),
+                      errorText: field.errorText(context),
                     ),
                     obscureText: true,
                   ),
-                  const SizedBox(height: 16),
-                  Row(
-                    children: [
-                      Switch(
-                        value: _isSignUp,
-                        onChanged: (value) {
-                          setState(() {
-                            _isSignUp = value;
-                          });
-                        },
-                      ),
-                      Text(
-                        _isSignUp
-                            ? 'Create new account'
-                            : 'Sign in to existing account',
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-                  SizedBox(
-                    width: double.infinity,
-                    height: 48,
-                    child: ReactiveFormConsumer(
-                      builder: (context, formGroup, child) {
-                        return ElevatedButton(
-                          onPressed: isLoading || !formGroup.valid
-                              ? null
-                              : () {
-                                  final email =
-                                      _formGroup.control('email').value
-                                          as String;
-                                  final password =
-                                      _formGroup.control('password').value
-                                          as String;
-
-                                  context.read<GCPAuthenticationBloc>().add(
-                                    AuthenticateWithEmailPassword(
-                                      email: email,
-                                      password: password,
-                                      isSignUp: _isSignUp,
-                                    ),
-                                  );
-                                },
-                          child: Text(_isSignUp ? 'Create Account' : 'Sign In'),
-                        );
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Switch(
+                      value: _isSignUp,
+                      onChanged: (value) {
+                        setState(() {
+                          _isSignUp = value;
+                        });
                       },
                     ),
+                    Text(
+                      _isSignUp
+                          ? 'Create new account'
+                          : 'Sign in to existing account',
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 24),
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ControlBuilder(
+                    control: _formGroup,
+                    builder: (context, formGroup) {
+                      return ElevatedButton(
+                        onPressed: isLoading || !formGroup.valid
+                            ? null
+                            : () {
+                                final email = _formGroup
+                                    .formControl<String>('email')
+                                    .value!;
+                                final password = _formGroup
+                                    .formControl<String>('password')
+                                    .value!;
+
+                                context.read<GCPAuthenticationBloc>().add(
+                                  AuthenticateWithEmailPassword(
+                                    email: email,
+                                    password: password,
+                                    isSignUp: _isSignUp,
+                                  ),
+                                );
+                              },
+                        child: Text(_isSignUp ? 'Create Account' : 'Sign In'),
+                      );
+                    },
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
 
             if (supportedMethods.oidcProviders.isNotEmpty) ...[

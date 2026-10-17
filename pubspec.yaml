@@ -21,10 +21,16 @@ dependencies:
   go_router: ^18.0.0
   intl: ^0.20.2
   json_annotation: ^4.12.0
-  reactive_forms:
+  bind_forms:
     git:
-      url: https://github.com/abdulhaq-e/reactive_forms.git
-      ref: master
+      url: https://github.com/abdulhaq-e/bind_forms.git
+      ref: main
+      path: packages/bind_forms
+  bind_forms_streams:
+    git:
+      url: https://github.com/abdulhaq-e/bind_forms.git
+      ref: main
+      path: packages/bind_forms_streams
   uuid: ^4.2.1
   flutter_secure_storage:
     git:
@@ -39,12 +45,18 @@ dependencies:
   firebase_core: ^4.1.0
   flutter_dotenv: ^6.0.0
 
-# dependency_overrides:
-#   intl: ^0.20.2
-
   material_ui: any
   web: any
   http: any
+dependency_overrides:
+  # bind_forms and bind_forms_streams depend on the hosted bind_forms_core;
+  # use the same git revision as them.
+  bind_forms_core:
+    git:
+      url: https://github.com/abdulhaq-e/bind_forms.git
+      ref: main
+      path: packages/bind_forms_core
+
 dev_dependencies:
   bloc_test: ^10.0.0
   build_runner: ^2.7.0

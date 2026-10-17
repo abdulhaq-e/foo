@@ -3,7 +3,6 @@ import 'dart:developer';
 import 'package:foo/core.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reactive_forms/reactive_forms.dart';
 
 class FooFormV2<FormData, Form extends HasFormV2Group> extends StatelessWidget {
   FooFormV2({required this.formWidgetsBuilder});
@@ -22,10 +21,8 @@ class FooFormV2<FormData, Form extends HasFormV2Group> extends StatelessWidget {
             formWidgetsBuilder.initialBuillder(context, state),
           FooFormV2Loading<FormData, Form>() =>
             formWidgetsBuilder.loadingBuillder(context, state),
-          FooFormV2Loaded<FormData, Form>() => ReactiveForm(
-            formGroup: state.form.formGroup,
-            child: formWidgetsBuilder.loadedBuillder(context, state),
-          ),
+          FooFormV2Loaded<FormData, Form>() =>
+            formWidgetsBuilder.loadedBuillder(context, state),
           FooFormV2FailedLoading<FormData, Form>() =>
             formWidgetsBuilder.failedLoadingBuillder(context, state),
         };
