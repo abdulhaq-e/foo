@@ -18,6 +18,30 @@ class QueryDataBloc<Query, Data>
         super(QueryDataState.initial()) {
     on<QueryDataStarted<Query>>(
         (event, emit) => _onQueryStarted(event, emit, refreshTrigger));
+    on<QueryDataRefreshed>(_onRefreshed);
+  }
+
+  Future<void> _onRefreshed(
+    QueryDataRefreshed event,
+    Emitter<QueryDataState<Data>> emit,
+  ) async {
+    final query = _lastQuery;
+    if (query == null) return;
+    if (state is! QueryDataLoaded<Data>) {
+      emit(await _executeQuery(query, emit));
+      return;
+    }
+
+    try {
+      final data = await _queryHandler(query);
+      // A newer QueryDataStarted owns the state now — its result, not this
+      // stale one, is what the view should end on.
+      if (identical(query, _lastQuery)) {
+        emit(QueryDataState<Data>.loaded(data: data));
+      }
+    } catch (_) {
+      // Keep showing what we have; a quiet refresh never blanks the view.
+    }
   }
 
   Future<QueryDataState<Data>> _executeQuery(
