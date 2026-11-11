@@ -47,6 +47,8 @@ class GCPAuthenticationBloc
       );
       _authService.setTenantId(supportedMethods.tenantId);
       emit(SupportedAuthMethodsLoaded(supportedMethods: supportedMethods));
+      // Surfaces a failed redirect sign-in; needs the tenant set above.
+      unawaited(_authService.checkRedirectResult());
     } catch (error) {
       emit(SupportedAuthMethodsError(error: error));
     }
@@ -104,6 +106,7 @@ class GCPAuthenticationBloc
         parameters: {
           'providerId': event.providerId,
           'oidcParameters': event.parameters,
+          'forceRedirect': event.forceRedirect,
         },
       );
       // Success/failure will be handled by the authentication event stream

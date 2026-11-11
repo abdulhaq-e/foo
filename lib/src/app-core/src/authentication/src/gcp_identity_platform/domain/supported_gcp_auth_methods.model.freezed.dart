@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'supported_gcp_auth_methods.model.dart';
@@ -9,6 +9,7 @@ part of 'supported_gcp_auth_methods.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -25,23 +26,29 @@ $OIDCProviderCopyWith<OIDCProvider> get copyWith => _$OIDCProviderCopyWithImpl<O
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as OIDCProvider;
   properties
     ..add(DiagnosticsProperty('type', 'OIDCProvider'))
-    ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('type', type))..add(DiagnosticsProperty('parameters', parameters));
+    ..add(DiagnosticsProperty('id', _this.id))..add(DiagnosticsProperty('name', _this.name))..add(DiagnosticsProperty('type', _this.type))..add(DiagnosticsProperty('parameters', _this.parameters));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is OIDCProvider&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.parameters, parameters));
+  final _this = this as OIDCProvider;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is OIDCProvider&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.type, _this.type) || other.type == _this.type)&&const DeepCollectionEquality().equals(other.parameters, _this.parameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,const DeepCollectionEquality().hash(parameters));
+int get hashCode {
+  final _this = this as OIDCProvider;
+  return Object.hash(runtimeType,_this.id,_this.name,_this.type,const DeepCollectionEquality().hash(_this.parameters));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'OIDCProvider(id: $id, name: $name, type: $type, parameters: $parameters)';
+  final _this = this as OIDCProvider;
+  return 'OIDCProvider(id: ${_this.id}, name: ${_this.name}, type: ${_this.type}, parameters: ${_this.parameters})';
 }
 
 
@@ -70,7 +77,7 @@ class _$OIDCProviderCopyWithImpl<$Res>
 /// Create a copy of OIDCProvider
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? name = null,Object? type = null,Object? parameters = null,}) {
-  return _then(_self.copyWith(
+  return _then(OIDCProvider(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,type: null == type ? _self.type : type // ignore: cast_nullable_to_non_nullable
@@ -216,7 +223,7 @@ return $default(_that.id,_that.name,_that.type,_that.parameters);case _:
 @JsonSerializable(createToJson: false)
 
 class _OIDCProvider with DiagnosticableTreeMixin implements OIDCProvider {
-  const _OIDCProvider({required this.id, required this.name, required this.type, required final  Map<String, String> parameters}): _parameters = parameters;
+  const _OIDCProvider({required this.id, required this.name, required this.type, required  Map<String, String> parameters}): _parameters = parameters;
   factory _OIDCProvider.fromJson(Map<String, dynamic> json) => _$OIDCProviderFromJson(json);
 
 @override final  String id;
@@ -239,23 +246,25 @@ _$OIDCProviderCopyWith<_OIDCProvider> get copyWith => __$OIDCProviderCopyWithImp
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'OIDCProvider'))
     ..add(DiagnosticsProperty('id', id))..add(DiagnosticsProperty('name', name))..add(DiagnosticsProperty('type', type))..add(DiagnosticsProperty('parameters', parameters));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _OIDCProvider&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other._parameters, _parameters));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _OIDCProvider&&(identical(other.id, id) || other.id == id)&&(identical(other.name, name) || other.name == name)&&(identical(other.type, type) || other.type == type)&&const DeepCollectionEquality().equals(other.parameters, _parameters));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,id,name,type,const DeepCollectionEquality().hash(_parameters));
+int get hashCode {
+    return Object.hash(runtimeType,id,name,type,const DeepCollectionEquality().hash(_parameters));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'OIDCProvider(id: $id, name: $name, type: $type, parameters: $parameters)';
+    return 'OIDCProvider(id: $id, name: $name, type: $type, parameters: $parameters)';
 }
 
 
@@ -310,23 +319,29 @@ $SupportedGCPAuthMethodsCopyWith<SupportedGCPAuthMethods> get copyWith => _$Supp
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as SupportedGCPAuthMethods;
   properties
     ..add(DiagnosticsProperty('type', 'SupportedGCPAuthMethods'))
-    ..add(DiagnosticsProperty('emailPasswordEnabled', emailPasswordEnabled))..add(DiagnosticsProperty('oidcProviders', oidcProviders))..add(DiagnosticsProperty('tenantId', tenantId));
+    ..add(DiagnosticsProperty('emailPasswordEnabled', _this.emailPasswordEnabled))..add(DiagnosticsProperty('oidcProviders', _this.oidcProviders))..add(DiagnosticsProperty('tenantId', _this.tenantId));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupportedGCPAuthMethods&&(identical(other.emailPasswordEnabled, emailPasswordEnabled) || other.emailPasswordEnabled == emailPasswordEnabled)&&const DeepCollectionEquality().equals(other.oidcProviders, oidcProviders)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+  final _this = this as SupportedGCPAuthMethods;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SupportedGCPAuthMethods&&(identical(other.emailPasswordEnabled, _this.emailPasswordEnabled) || other.emailPasswordEnabled == _this.emailPasswordEnabled)&&const DeepCollectionEquality().equals(other.oidcProviders, _this.oidcProviders)&&(identical(other.tenantId, _this.tenantId) || other.tenantId == _this.tenantId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,emailPasswordEnabled,const DeepCollectionEquality().hash(oidcProviders),tenantId);
+int get hashCode {
+  final _this = this as SupportedGCPAuthMethods;
+  return Object.hash(runtimeType,_this.emailPasswordEnabled,const DeepCollectionEquality().hash(_this.oidcProviders),_this.tenantId);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SupportedGCPAuthMethods(emailPasswordEnabled: $emailPasswordEnabled, oidcProviders: $oidcProviders, tenantId: $tenantId)';
+  final _this = this as SupportedGCPAuthMethods;
+  return 'SupportedGCPAuthMethods(emailPasswordEnabled: ${_this.emailPasswordEnabled}, oidcProviders: ${_this.oidcProviders}, tenantId: ${_this.tenantId})';
 }
 
 
@@ -355,7 +370,7 @@ class _$SupportedGCPAuthMethodsCopyWithImpl<$Res>
 /// Create a copy of SupportedGCPAuthMethods
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? emailPasswordEnabled = null,Object? oidcProviders = null,Object? tenantId = null,}) {
-  return _then(_self.copyWith(
+  return _then(SupportedGCPAuthMethods(
 emailPasswordEnabled: null == emailPasswordEnabled ? _self.emailPasswordEnabled : emailPasswordEnabled // ignore: cast_nullable_to_non_nullable
 as bool,oidcProviders: null == oidcProviders ? _self.oidcProviders : oidcProviders // ignore: cast_nullable_to_non_nullable
 as List<OIDCProvider>,tenantId: null == tenantId ? _self.tenantId : tenantId // ignore: cast_nullable_to_non_nullable
@@ -500,7 +515,7 @@ return $default(_that.emailPasswordEnabled,_that.oidcProviders,_that.tenantId);c
 @JsonSerializable(createToJson: false)
 
 class _SupportedGCPAuthMethods with DiagnosticableTreeMixin implements SupportedGCPAuthMethods {
-  const _SupportedGCPAuthMethods({required this.emailPasswordEnabled, required final  List<OIDCProvider> oidcProviders, required this.tenantId}): _oidcProviders = oidcProviders;
+  const _SupportedGCPAuthMethods({required this.emailPasswordEnabled, required  List<OIDCProvider> oidcProviders, required this.tenantId}): _oidcProviders = oidcProviders;
   factory _SupportedGCPAuthMethods.fromJson(Map<String, dynamic> json) => _$SupportedGCPAuthMethodsFromJson(json);
 
 @override final  bool emailPasswordEnabled;
@@ -522,23 +537,25 @@ _$SupportedGCPAuthMethodsCopyWith<_SupportedGCPAuthMethods> get copyWith => __$S
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'SupportedGCPAuthMethods'))
     ..add(DiagnosticsProperty('emailPasswordEnabled', emailPasswordEnabled))..add(DiagnosticsProperty('oidcProviders', oidcProviders))..add(DiagnosticsProperty('tenantId', tenantId));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupportedGCPAuthMethods&&(identical(other.emailPasswordEnabled, emailPasswordEnabled) || other.emailPasswordEnabled == emailPasswordEnabled)&&const DeepCollectionEquality().equals(other._oidcProviders, _oidcProviders)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SupportedGCPAuthMethods&&(identical(other.emailPasswordEnabled, emailPasswordEnabled) || other.emailPasswordEnabled == emailPasswordEnabled)&&const DeepCollectionEquality().equals(other.oidcProviders, _oidcProviders)&&(identical(other.tenantId, tenantId) || other.tenantId == tenantId));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,emailPasswordEnabled,const DeepCollectionEquality().hash(_oidcProviders),tenantId);
+int get hashCode {
+    return Object.hash(runtimeType,emailPasswordEnabled,const DeepCollectionEquality().hash(_oidcProviders),tenantId);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SupportedGCPAuthMethods(emailPasswordEnabled: $emailPasswordEnabled, oidcProviders: $oidcProviders, tenantId: $tenantId)';
+    return 'SupportedGCPAuthMethods(emailPasswordEnabled: $emailPasswordEnabled, oidcProviders: $oidcProviders, tenantId: $tenantId)';
 }
 
 

@@ -43,6 +43,32 @@ class GcpIdentityPlatformAuthenticationService
     _firebaseAuth.tenantId = tenantId;
   }
 
+  bool _redirectResultChecked = false;
+
+  /// Reports a failed redirect sign-in (see `signInWithOIDC(forceRedirect:)`)
+  /// as a [FailedAuthenticationEvent].
+  ///
+  /// A redirect failure is only available through `getRedirectResult`, not
+  /// through `authStateChanges`. Call this after [setTenantId] and after
+  /// something listens to [asyncAuthentication], or the event is lost.
+  /// A successful redirect needs nothing here: `authStateChanges` reports it.
+  /// Runs once; later calls and non-web platforms do nothing.
+  Future<void> checkRedirectResult() async {
+    if (!kIsWeb || _redirectResultChecked) return;
+    _redirectResultChecked = true;
+    try {
+      await _firebaseAuth.getRedirectResult();
+    } on FirebaseAuthException catch (e) {
+      _controller.add(
+        FailedAuthenticationEvent(
+          error: GcpIdentityPlatformException(
+            'OIDC redirect sign in failed: ${e.message}',
+          ),
+        ),
+      );
+    }
+  }
+
   @override
   Future<AuthenticationResponse> authenticate() async {
     throw UnimplementedError();
@@ -157,9 +183,17 @@ class GcpIdentityPlatformAuthenticationService
     }
   }
 
+  /// Signs in with an OIDC provider.
+  ///
+  /// On web this uses a popup by default. Set [forceRedirect] to use a
+  /// full-page redirect instead, e.g. when the page is served with
+  /// `Cross-Origin-Opener-Policy: same-origin`, which breaks popup sign-in.
+  /// After a redirect the page reloads, and the signed-in user arrives through
+  /// `authStateChanges` as usual.
   Future<void> signInWithOIDC({
     required String providerId,
     Map<String, String>? parameters,
+    bool forceRedirect = false,
   }) async {
     try {
       final provider = OAuthProvider(providerId);
@@ -168,7 +202,7 @@ class GcpIdentityPlatformAuthenticationService
         customParameters.addAll(parameters);
       }
       provider.setCustomParameters(customParameters);
-      if (kIsWeb) {
+      if (kIsWeb && !forceRedirect) {
         await _firebaseAuth.signInWithPopup(provider);
       } else {
         await _firebaseAuth.signInWithRedirect(provider);
@@ -205,6 +239,7 @@ class GcpIdentityPlatformAuthenticationService
         final providerId = parameters?['providerId'] as String?;
         final oidcParameters =
             parameters?['oidcParameters'] as Map<String, String>?;
+        final forceRedirect = parameters?['forceRedirect'] as bool? ?? false;
         if (providerId == null) {
           throw GcpIdentityPlatformException(
             'Provider ID is required for OIDC',
@@ -213,6 +248,7 @@ class GcpIdentityPlatformAuthenticationService
         await signInWithOIDC(
           providerId: providerId,
           parameters: oidcParameters,
+          forceRedirect: forceRedirect,
         );
     }
   }

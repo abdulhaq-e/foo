@@ -21,7 +21,14 @@ class AuthenticateWithOIDC extends GCPAuthenticationEvent {
   final String providerId;
   final Map<String, String>? parameters;
 
-  AuthenticateWithOIDC({required this.providerId, this.parameters});
+  /// On web, sign in with a full-page redirect instead of a popup.
+  final bool forceRedirect;
+
+  AuthenticateWithOIDC({
+    required this.providerId,
+    this.parameters,
+    this.forceRedirect = false,
+  });
 }
 
 class StartAuthenticationStreamListener extends GCPAuthenticationEvent {}

@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'cursor_pagination.query.dart';
@@ -9,6 +9,7 @@ part of 'cursor_pagination.query.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -24,23 +25,29 @@ $CursorPaginationQueryCopyWith<CursorPaginationQuery> get copyWith => _$CursorPa
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as CursorPaginationQuery;
   properties
     ..add(DiagnosticsProperty('type', 'CursorPaginationQuery'))
-    ..add(DiagnosticsProperty('cursorInput', cursorInput))..add(DiagnosticsProperty('limit', limit));
+    ..add(DiagnosticsProperty('cursorInput', _this.cursorInput))..add(DiagnosticsProperty('limit', _this.limit));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPaginationQuery&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit));
+  final _this = this as CursorPaginationQuery;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPaginationQuery&&(identical(other.cursorInput, _this.cursorInput) || other.cursorInput == _this.cursorInput)&&(identical(other.limit, _this.limit) || other.limit == _this.limit));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cursorInput,limit);
+int get hashCode {
+  final _this = this as CursorPaginationQuery;
+  return Object.hash(runtimeType,_this.cursorInput,_this.limit);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorPaginationQuery(cursorInput: $cursorInput, limit: $limit)';
+  final _this = this as CursorPaginationQuery;
+  return 'CursorPaginationQuery(cursorInput: ${_this.cursorInput}, limit: ${_this.limit})';
 }
 
 
@@ -69,7 +76,7 @@ class _$CursorPaginationQueryCopyWithImpl<$Res>
 /// Create a copy of CursorPaginationQuery
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cursorInput = freezed,Object? limit = null,}) {
-  return _then(_self.copyWith(
+  return _then(CursorPaginationQuery(
 cursorInput: freezed == cursorInput ? _self.cursorInput : cursorInput // ignore: cast_nullable_to_non_nullable
 as CursorInput?,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
 as int,
@@ -240,23 +247,25 @@ _$CursorPaginationQueryCopyWith<_CursorPaginationQuery> get copyWith => __$Curso
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'CursorPaginationQuery'))
     ..add(DiagnosticsProperty('cursorInput', cursorInput))..add(DiagnosticsProperty('limit', limit));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPaginationQuery&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPaginationQuery&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,cursorInput,limit);
+int get hashCode {
+    return Object.hash(runtimeType,cursorInput,limit);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorPaginationQuery(cursorInput: $cursorInput, limit: $limit)';
+    return 'CursorPaginationQuery(cursorInput: $cursorInput, limit: $limit)';
 }
 
 

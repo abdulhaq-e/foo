@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'query_data.bloc.dart';
@@ -9,6 +9,7 @@ part of 'query_data.bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$QueryDataState<Data> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataState<Data>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataState<Data>);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'QueryDataState<$Data>()';
+    return 'QueryDataState<$Data>()';
 }
 
 
@@ -197,7 +198,7 @@ class QueryDataInitial<Data> implements QueryDataState<Data> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataInitial<Data>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataInitial<Data>);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'QueryDataState<$Data>.initial()';
+    return 'QueryDataState<$Data>.initial()';
 }
 
 
@@ -229,7 +230,7 @@ class QueryDataLoading<Data> implements QueryDataState<Data> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataLoading<Data>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataLoading<Data>);
 }
 
 
@@ -238,7 +239,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'QueryDataState<$Data>.loading()';
+    return 'QueryDataState<$Data>.loading()';
 }
 
 
@@ -266,16 +267,18 @@ $QueryDataLoadedCopyWith<Data, QueryDataLoaded<Data>> get copyWith => _$QueryDat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataLoaded<Data>&&const DeepCollectionEquality().equals(other.data, data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataLoaded<Data>&&const DeepCollectionEquality().equals(other.data, data));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(data));
+}
 
 @override
 String toString() {
-  return 'QueryDataState<$Data>.loaded(data: $data)';
+    return 'QueryDataState<$Data>.loaded(data: $data)';
 }
 
 
@@ -327,7 +330,7 @@ class QueryDataFailedLoading<Data> implements QueryDataState<Data> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataFailedLoading<Data>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataFailedLoading<Data>);
 }
 
 
@@ -336,7 +339,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'QueryDataState<$Data>.failedLoading()';
+    return 'QueryDataState<$Data>.failedLoading()';
 }
 
 

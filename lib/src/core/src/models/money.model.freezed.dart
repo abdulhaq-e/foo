@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'money.model.dart';
@@ -9,6 +9,7 @@ part of 'money.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -27,23 +28,29 @@ $FooMoneyCopyWith<FooMoney> get copyWith => _$FooMoneyCopyWithImpl<FooMoney>(thi
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as FooMoney;
   properties
     ..add(DiagnosticsProperty('type', 'FooMoney'))
-    ..add(DiagnosticsProperty('value', value))..add(DiagnosticsProperty('scale', scale))..add(DiagnosticsProperty('currency', currency));
+    ..add(DiagnosticsProperty('value', _this.value))..add(DiagnosticsProperty('scale', _this.scale))..add(DiagnosticsProperty('currency', _this.currency));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooMoney&&(identical(other.value, value) || other.value == value)&&(identical(other.scale, scale) || other.scale == scale)&&(identical(other.currency, currency) || other.currency == currency));
+  final _this = this as FooMoney;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooMoney&&(identical(other.value, _this.value) || other.value == _this.value)&&(identical(other.scale, _this.scale) || other.scale == _this.scale)&&(identical(other.currency, _this.currency) || other.currency == _this.currency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,scale,currency);
+int get hashCode {
+  final _this = this as FooMoney;
+  return Object.hash(runtimeType,_this.value,_this.scale,_this.currency);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
+  final _this = this as FooMoney;
+  return 'FooMoney(value: ${_this.value}, scale: ${_this.scale}, currency: ${_this.currency})';
 }
 
 
@@ -72,7 +79,7 @@ class _$FooMoneyCopyWithImpl<$Res>
 /// Create a copy of FooMoney
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? value = null,Object? scale = null,Object? currency = null,}) {
-  return _then(_self.copyWith(
+  return _then(FooMoney(
 value: null == value ? _self.value : value // ignore: cast_nullable_to_non_nullable
 as int,scale: null == scale ? _self.scale : scale // ignore: cast_nullable_to_non_nullable
 as int,currency: null == currency ? _self.currency : currency // ignore: cast_nullable_to_non_nullable
@@ -236,23 +243,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'FooMoney'))
     ..add(DiagnosticsProperty('value', value))..add(DiagnosticsProperty('scale', scale))..add(DiagnosticsProperty('currency', currency));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _FooMoney&&(identical(other.value, value) || other.value == value)&&(identical(other.scale, scale) || other.scale == scale)&&(identical(other.currency, currency) || other.currency == currency));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FooMoney&&(identical(other.value, value) || other.value == value)&&(identical(other.scale, scale) || other.scale == scale)&&(identical(other.currency, currency) || other.currency == currency));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,value,scale,currency);
+int get hashCode {
+    return Object.hash(runtimeType,value,scale,currency);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
+    return 'FooMoney(value: $value, scale: $scale, currency: $currency)';
 }
 
 

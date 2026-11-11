@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'generic_api_response.model.dart';
@@ -9,6 +9,7 @@ part of 'generic_api_response.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 GenericAPIResponse<T, M> _$GenericAPIResponseFromJson<T,M>(
@@ -35,16 +36,21 @@ $GenericAPIResponseCopyWith<T, M, GenericAPIResponse<T, M>> get copyWith => _$Ge
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenericAPIResponse<T, M>&&const DeepCollectionEquality().equals(other.data, data)&&const DeepCollectionEquality().equals(other.metadata, metadata));
+  final _this = this as GenericAPIResponse<T, M>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenericAPIResponse<T, M>&&const DeepCollectionEquality().equals(other.data, _this.data)&&const DeepCollectionEquality().equals(other.metadata, _this.metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data),const DeepCollectionEquality().hash(metadata));
+int get hashCode {
+  final _this = this as GenericAPIResponse<T, M>;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.data),const DeepCollectionEquality().hash(_this.metadata));
+}
 
 @override
 String toString() {
-  return 'GenericAPIResponse<$T, $M>(data: $data, metadata: $metadata)';
+  final _this = this as GenericAPIResponse<T, M>;
+  return 'GenericAPIResponse<$T, $M>(data: ${_this.data}, metadata: ${_this.metadata})';
 }
 
 
@@ -73,9 +79,9 @@ class _$GenericAPIResponseCopyWithImpl<T,M,$Res>
 /// Create a copy of GenericAPIResponse
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? data = freezed,Object? metadata = freezed,}) {
-  return _then(_self.copyWith(
-data: freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
-as T,metadata: freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
+  return _then(GenericAPIResponse(
+freezed == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
+as T,freezed == metadata ? _self.metadata : metadata // ignore: cast_nullable_to_non_nullable
 as M,
   ));
 }
@@ -230,16 +236,18 @@ Map<String, dynamic> toJson(Object? Function(T) toJsonT,Object? Function(M) toJs
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is GenericAPIResponseData<T, M>&&const DeepCollectionEquality().equals(other.data, data)&&const DeepCollectionEquality().equals(other.metadata, metadata));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is GenericAPIResponseData<T, M>&&const DeepCollectionEquality().equals(other.data, data)&&const DeepCollectionEquality().equals(other.metadata, metadata));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(data),const DeepCollectionEquality().hash(metadata));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(data),const DeepCollectionEquality().hash(metadata));
+}
 
 @override
 String toString() {
-  return 'GenericAPIResponse<$T, $M>(data: $data, metadata: $metadata)';
+    return 'GenericAPIResponse<$T, $M>(data: $data, metadata: $metadata)';
 }
 
 

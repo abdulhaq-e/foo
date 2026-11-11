@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'cursor_pagination_metadata.model.dart';
@@ -9,6 +9,7 @@ part of 'cursor_pagination_metadata.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -27,23 +28,29 @@ $CursorInputCopyWith<CursorInput> get copyWith => _$CursorInputCopyWithImpl<Curs
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as CursorInput;
   properties
     ..add(DiagnosticsProperty('type', 'CursorInput'))
-    ..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('direction', direction));
+    ..add(DiagnosticsProperty('cursor', _this.cursor))..add(DiagnosticsProperty('direction', _this.direction));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorInput&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.direction, direction) || other.direction == direction));
+  final _this = this as CursorInput;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorInput&&(identical(other.cursor, _this.cursor) || other.cursor == _this.cursor)&&(identical(other.direction, _this.direction) || other.direction == _this.direction));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cursor,direction);
+int get hashCode {
+  final _this = this as CursorInput;
+  return Object.hash(runtimeType,_this.cursor,_this.direction);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorInput(cursor: $cursor, direction: $direction)';
+  final _this = this as CursorInput;
+  return 'CursorInput(cursor: ${_this.cursor}, direction: ${_this.direction})';
 }
 
 
@@ -72,7 +79,7 @@ class _$CursorInputCopyWithImpl<$Res>
 /// Create a copy of CursorInput
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cursor = null,Object? direction = null,}) {
-  return _then(_self.copyWith(
+  return _then(CursorInput(
 cursor: null == cursor ? _self.cursor : cursor // ignore: cast_nullable_to_non_nullable
 as String,direction: null == direction ? _self.direction : direction // ignore: cast_nullable_to_non_nullable
 as PaginationDirection,
@@ -234,23 +241,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'CursorInput'))
     ..add(DiagnosticsProperty('cursor', cursor))..add(DiagnosticsProperty('direction', direction));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorInput&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.direction, direction) || other.direction == direction));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorInput&&(identical(other.cursor, cursor) || other.cursor == cursor)&&(identical(other.direction, direction) || other.direction == direction));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cursor,direction);
+int get hashCode {
+    return Object.hash(runtimeType,cursor,direction);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorInput(cursor: $cursor, direction: $direction)';
+    return 'CursorInput(cursor: $cursor, direction: $direction)';
 }
 
 
@@ -305,23 +314,29 @@ $CursorPaginationMetadataCopyWith<CursorPaginationMetadata> get copyWith => _$Cu
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as CursorPaginationMetadata;
   properties
     ..add(DiagnosticsProperty('type', 'CursorPaginationMetadata'))
-    ..add(DiagnosticsProperty('cursorInput', cursorInput))..add(DiagnosticsProperty('limit', limit))..add(DiagnosticsProperty('nextCursor', nextCursor))..add(DiagnosticsProperty('previousCursor', previousCursor));
+    ..add(DiagnosticsProperty('cursorInput', _this.cursorInput))..add(DiagnosticsProperty('limit', _this.limit))..add(DiagnosticsProperty('nextCursor', _this.nextCursor))..add(DiagnosticsProperty('previousCursor', _this.previousCursor));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPaginationMetadata&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.previousCursor, previousCursor) || other.previousCursor == previousCursor));
+  final _this = this as CursorPaginationMetadata;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CursorPaginationMetadata&&(identical(other.cursorInput, _this.cursorInput) || other.cursorInput == _this.cursorInput)&&(identical(other.limit, _this.limit) || other.limit == _this.limit)&&(identical(other.nextCursor, _this.nextCursor) || other.nextCursor == _this.nextCursor)&&(identical(other.previousCursor, _this.previousCursor) || other.previousCursor == _this.previousCursor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cursorInput,limit,nextCursor,previousCursor);
+int get hashCode {
+  final _this = this as CursorPaginationMetadata;
+  return Object.hash(runtimeType,_this.cursorInput,_this.limit,_this.nextCursor,_this.previousCursor);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorPaginationMetadata(cursorInput: $cursorInput, limit: $limit, nextCursor: $nextCursor, previousCursor: $previousCursor)';
+  final _this = this as CursorPaginationMetadata;
+  return 'CursorPaginationMetadata(cursorInput: ${_this.cursorInput}, limit: ${_this.limit}, nextCursor: ${_this.nextCursor}, previousCursor: ${_this.previousCursor})';
 }
 
 
@@ -350,7 +365,7 @@ class _$CursorPaginationMetadataCopyWithImpl<$Res>
 /// Create a copy of CursorPaginationMetadata
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? cursorInput = freezed,Object? limit = null,Object? nextCursor = freezed,Object? previousCursor = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(CursorPaginationMetadata(
 cursorInput: freezed == cursorInput ? _self.cursorInput : cursorInput // ignore: cast_nullable_to_non_nullable
 as CursorInput?,limit: null == limit ? _self.limit : limit // ignore: cast_nullable_to_non_nullable
 as int,nextCursor: freezed == nextCursor ? _self.nextCursor : nextCursor // ignore: cast_nullable_to_non_nullable
@@ -528,23 +543,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'CursorPaginationMetadata'))
     ..add(DiagnosticsProperty('cursorInput', cursorInput))..add(DiagnosticsProperty('limit', limit))..add(DiagnosticsProperty('nextCursor', nextCursor))..add(DiagnosticsProperty('previousCursor', previousCursor));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPaginationMetadata&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.previousCursor, previousCursor) || other.previousCursor == previousCursor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _CursorPaginationMetadata&&(identical(other.cursorInput, cursorInput) || other.cursorInput == cursorInput)&&(identical(other.limit, limit) || other.limit == limit)&&(identical(other.nextCursor, nextCursor) || other.nextCursor == nextCursor)&&(identical(other.previousCursor, previousCursor) || other.previousCursor == previousCursor));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,cursorInput,limit,nextCursor,previousCursor);
+int get hashCode {
+    return Object.hash(runtimeType,cursorInput,limit,nextCursor,previousCursor);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'CursorPaginationMetadata(cursorInput: $cursorInput, limit: $limit, nextCursor: $nextCursor, previousCursor: $previousCursor)';
+    return 'CursorPaginationMetadata(cursorInput: $cursorInput, limit: $limit, nextCursor: $nextCursor, previousCursor: $previousCursor)';
 }
 
 

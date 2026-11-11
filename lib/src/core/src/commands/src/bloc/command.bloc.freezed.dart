@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'command.bloc.dart';
@@ -9,6 +9,7 @@ part of 'command.bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -25,16 +26,21 @@ $CommandStateCopyWith<Command, Response, Error, ValidationError, CommandState<Co
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandState<Command, Response, Error, ValidationError>&&(identical(other.previousState, previousState) || other.previousState == previousState));
+  final _this = this as CommandState<Command, Response, Error, ValidationError>;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandState<Command, Response, Error, ValidationError>&&(identical(other.previousState, _this.previousState) || other.previousState == _this.previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,previousState);
+int get hashCode {
+  final _this = this as CommandState<Command, Response, Error, ValidationError>;
+  return Object.hash(runtimeType,_this.previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>(previousState: $previousState)';
+  final _this = this as CommandState<Command, Response, Error, ValidationError>;
+  return 'CommandState<$Command, $Response, $Error, $ValidationError>(previousState: ${_this.previousState})';
 }
 
 
@@ -257,16 +263,18 @@ $CommandInitialCopyWith<Command, Response, Error, ValidationError, CommandInitia
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandInitial<Command, Response, Error, ValidationError>&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandInitial<Command, Response, Error, ValidationError>&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,previousState);
+int get hashCode {
+    return Object.hash(runtimeType,previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.initial(previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.initial(previousState: $previousState)';
 }
 
 
@@ -336,16 +344,18 @@ $CommandSucceededCopyWith<Command, Response, Error, ValidationError, CommandSucc
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandSucceeded<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.response, response)&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandSucceeded<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.response, response)&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(response),previousState);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(response),previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.succeeded(response: $response, previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.succeeded(response: $response, previousState: $previousState)';
 }
 
 
@@ -413,16 +423,18 @@ $CommandExecutionAskingForConfirmationCopyWith<Command, Response, Error, Validat
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandExecutionAskingForConfirmation<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.command, command)&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandExecutionAskingForConfirmation<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.command, command)&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(command),previousState);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(command),previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.askingForConfirmation(command: $command, previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.askingForConfirmation(command: $command, previousState: $previousState)';
 }
 
 
@@ -489,16 +501,18 @@ $CommandExecutingCopyWith<Command, Response, Error, ValidationError, CommandExec
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandExecuting<Command, Response, Error, ValidationError>&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandExecuting<Command, Response, Error, ValidationError>&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,previousState);
+int get hashCode {
+    return Object.hash(runtimeType,previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.executing(previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.executing(previousState: $previousState)';
 }
 
 
@@ -565,16 +579,18 @@ $CommandValidationFailedCopyWith<Command, Response, Error, ValidationError, Comm
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandValidationFailed<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.validationError, validationError)&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandValidationFailed<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.validationError, validationError)&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(validationError),previousState);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(validationError),previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.validationFailed(validationError: $validationError, previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.validationFailed(validationError: $validationError, previousState: $previousState)';
 }
 
 
@@ -642,16 +658,18 @@ $CommandFailedCopyWith<Command, Response, Error, ValidationError, CommandFailed<
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandFailed<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.previousState, previousState) || other.previousState == previousState));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is CommandFailed<Command, Response, Error, ValidationError>&&const DeepCollectionEquality().equals(other.error, error)&&(identical(other.previousState, previousState) || other.previousState == previousState));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error),previousState);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(error),previousState);
+}
 
 @override
 String toString() {
-  return 'CommandState<$Command, $Response, $Error, $ValidationError>.failed(error: $error, previousState: $previousState)';
+    return 'CommandState<$Command, $Response, $Error, $ValidationError>.failed(error: $error, previousState: $previousState)';
 }
 
 

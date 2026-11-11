@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'user.model.dart';
@@ -9,6 +9,7 @@ part of 'user.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -28,16 +29,21 @@ $UserCopyWith<User> get copyWith => _$UserCopyWithImpl<User>(this as User, _$ide
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.userEntityId, userEntityId) || other.userEntityId == userEntityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.permissions, permissions)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other.additionalData, additionalData));
+  final _this = this as User;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is User&&(identical(other.userEntityId, _this.userEntityId) || other.userEntityId == _this.userEntityId)&&(identical(other.name, _this.name) || other.name == _this.name)&&(identical(other.email, _this.email) || other.email == _this.email)&&const DeepCollectionEquality().equals(other.permissions, _this.permissions)&&(identical(other.avatarUrl, _this.avatarUrl) || other.avatarUrl == _this.avatarUrl)&&const DeepCollectionEquality().equals(other.additionalData, _this.additionalData));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userEntityId,name,email,const DeepCollectionEquality().hash(permissions),avatarUrl,const DeepCollectionEquality().hash(additionalData));
+int get hashCode {
+  final _this = this as User;
+  return Object.hash(runtimeType,_this.userEntityId,_this.name,_this.email,const DeepCollectionEquality().hash(_this.permissions),_this.avatarUrl,const DeepCollectionEquality().hash(_this.additionalData));
+}
 
 @override
 String toString() {
-  return 'User(userEntityId: $userEntityId, name: $name, email: $email, permissions: $permissions, avatarUrl: $avatarUrl, additionalData: $additionalData)';
+  final _this = this as User;
+  return 'User(userEntityId: ${_this.userEntityId}, name: ${_this.name}, email: ${_this.email}, permissions: ${_this.permissions}, avatarUrl: ${_this.avatarUrl}, additionalData: ${_this.additionalData})';
 }
 
 
@@ -66,7 +72,7 @@ class _$UserCopyWithImpl<$Res>
 /// Create a copy of User
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? userEntityId = null,Object? name = null,Object? email = null,Object? permissions = null,Object? avatarUrl = freezed,Object? additionalData = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(User(
 userEntityId: null == userEntityId ? _self.userEntityId : userEntityId // ignore: cast_nullable_to_non_nullable
 as String,name: null == name ? _self.name : name // ignore: cast_nullable_to_non_nullable
 as String,email: null == email ? _self.email : email // ignore: cast_nullable_to_non_nullable
@@ -214,7 +220,7 @@ return $default(_that.userEntityId,_that.name,_that.email,_that.permissions,_tha
 @JsonSerializable()
 
 class _User implements User {
-  const _User({required this.userEntityId, this.name = '', required this.email, required final  List<String> permissions, this.avatarUrl, final  Map<String, dynamic>? additionalData}): _permissions = permissions,_additionalData = additionalData;
+  const _User({required this.userEntityId, this.name = '', required this.email, required  List<String> permissions, this.avatarUrl,  Map<String, dynamic>? additionalData}): _permissions = permissions,_additionalData = additionalData;
   factory _User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 
 @override final  String userEntityId;
@@ -251,16 +257,18 @@ Map<String, dynamic> toJson() {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.userEntityId, userEntityId) || other.userEntityId == userEntityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other._permissions, _permissions)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other._additionalData, _additionalData));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _User&&(identical(other.userEntityId, userEntityId) || other.userEntityId == userEntityId)&&(identical(other.name, name) || other.name == name)&&(identical(other.email, email) || other.email == email)&&const DeepCollectionEquality().equals(other.permissions, _permissions)&&(identical(other.avatarUrl, avatarUrl) || other.avatarUrl == avatarUrl)&&const DeepCollectionEquality().equals(other.additionalData, _additionalData));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,userEntityId,name,email,const DeepCollectionEquality().hash(_permissions),avatarUrl,const DeepCollectionEquality().hash(_additionalData));
+int get hashCode {
+    return Object.hash(runtimeType,userEntityId,name,email,const DeepCollectionEquality().hash(_permissions),avatarUrl,const DeepCollectionEquality().hash(_additionalData));
+}
 
 @override
 String toString() {
-  return 'User(userEntityId: $userEntityId, name: $name, email: $email, permissions: $permissions, avatarUrl: $avatarUrl, additionalData: $additionalData)';
+    return 'User(userEntityId: $userEntityId, name: $name, email: $email, permissions: $permissions, avatarUrl: $avatarUrl, additionalData: $additionalData)';
 }
 
 

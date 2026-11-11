@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'api_command.model.dart';
@@ -9,6 +9,7 @@ part of 'api_command.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -26,23 +27,29 @@ $APICommandPropertiesCopyWith<APICommandProperties> get copyWith => _$APICommand
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as APICommandProperties;
   properties
     ..add(DiagnosticsProperty('type', 'APICommandProperties'))
-    ..add(DiagnosticsProperty('commandId', commandId))..add(DiagnosticsProperty('pollingTimeout', pollingTimeout))..add(DiagnosticsProperty('shouldPoll', shouldPoll));
+    ..add(DiagnosticsProperty('commandId', _this.commandId))..add(DiagnosticsProperty('pollingTimeout', _this.pollingTimeout))..add(DiagnosticsProperty('shouldPoll', _this.shouldPoll));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is APICommandProperties&&(identical(other.commandId, commandId) || other.commandId == commandId)&&(identical(other.pollingTimeout, pollingTimeout) || other.pollingTimeout == pollingTimeout)&&(identical(other.shouldPoll, shouldPoll) || other.shouldPoll == shouldPoll));
+  final _this = this as APICommandProperties;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is APICommandProperties&&(identical(other.commandId, _this.commandId) || other.commandId == _this.commandId)&&(identical(other.pollingTimeout, _this.pollingTimeout) || other.pollingTimeout == _this.pollingTimeout)&&(identical(other.shouldPoll, _this.shouldPoll) || other.shouldPoll == _this.shouldPoll));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,commandId,pollingTimeout,shouldPoll);
+int get hashCode {
+  final _this = this as APICommandProperties;
+  return Object.hash(runtimeType,_this.commandId,_this.pollingTimeout,_this.shouldPoll);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'APICommandProperties(commandId: $commandId, pollingTimeout: $pollingTimeout, shouldPoll: $shouldPoll)';
+  final _this = this as APICommandProperties;
+  return 'APICommandProperties(commandId: ${_this.commandId}, pollingTimeout: ${_this.pollingTimeout}, shouldPoll: ${_this.shouldPoll})';
 }
 
 
@@ -71,7 +78,7 @@ class _$APICommandPropertiesCopyWithImpl<$Res>
 /// Create a copy of APICommandProperties
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? commandId = null,Object? pollingTimeout = null,Object? shouldPoll = null,}) {
-  return _then(_self.copyWith(
+  return _then(APICommandProperties(
 commandId: null == commandId ? _self.commandId : commandId // ignore: cast_nullable_to_non_nullable
 as String,pollingTimeout: null == pollingTimeout ? _self.pollingTimeout : pollingTimeout // ignore: cast_nullable_to_non_nullable
 as int,shouldPoll: null == shouldPoll ? _self.shouldPoll : shouldPoll // ignore: cast_nullable_to_non_nullable
@@ -235,23 +242,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'APICommandProperties'))
     ..add(DiagnosticsProperty('commandId', commandId))..add(DiagnosticsProperty('pollingTimeout', pollingTimeout))..add(DiagnosticsProperty('shouldPoll', shouldPoll));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _APICommandProperties&&(identical(other.commandId, commandId) || other.commandId == commandId)&&(identical(other.pollingTimeout, pollingTimeout) || other.pollingTimeout == pollingTimeout)&&(identical(other.shouldPoll, shouldPoll) || other.shouldPoll == shouldPoll));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _APICommandProperties&&(identical(other.commandId, commandId) || other.commandId == commandId)&&(identical(other.pollingTimeout, pollingTimeout) || other.pollingTimeout == pollingTimeout)&&(identical(other.shouldPoll, shouldPoll) || other.shouldPoll == shouldPoll));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,commandId,pollingTimeout,shouldPoll);
+int get hashCode {
+    return Object.hash(runtimeType,commandId,pollingTimeout,shouldPoll);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'APICommandProperties(commandId: $commandId, pollingTimeout: $pollingTimeout, shouldPoll: $shouldPoll)';
+    return 'APICommandProperties(commandId: $commandId, pollingTimeout: $pollingTimeout, shouldPoll: $shouldPoll)';
 }
 
 
@@ -306,23 +315,29 @@ $APICommandCopyWith<APICommand> get copyWith => _$APICommandCopyWithImpl<APIComm
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as APICommand;
   properties
     ..add(DiagnosticsProperty('type', 'APICommand'))
-    ..add(DiagnosticsProperty('properties', properties))..add(DiagnosticsProperty('data', data));
+    ..add(DiagnosticsProperty('properties', _this.properties))..add(DiagnosticsProperty('data', _this.data));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is APICommand&&(identical(other.properties, properties) || other.properties == properties)&&const DeepCollectionEquality().equals(other.data, data));
+  final _this = this as APICommand;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is APICommand&&(identical(other.properties, _this.properties) || other.properties == _this.properties)&&const DeepCollectionEquality().equals(other.data, _this.data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,properties,const DeepCollectionEquality().hash(data));
+int get hashCode {
+  final _this = this as APICommand;
+  return Object.hash(runtimeType,_this.properties,const DeepCollectionEquality().hash(_this.data));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'APICommand(properties: $properties, data: $data)';
+  final _this = this as APICommand;
+  return 'APICommand(properties: ${_this.properties}, data: ${_this.data})';
 }
 
 
@@ -351,7 +366,7 @@ class _$APICommandCopyWithImpl<$Res>
 /// Create a copy of APICommand
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? properties = null,Object? data = null,}) {
-  return _then(_self.copyWith(
+  return _then(APICommand(
 properties: null == properties ? _self.properties : properties // ignore: cast_nullable_to_non_nullable
 as APICommandProperties,data: null == data ? _self.data : data // ignore: cast_nullable_to_non_nullable
 as Map<String, dynamic>,
@@ -504,7 +519,7 @@ return $default(_that.properties,_that.data);case _:
 @JsonSerializable(createFactory: false)
 
 class _APICommand with DiagnosticableTreeMixin implements APICommand {
-  const _APICommand({required this.properties, required final  Map<String, dynamic> data}): _data = data;
+  const _APICommand({required this.properties, required  Map<String, dynamic> data}): _data = data;
   
 
 @override final  APICommandProperties properties;
@@ -528,23 +543,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'APICommand'))
     ..add(DiagnosticsProperty('properties', properties))..add(DiagnosticsProperty('data', data));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _APICommand&&(identical(other.properties, properties) || other.properties == properties)&&const DeepCollectionEquality().equals(other._data, _data));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _APICommand&&(identical(other.properties, properties) || other.properties == properties)&&const DeepCollectionEquality().equals(other.data, _data));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,properties,const DeepCollectionEquality().hash(_data));
+int get hashCode {
+    return Object.hash(runtimeType,properties,const DeepCollectionEquality().hash(_data));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'APICommand(properties: $properties, data: $data)';
+    return 'APICommand(properties: $properties, data: $data)';
 }
 
 

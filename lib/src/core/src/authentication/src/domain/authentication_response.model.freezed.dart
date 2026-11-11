@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'authentication_response.model.dart';
@@ -9,6 +9,7 @@ part of 'authentication_response.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -27,23 +28,29 @@ $AuthenticationResponseCopyWith<AuthenticationResponse> get copyWith => _$Authen
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as AuthenticationResponse;
   properties
     ..add(DiagnosticsProperty('type', 'AuthenticationResponse'))
-    ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('saasTenantEntityId', saasTenantEntityId))..add(DiagnosticsProperty('additionalData', additionalData));
+    ..add(DiagnosticsProperty('token', _this.token))..add(DiagnosticsProperty('saasTenantEntityId', _this.saasTenantEntityId))..add(DiagnosticsProperty('additionalData', _this.additionalData));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthenticationResponse&&(identical(other.token, token) || other.token == token)&&(identical(other.saasTenantEntityId, saasTenantEntityId) || other.saasTenantEntityId == saasTenantEntityId)&&const DeepCollectionEquality().equals(other.additionalData, additionalData));
+  final _this = this as AuthenticationResponse;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is AuthenticationResponse&&(identical(other.token, _this.token) || other.token == _this.token)&&(identical(other.saasTenantEntityId, _this.saasTenantEntityId) || other.saasTenantEntityId == _this.saasTenantEntityId)&&const DeepCollectionEquality().equals(other.additionalData, _this.additionalData));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token,saasTenantEntityId,const DeepCollectionEquality().hash(additionalData));
+int get hashCode {
+  final _this = this as AuthenticationResponse;
+  return Object.hash(runtimeType,_this.token,_this.saasTenantEntityId,const DeepCollectionEquality().hash(_this.additionalData));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AuthenticationResponse(token: $token, saasTenantEntityId: $saasTenantEntityId, additionalData: $additionalData)';
+  final _this = this as AuthenticationResponse;
+  return 'AuthenticationResponse(token: ${_this.token}, saasTenantEntityId: ${_this.saasTenantEntityId}, additionalData: ${_this.additionalData})';
 }
 
 
@@ -72,7 +79,7 @@ class _$AuthenticationResponseCopyWithImpl<$Res>
 /// Create a copy of AuthenticationResponse
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? token = null,Object? saasTenantEntityId = null,Object? additionalData = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(AuthenticationResponse(
 token: null == token ? _self.token : token // ignore: cast_nullable_to_non_nullable
 as String,saasTenantEntityId: null == saasTenantEntityId ? _self.saasTenantEntityId : saasTenantEntityId // ignore: cast_nullable_to_non_nullable
 as String,additionalData: freezed == additionalData ? _self.additionalData : additionalData ,
@@ -235,23 +242,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'AuthenticationResponse'))
     ..add(DiagnosticsProperty('token', token))..add(DiagnosticsProperty('saasTenantEntityId', saasTenantEntityId))..add(DiagnosticsProperty('additionalData', additionalData));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthenticationResponse&&(identical(other.token, token) || other.token == token)&&(identical(other.saasTenantEntityId, saasTenantEntityId) || other.saasTenantEntityId == saasTenantEntityId)&&const DeepCollectionEquality().equals(other.additionalData, additionalData));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _AuthenticationResponse&&(identical(other.token, token) || other.token == token)&&(identical(other.saasTenantEntityId, saasTenantEntityId) || other.saasTenantEntityId == saasTenantEntityId)&&const DeepCollectionEquality().equals(other.additionalData, additionalData));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,token,saasTenantEntityId,const DeepCollectionEquality().hash(additionalData));
+int get hashCode {
+    return Object.hash(runtimeType,token,saasTenantEntityId,const DeepCollectionEquality().hash(additionalData));
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'AuthenticationResponse(token: $token, saasTenantEntityId: $saasTenantEntityId, additionalData: $additionalData)';
+    return 'AuthenticationResponse(token: $token, saasTenantEntityId: $saasTenantEntityId, additionalData: $additionalData)';
 }
 
 

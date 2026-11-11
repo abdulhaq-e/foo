@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'form_v2.bloc.dart';
@@ -9,6 +9,7 @@ part of 'form_v2.bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$FooFormV2State<FormData,Form extends HasFormV2Group> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2State<FormData, Form>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2State<FormData, Form>);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FooFormV2State<$FormData, $Form>()';
+    return 'FooFormV2State<$FormData, $Form>()';
 }
 
 
@@ -197,7 +198,7 @@ class FooFormV2Initial<FormData,Form extends HasFormV2Group> implements FooFormV
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Initial<FormData, Form>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Initial<FormData, Form>);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FooFormV2State<$FormData, $Form>.initial()';
+    return 'FooFormV2State<$FormData, $Form>.initial()';
 }
 
 
@@ -229,7 +230,7 @@ class FooFormV2Loading<FormData,Form extends HasFormV2Group> implements FooFormV
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Loading<FormData, Form>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Loading<FormData, Form>);
 }
 
 
@@ -238,7 +239,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FooFormV2State<$FormData, $Form>.loading()';
+    return 'FooFormV2State<$FormData, $Form>.loading()';
 }
 
 
@@ -268,16 +269,18 @@ $FooFormV2LoadedCopyWith<FormData, Form, FooFormV2Loaded<FormData, Form>> get co
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Loaded<FormData, Form>&&const DeepCollectionEquality().equals(other.formData, formData)&&const DeepCollectionEquality().equals(other.form, form)&&(identical(other.formDataUpdateStatus, formDataUpdateStatus) || other.formDataUpdateStatus == formDataUpdateStatus));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2Loaded<FormData, Form>&&const DeepCollectionEquality().equals(other.formData, formData)&&const DeepCollectionEquality().equals(other.form, form)&&(identical(other.formDataUpdateStatus, formDataUpdateStatus) || other.formDataUpdateStatus == formDataUpdateStatus));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(formData),const DeepCollectionEquality().hash(form),formDataUpdateStatus);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(formData),const DeepCollectionEquality().hash(form),formDataUpdateStatus);
+}
 
 @override
 String toString() {
-  return 'FooFormV2State<$FormData, $Form>.loaded(formData: $formData, form: $form, formDataUpdateStatus: $formDataUpdateStatus)';
+    return 'FooFormV2State<$FormData, $Form>.loaded(formData: $formData, form: $form, formDataUpdateStatus: $formDataUpdateStatus)';
 }
 
 
@@ -331,7 +334,7 @@ class FooFormV2FailedLoading<FormData,Form extends HasFormV2Group> implements Fo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2FailedLoading<FormData, Form>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is FooFormV2FailedLoading<FormData, Form>);
 }
 
 
@@ -340,7 +343,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'FooFormV2State<$FormData, $Form>.failedLoading()';
+    return 'FooFormV2State<$FormData, $Form>.failedLoading()';
 }
 
 

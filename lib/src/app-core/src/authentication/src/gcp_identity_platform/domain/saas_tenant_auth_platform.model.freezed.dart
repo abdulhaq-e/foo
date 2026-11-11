@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'saas_tenant_auth_platform.model.dart';
@@ -9,6 +9,7 @@ part of 'saas_tenant_auth_platform.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -27,23 +28,29 @@ $SaasTenantAuthPlatformCopyWith<SaasTenantAuthPlatform> get copyWith => _$SaasTe
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as SaasTenantAuthPlatform;
   properties
     ..add(DiagnosticsProperty('type', 'SaasTenantAuthPlatform'))
-    ..add(DiagnosticsProperty('config', config))..add(DiagnosticsProperty('platformName', platformName));
+    ..add(DiagnosticsProperty('config', _this.config))..add(DiagnosticsProperty('platformName', _this.platformName));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantAuthPlatform&&const DeepCollectionEquality().equals(other.config, config)&&(identical(other.platformName, platformName) || other.platformName == platformName));
+  final _this = this as SaasTenantAuthPlatform;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantAuthPlatform&&const DeepCollectionEquality().equals(other.config, _this.config)&&(identical(other.platformName, _this.platformName) || other.platformName == _this.platformName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(config),platformName);
+int get hashCode {
+  final _this = this as SaasTenantAuthPlatform;
+  return Object.hash(runtimeType,const DeepCollectionEquality().hash(_this.config),_this.platformName);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantAuthPlatform(config: $config, platformName: $platformName)';
+  final _this = this as SaasTenantAuthPlatform;
+  return 'SaasTenantAuthPlatform(config: ${_this.config}, platformName: ${_this.platformName})';
 }
 
 
@@ -72,7 +79,7 @@ class _$SaasTenantAuthPlatformCopyWithImpl<$Res>
 /// Create a copy of SaasTenantAuthPlatform
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? config = null,Object? platformName = null,}) {
-  return _then(_self.copyWith(
+  return _then(SaasTenantAuthPlatform(
 config: null == config ? _self.config : config // ignore: cast_nullable_to_non_nullable
 as Map<String, Object?>,platformName: null == platformName ? _self.platformName : platformName // ignore: cast_nullable_to_non_nullable
 as String,
@@ -216,7 +223,7 @@ return $default(_that.config,_that.platformName);case _:
 @JsonSerializable()
 
 class _SaasTenantAuthPlatform with DiagnosticableTreeMixin implements SaasTenantAuthPlatform {
-  const _SaasTenantAuthPlatform({required final  Map<String, Object?> config, required this.platformName}): _config = config;
+  const _SaasTenantAuthPlatform({required  Map<String, Object?> config, required this.platformName}): _config = config;
   factory _SaasTenantAuthPlatform.fromJson(Map<String, dynamic> json) => _$SaasTenantAuthPlatformFromJson(json);
 
  final  Map<String, Object?> _config;
@@ -240,23 +247,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'SaasTenantAuthPlatform'))
     ..add(DiagnosticsProperty('config', config))..add(DiagnosticsProperty('platformName', platformName));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantAuthPlatform&&const DeepCollectionEquality().equals(other._config, _config)&&(identical(other.platformName, platformName) || other.platformName == platformName));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantAuthPlatform&&const DeepCollectionEquality().equals(other.config, _config)&&(identical(other.platformName, platformName) || other.platformName == platformName));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_config),platformName);
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_config),platformName);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantAuthPlatform(config: $config, platformName: $platformName)';
+    return 'SaasTenantAuthPlatform(config: $config, platformName: $platformName)';
 }
 
 

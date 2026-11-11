@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'paginated_query_data.bloc.dart';
@@ -9,6 +9,7 @@ part of 'paginated_query_data.bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 /// @nodoc
@@ -20,7 +21,7 @@ mixin _$PaginatedQueryDataState<Item> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataState<Item>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataState<Item>);
 }
 
 
@@ -29,7 +30,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'PaginatedQueryDataState<$Item>()';
+    return 'PaginatedQueryDataState<$Item>()';
 }
 
 
@@ -197,7 +198,7 @@ class PaginatedQueryDataInitial<Item> implements PaginatedQueryDataState<Item> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataInitial<Item>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataInitial<Item>);
 }
 
 
@@ -206,7 +207,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'PaginatedQueryDataState<$Item>.initial()';
+    return 'PaginatedQueryDataState<$Item>.initial()';
 }
 
 
@@ -229,7 +230,7 @@ class PaginatedQueryDataLoading<Item> implements PaginatedQueryDataState<Item> {
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataLoading<Item>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataLoading<Item>);
 }
 
 
@@ -238,7 +239,7 @@ int get hashCode => runtimeType.hashCode;
 
 @override
 String toString() {
-  return 'PaginatedQueryDataState<$Item>.loading()';
+    return 'PaginatedQueryDataState<$Item>.loading()';
 }
 
 
@@ -251,7 +252,7 @@ String toString() {
 
 
 class PaginatedQueryDataLoaded<Item> implements PaginatedQueryDataState<Item> {
-  const PaginatedQueryDataLoaded({required final  List<Item> items, required this.nextPagingKey, required this.previousPagingKey, required this.hasNextPage, required this.hasPreviousPage, this.isFetchingNextPage = false, this.isFetchingPreviousPage = false, this.nextPageError, this.previousPageError}): _items = items;
+  const PaginatedQueryDataLoaded({required  List<Item> items, required this.nextPagingKey, required this.previousPagingKey, required this.hasNextPage, required this.hasPreviousPage, this.isFetchingNextPage = false, this.isFetchingPreviousPage = false, this.nextPageError, this.previousPageError}): _items = items;
   
 
  final  List<Item> _items;
@@ -280,16 +281,18 @@ $PaginatedQueryDataLoadedCopyWith<Item, PaginatedQueryDataLoaded<Item>> get copy
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataLoaded<Item>&&const DeepCollectionEquality().equals(other._items, _items)&&(identical(other.nextPagingKey, nextPagingKey) || other.nextPagingKey == nextPagingKey)&&(identical(other.previousPagingKey, previousPagingKey) || other.previousPagingKey == previousPagingKey)&&(identical(other.hasNextPage, hasNextPage) || other.hasNextPage == hasNextPage)&&(identical(other.hasPreviousPage, hasPreviousPage) || other.hasPreviousPage == hasPreviousPage)&&(identical(other.isFetchingNextPage, isFetchingNextPage) || other.isFetchingNextPage == isFetchingNextPage)&&(identical(other.isFetchingPreviousPage, isFetchingPreviousPage) || other.isFetchingPreviousPage == isFetchingPreviousPage)&&const DeepCollectionEquality().equals(other.nextPageError, nextPageError)&&const DeepCollectionEquality().equals(other.previousPageError, previousPageError));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataLoaded<Item>&&const DeepCollectionEquality().equals(other.items, _items)&&(identical(other.nextPagingKey, nextPagingKey) || other.nextPagingKey == nextPagingKey)&&(identical(other.previousPagingKey, previousPagingKey) || other.previousPagingKey == previousPagingKey)&&(identical(other.hasNextPage, hasNextPage) || other.hasNextPage == hasNextPage)&&(identical(other.hasPreviousPage, hasPreviousPage) || other.hasPreviousPage == hasPreviousPage)&&(identical(other.isFetchingNextPage, isFetchingNextPage) || other.isFetchingNextPage == isFetchingNextPage)&&(identical(other.isFetchingPreviousPage, isFetchingPreviousPage) || other.isFetchingPreviousPage == isFetchingPreviousPage)&&const DeepCollectionEquality().equals(other.nextPageError, nextPageError)&&const DeepCollectionEquality().equals(other.previousPageError, previousPageError));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),nextPagingKey,previousPagingKey,hasNextPage,hasPreviousPage,isFetchingNextPage,isFetchingPreviousPage,const DeepCollectionEquality().hash(nextPageError),const DeepCollectionEquality().hash(previousPageError));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(_items),nextPagingKey,previousPagingKey,hasNextPage,hasPreviousPage,isFetchingNextPage,isFetchingPreviousPage,const DeepCollectionEquality().hash(nextPageError),const DeepCollectionEquality().hash(previousPageError));
+}
 
 @override
 String toString() {
-  return 'PaginatedQueryDataState<$Item>.loaded(items: $items, nextPagingKey: $nextPagingKey, previousPagingKey: $previousPagingKey, hasNextPage: $hasNextPage, hasPreviousPage: $hasPreviousPage, isFetchingNextPage: $isFetchingNextPage, isFetchingPreviousPage: $isFetchingPreviousPage, nextPageError: $nextPageError, previousPageError: $previousPageError)';
+    return 'PaginatedQueryDataState<$Item>.loaded(items: $items, nextPagingKey: $nextPagingKey, previousPagingKey: $previousPagingKey, hasNextPage: $hasNextPage, hasPreviousPage: $hasPreviousPage, isFetchingNextPage: $isFetchingNextPage, isFetchingPreviousPage: $isFetchingPreviousPage, nextPageError: $nextPageError, previousPageError: $previousPageError)';
 }
 
 
@@ -352,16 +355,18 @@ $PaginatedQueryDataErrorCopyWith<Item, PaginatedQueryDataError<Item>> get copyWi
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataError<Item>&&const DeepCollectionEquality().equals(other.error, error));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is PaginatedQueryDataError<Item>&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+}
 
 @override
 String toString() {
-  return 'PaginatedQueryDataState<$Item>.error(error: $error)';
+    return 'PaginatedQueryDataState<$Item>.error(error: $error)';
 }
 
 

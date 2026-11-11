@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // coverage:ignore-file
-// ignore_for_file: type=lint
+// ignore_for_file: type=lint, type=warning, deprecated_member_use, deprecated_member_use_from_same_package
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
 part of 'saas_tenant_branding.model.dart';
@@ -9,6 +9,7 @@ part of 'saas_tenant_branding.model.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
 
@@ -27,23 +28,29 @@ $SaasTenantBrandingColorsCopyWith<SaasTenantBrandingColors> get copyWith => _$Sa
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as SaasTenantBrandingColors;
   properties
     ..add(DiagnosticsProperty('type', 'SaasTenantBrandingColors'))
-    ..add(DiagnosticsProperty('primary', primary));
+    ..add(DiagnosticsProperty('primary', _this.primary));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantBrandingColors&&(identical(other.primary, primary) || other.primary == primary));
+  final _this = this as SaasTenantBrandingColors;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantBrandingColors&&(identical(other.primary, _this.primary) || other.primary == _this.primary));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,primary);
+int get hashCode {
+  final _this = this as SaasTenantBrandingColors;
+  return Object.hash(runtimeType,_this.primary);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantBrandingColors(primary: $primary)';
+  final _this = this as SaasTenantBrandingColors;
+  return 'SaasTenantBrandingColors(primary: ${_this.primary})';
 }
 
 
@@ -72,7 +79,7 @@ class _$SaasTenantBrandingColorsCopyWithImpl<$Res>
 /// Create a copy of SaasTenantBrandingColors
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? primary = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SaasTenantBrandingColors(
 primary: freezed == primary ? _self.primary : primary // ignore: cast_nullable_to_non_nullable
 as Color?,
   ));
@@ -232,23 +239,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'SaasTenantBrandingColors'))
     ..add(DiagnosticsProperty('primary', primary));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantBrandingColors&&(identical(other.primary, primary) || other.primary == primary));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantBrandingColors&&(identical(other.primary, primary) || other.primary == primary));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,primary);
+int get hashCode {
+    return Object.hash(runtimeType,primary);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantBrandingColors(primary: $primary)';
+    return 'SaasTenantBrandingColors(primary: $primary)';
 }
 
 
@@ -302,23 +311,29 @@ $SaasTenantBrandingCopyWith<SaasTenantBranding> get copyWith => _$SaasTenantBran
 
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+  final _this = this as SaasTenantBranding;
   properties
     ..add(DiagnosticsProperty('type', 'SaasTenantBranding'))
-    ..add(DiagnosticsProperty('tenantName', tenantName))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('logoUrl', logoUrl))..add(DiagnosticsProperty('colors', colors));
+    ..add(DiagnosticsProperty('tenantName', _this.tenantName))..add(DiagnosticsProperty('description', _this.description))..add(DiagnosticsProperty('logoUrl', _this.logoUrl))..add(DiagnosticsProperty('colors', _this.colors));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantBranding&&(identical(other.tenantName, tenantName) || other.tenantName == tenantName)&&(identical(other.description, description) || other.description == description)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.colors, colors) || other.colors == colors));
+  final _this = this as SaasTenantBranding;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is SaasTenantBranding&&(identical(other.tenantName, _this.tenantName) || other.tenantName == _this.tenantName)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.logoUrl, _this.logoUrl) || other.logoUrl == _this.logoUrl)&&(identical(other.colors, _this.colors) || other.colors == _this.colors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantName,description,logoUrl,colors);
+int get hashCode {
+  final _this = this as SaasTenantBranding;
+  return Object.hash(runtimeType,_this.tenantName,_this.description,_this.logoUrl,_this.colors);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantBranding(tenantName: $tenantName, description: $description, logoUrl: $logoUrl, colors: $colors)';
+  final _this = this as SaasTenantBranding;
+  return 'SaasTenantBranding(tenantName: ${_this.tenantName}, description: ${_this.description}, logoUrl: ${_this.logoUrl}, colors: ${_this.colors})';
 }
 
 
@@ -347,7 +362,7 @@ class _$SaasTenantBrandingCopyWithImpl<$Res>
 /// Create a copy of SaasTenantBranding
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? tenantName = null,Object? description = null,Object? logoUrl = freezed,Object? colors = freezed,}) {
-  return _then(_self.copyWith(
+  return _then(SaasTenantBranding(
 tenantName: null == tenantName ? _self.tenantName : tenantName // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,logoUrl: freezed == logoUrl ? _self.logoUrl : logoUrl // ignore: cast_nullable_to_non_nullable
@@ -525,23 +540,25 @@ Map<String, dynamic> toJson() {
 }
 @override
 void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-  properties
+    properties
     ..add(DiagnosticsProperty('type', 'SaasTenantBranding'))
     ..add(DiagnosticsProperty('tenantName', tenantName))..add(DiagnosticsProperty('description', description))..add(DiagnosticsProperty('logoUrl', logoUrl))..add(DiagnosticsProperty('colors', colors));
 }
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantBranding&&(identical(other.tenantName, tenantName) || other.tenantName == tenantName)&&(identical(other.description, description) || other.description == description)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.colors, colors) || other.colors == colors));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _SaasTenantBranding&&(identical(other.tenantName, tenantName) || other.tenantName == tenantName)&&(identical(other.description, description) || other.description == description)&&(identical(other.logoUrl, logoUrl) || other.logoUrl == logoUrl)&&(identical(other.colors, colors) || other.colors == colors));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
-int get hashCode => Object.hash(runtimeType,tenantName,description,logoUrl,colors);
+int get hashCode {
+    return Object.hash(runtimeType,tenantName,description,logoUrl,colors);
+}
 
 @override
 String toString({ DiagnosticLevel minLevel = DiagnosticLevel.info }) {
-  return 'SaasTenantBranding(tenantName: $tenantName, description: $description, logoUrl: $logoUrl, colors: $colors)';
+    return 'SaasTenantBranding(tenantName: $tenantName, description: $description, logoUrl: $logoUrl, colors: $colors)';
 }
 
 
