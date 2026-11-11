@@ -17,6 +17,10 @@ class GCPAuthenticationBloc
   final SaasTenantDomainResolver _domainResolver;
   final GCPAuthenticationDelegate? _delegate;
 
+  /// Last loaded sign-in methods, kept so in-progress and error states can
+  /// still show the form.
+  SupportedGCPAuthMethods? _supportedMethods;
+
   GCPAuthenticationBloc({
     required SupportedGCPAuthMethodsQueryHandler supportedMethodsQueryHandler,
     required GcpIdentityPlatformAuthenticationService authService,
@@ -46,6 +50,7 @@ class GCPAuthenticationBloc
         SupportedGCPAuthMethodsQuery(saasTenantDomain: domain),
       );
       _authService.setTenantId(supportedMethods.tenantId);
+      _supportedMethods = supportedMethods;
       emit(SupportedAuthMethodsLoaded(supportedMethods: supportedMethods));
       // Surfaces a failed redirect sign-in; needs the tenant set above.
       unawaited(_authService.checkRedirectResult());
@@ -66,7 +71,10 @@ class GCPAuthenticationBloc
           return AuthenticationSuccess();
         } else if (authEvent is FailedAuthenticationEvent) {
           _delegate?.onAuthenticationError(authEvent.error ?? "");
-          return AuthenticationError(error: authEvent.error ?? "");
+          return AuthenticationError(
+            error: authEvent.error ?? "",
+            supportedMethods: _supportedMethods,
+          );
         }
         return state; // Return current state for unknown events
       },
@@ -77,7 +85,7 @@ class GCPAuthenticationBloc
     AuthenticateWithEmailPassword event,
     Emitter<GCPAuthenticationState> emit,
   ) async {
-    emit(AuthenticationInProgress());
+    emit(AuthenticationInProgress(supportedMethods: _supportedMethods));
     try {
       await _authService.authenticateWith(
         method: AuthMethod.emailPassword,
@@ -90,7 +98,9 @@ class GCPAuthenticationBloc
       // Success/failure will be handled by the authentication event stream
     } catch (error) {
       // Only handle immediate errors (e.g., validation, network issues during auth initiation)
-      emit(AuthenticationError(error: error));
+      emit(
+        AuthenticationError(error: error, supportedMethods: _supportedMethods),
+      );
       _delegate?.onAuthenticationError(error);
     }
   }
@@ -99,7 +109,7 @@ class GCPAuthenticationBloc
     AuthenticateWithOIDC event,
     Emitter<GCPAuthenticationState> emit,
   ) async {
-    emit(AuthenticationInProgress());
+    emit(AuthenticationInProgress(supportedMethods: _supportedMethods));
     try {
       await _authService.authenticateWith(
         method: AuthMethod.oidc,
@@ -112,7 +122,9 @@ class GCPAuthenticationBloc
       // Success/failure will be handled by the authentication event stream
     } catch (error) {
       // Only handle immediate errors (e.g., validation, network issues during auth initiation)
-      emit(AuthenticationError(error: error));
+      emit(
+        AuthenticationError(error: error, supportedMethods: _supportedMethods),
+      );
       _delegate?.onAuthenticationError(error);
     }
   }

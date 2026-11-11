@@ -33,12 +33,21 @@ class AuthenticateWithOIDC extends GCPAuthenticationEvent {
 
 class StartAuthenticationStreamListener extends GCPAuthenticationEvent {}
 
-class AuthenticationInProgress extends GCPAuthenticationState {}
+/// [supportedMethods] keeps the sign-in form on screen while signing in;
+/// null if the methods had not loaded yet.
+class AuthenticationInProgress extends GCPAuthenticationState {
+  final SupportedGCPAuthMethods? supportedMethods;
+
+  AuthenticationInProgress({this.supportedMethods});
+}
 
 class AuthenticationSuccess extends GCPAuthenticationState {}
 
+/// [supportedMethods] lets the sign-in form come back so the user can retry;
+/// null if the methods had not loaded yet.
 class AuthenticationError extends GCPAuthenticationState {
   final Object error;
+  final SupportedGCPAuthMethods? supportedMethods;
 
-  AuthenticationError({required this.error});
+  AuthenticationError({required this.error, this.supportedMethods});
 }

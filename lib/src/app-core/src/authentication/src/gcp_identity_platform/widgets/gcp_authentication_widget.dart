@@ -83,10 +83,19 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
           );
         }
 
-        if (state is SupportedAuthMethodsLoaded) {
+        // Keep the form on screen while signing in and after a failure, so
+        // the user can retry without reloading the page.
+        final supportedMethods = switch (state) {
+          SupportedAuthMethodsLoaded(:final supportedMethods) =>
+            supportedMethods,
+          AuthenticationInProgress(:final supportedMethods) => supportedMethods,
+          AuthenticationError(:final supportedMethods) => supportedMethods,
+          _ => null,
+        };
+        if (supportedMethods != null) {
           return _buildAuthenticationForm(
             context,
-            state.supportedMethods,
+            supportedMethods,
             state is AuthenticationInProgress,
           );
         }
@@ -305,7 +314,10 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
           ? null
           : () {
               context.read<GCPAuthenticationBloc>().add(
-                AuthenticateWithOIDC(providerId: providerId),
+                AuthenticateWithOIDC(
+                  providerId: providerId,
+                  parameters: parameters,
+                ),
               );
             },
     );
