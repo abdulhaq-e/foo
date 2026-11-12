@@ -11,9 +11,14 @@ class GCPAuthBootstrapper {
   final String authResponseStorageKey;
 
   final Map<String, FirebaseOptions> firebaseEnvOptions;
+
+  /// See [AppBootstrapper.forceOidcRedirect].
+  final bool forceOidcRedirect;
+
   GCPAuthBootstrapper({
     required this.firebaseEnvOptions,
     this.authResponseStorageKey = 'gcp_auth_response',
+    this.forceOidcRedirect = false,
   });
 
   Future<void> bootstrap({required BootstrapContext bootstrapContext}) async {
@@ -81,6 +86,7 @@ class GCPAuthBootstrapper {
         ),
         authService: authService,
         domainResolver: domainResolver,
+        forceOidcRedirect: forceOidcRedirect,
       );
     };
   }

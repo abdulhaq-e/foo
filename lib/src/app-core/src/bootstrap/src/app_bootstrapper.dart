@@ -35,6 +35,11 @@ class AppBootstrapper<TAppContext> {
 
   final List<FeatureRegistration<TAppContext>> features;
 
+  /// On web, sign in to OIDC providers with a full-page redirect instead of a
+  /// popup. Needed when popups cannot work, e.g. wasm builds served with
+  /// `Cross-Origin-Opener-Policy: same-origin`.
+  final bool forceOidcRedirect;
+
   AppBootstrapper({
     required this.firebaseEnvOptions,
     required this.appRunner,
@@ -42,6 +47,7 @@ class AppBootstrapper<TAppContext> {
     required this.createAppContext,
     required this.buildApp,
     this.features = const [],
+    this.forceOidcRedirect = false,
   });
 
   Future<void> bootstrap() async {
@@ -73,6 +79,7 @@ class AppBootstrapper<TAppContext> {
 
     final authBootstrapper = AuthBootstrapper(
       firebaseEnvOptions: firebaseEnvOptions,
+      forceOidcRedirect: forceOidcRedirect,
     );
     await authBootstrapper.bootstrap(bootstrapContext: bootstrapContext);
 

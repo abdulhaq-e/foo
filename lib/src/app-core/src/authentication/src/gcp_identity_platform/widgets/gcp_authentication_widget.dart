@@ -6,7 +6,11 @@ import 'package:flutter_signin_button/flutter_signin_button.dart';
 import '../internal.dart';
 
 class GCPAuthenticationWidget extends StatefulWidget {
-  const GCPAuthenticationWidget({super.key});
+  const GCPAuthenticationWidget({super.key, this.forceOidcRedirect = false});
+
+  /// On web, sign in to OIDC providers with a full-page redirect instead of a
+  /// popup.
+  final bool forceOidcRedirect;
 
   @override
   State<GCPAuthenticationWidget> createState() =>
@@ -298,6 +302,7 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
                       AuthenticateWithOIDC(
                         providerId: providerId,
                         parameters: provider.parameters,
+                        forceRedirect: widget.forceOidcRedirect,
                       ),
                     );
                   },
@@ -317,6 +322,7 @@ class _GCPAuthenticationWidgetState extends State<GCPAuthenticationWidget> {
                 AuthenticateWithOIDC(
                   providerId: providerId,
                   parameters: parameters,
+                  forceRedirect: widget.forceOidcRedirect,
                 ),
               );
             },

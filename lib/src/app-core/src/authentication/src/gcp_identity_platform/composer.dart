@@ -10,6 +10,7 @@ class GCPAuthenticationComposer {
     required SaasTenantDomainResolver domainResolver,
     required GcpIdentityPlatformAuthenticationService authService,
     GCPAuthenticationDelegate? delegate,
+    bool forceOidcRedirect = false,
   }) {
     return BlocProvider(
       create: (context) => GCPAuthenticationBloc(
@@ -18,7 +19,7 @@ class GCPAuthenticationComposer {
         authService: authService,
         delegate: delegate,
       ),
-      child: GCPAuthenticationWidget(),
+      child: GCPAuthenticationWidget(forceOidcRedirect: forceOidcRedirect),
     );
   }
 }

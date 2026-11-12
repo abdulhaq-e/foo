@@ -7,7 +7,14 @@ import 'bootrap_context.dart';
 
 class AuthBootstrapper {
   final Map<String, FirebaseOptions> firebaseEnvOptions;
-  AuthBootstrapper({required this.firebaseEnvOptions});
+
+  /// See [AppBootstrapper.forceOidcRedirect].
+  final bool forceOidcRedirect;
+
+  AuthBootstrapper({
+    required this.firebaseEnvOptions,
+    this.forceOidcRedirect = false,
+  });
 
   Future<void> bootstrap({required BootstrapContext bootstrapContext}) async {
     final appConfig = bootstrapContext.appConfig;
@@ -15,6 +22,7 @@ class AuthBootstrapper {
       case AuthProvider.gcpIdentityPlatform:
         final bootraspper = GCPAuthBootstrapper(
           firebaseEnvOptions: firebaseEnvOptions,
+          forceOidcRedirect: forceOidcRedirect,
         );
         await bootraspper.bootstrap(bootstrapContext: bootstrapContext);
       case AuthProvider.fixedToken:
