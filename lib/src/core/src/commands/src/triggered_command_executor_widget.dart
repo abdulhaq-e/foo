@@ -64,10 +64,9 @@ class TriggeredCommandExecutor<Command, Response, Error, ValidationError>
       },
       onError: (context, error) async {
         if (shouldShowOperationFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(customErrorMessage ?? 'Oops, operation failed!'),
-            ),
+          showErrorSnackBar(
+            context,
+            title: customErrorMessage ?? 'Oops, operation failed!',
           );
         }
         await onError(context, error);

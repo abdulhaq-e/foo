@@ -1,5 +1,7 @@
 import 'package:material_ui/material_ui.dart';
 
+import 'error_snack_bar.dart';
+
 /// A helper for showing snackbars using a GlobalKey<ScaffoldMessengerState>.
 /// This avoids BuildContext issues when showing notifications from outside the widget tree.
 ///
@@ -21,7 +23,10 @@ import 'package:material_ui/material_ui.dart';
 ///     snackbarNotifier.showSuccess('Operation completed!');
 ///   },
 ///   onFailure: (command, error) {
-///     snackbarNotifier.showError('Operation failed: $error');
+///     snackbarNotifier.showError(
+///       'Couldn\'t save the report',
+///       detail: errorMessage(error),
+///     );
 ///   },
 /// );
 /// ```
@@ -34,29 +39,29 @@ class SnackbarNotifier {
 
   /// Shows a success snackbar with green background.
   void showSuccess(String message, {Duration? duration}) {
-    _show(
-      message,
-      backgroundColor: Colors.green,
-      duration: duration,
-    );
+    _show(message, backgroundColor: Colors.green, duration: duration);
   }
 
-  /// Shows an error snackbar with red background.
-  void showError(String message, {Duration? duration}) {
-    _show(
-      message,
-      backgroundColor: Colors.red,
-      duration: duration,
+  /// Shows an [errorSnackBar]: [message] as the headline saying what failed,
+  /// [detail] (typically `errorMessage(error)`) saying why.
+  void showError(String message, {String? detail, Duration? duration}) {
+    final messenger = _messenger;
+    if (messenger == null) return;
+
+    messenger.clearSnackBars();
+    messenger.showSnackBar(
+      errorSnackBar(
+        messenger.context,
+        title: message,
+        message: detail,
+        duration: duration ?? kErrorSnackBarDuration,
+      ),
     );
   }
 
   /// Shows an info snackbar with blue background.
   void showInfo(String message, {Duration? duration}) {
-    _show(
-      message,
-      backgroundColor: Colors.blue,
-      duration: duration,
-    );
+    _show(message, backgroundColor: Colors.blue, duration: duration);
   }
 
   /// Shows a loading snackbar with a long duration.
@@ -74,11 +79,7 @@ class SnackbarNotifier {
     _messenger?.clearSnackBars();
   }
 
-  void _show(
-    String message, {
-    Color? backgroundColor,
-    Duration? duration,
-  }) {
+  void _show(String message, {Color? backgroundColor, Duration? duration}) {
     final messenger = _messenger;
     if (messenger == null) return;
 

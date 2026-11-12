@@ -126,13 +126,13 @@ return failedLoading(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Data data)?  loaded,TResult Function()?  failedLoading,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function( Data data)?  loaded,TResult Function( Object? error)?  failedLoading,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case QueryDataInitial() when initial != null:
 return initial();case QueryDataLoading() when loading != null:
 return loading();case QueryDataLoaded() when loaded != null:
 return loaded(_that.data);case QueryDataFailedLoading() when failedLoading != null:
-return failedLoading();case _:
+return failedLoading(_that.error);case _:
   return orElse();
 
 }
@@ -150,13 +150,13 @@ return failedLoading();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Data data)  loaded,required TResult Function()  failedLoading,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function( Data data)  loaded,required TResult Function( Object? error)  failedLoading,}) {final _that = this;
 switch (_that) {
 case QueryDataInitial():
 return initial();case QueryDataLoading():
 return loading();case QueryDataLoaded():
 return loaded(_that.data);case QueryDataFailedLoading():
-return failedLoading();}
+return failedLoading(_that.error);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -170,13 +170,13 @@ return failedLoading();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Data data)?  loaded,TResult? Function()?  failedLoading,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function( Data data)?  loaded,TResult? Function( Object? error)?  failedLoading,}) {final _that = this;
 switch (_that) {
 case QueryDataInitial() when initial != null:
 return initial();case QueryDataLoading() when loading != null:
 return loading();case QueryDataLoaded() when loaded != null:
 return loaded(_that.data);case QueryDataFailedLoading() when failedLoading != null:
-return failedLoading();case _:
+return failedLoading(_that.error);case _:
   return null;
 
 }
@@ -320,32 +320,67 @@ as Data,
 
 
 class QueryDataFailedLoading<Data> implements QueryDataState<Data> {
-   QueryDataFailedLoading();
+   QueryDataFailedLoading({this.error});
   
 
+ final  Object? error;
 
-
+/// Create a copy of QueryDataState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$QueryDataFailedLoadingCopyWith<Data, QueryDataFailedLoading<Data>> get copyWith => _$QueryDataFailedLoadingCopyWithImpl<Data, QueryDataFailedLoading<Data>>(this, _$identity);
 
 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataFailedLoading<Data>);
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is QueryDataFailedLoading<Data>&&const DeepCollectionEquality().equals(other.error, error));
 }
 
 
 @override
-int get hashCode => runtimeType.hashCode;
+int get hashCode {
+    return Object.hash(runtimeType,const DeepCollectionEquality().hash(error));
+}
 
 @override
 String toString() {
-    return 'QueryDataState<$Data>.failedLoading()';
+    return 'QueryDataState<$Data>.failedLoading(error: $error)';
 }
 
 
 }
 
+/// @nodoc
+abstract mixin class $QueryDataFailedLoadingCopyWith<Data,$Res> implements $QueryDataStateCopyWith<Data, $Res> {
+  factory $QueryDataFailedLoadingCopyWith(QueryDataFailedLoading<Data> value, $Res Function(QueryDataFailedLoading<Data>) _then) = _$QueryDataFailedLoadingCopyWithImpl;
+@useResult
+$Res call({
+ Object? error
+});
 
 
+
+
+}
+/// @nodoc
+class _$QueryDataFailedLoadingCopyWithImpl<Data,$Res>
+    implements $QueryDataFailedLoadingCopyWith<Data, $Res> {
+  _$QueryDataFailedLoadingCopyWithImpl(this._self, this._then);
+
+  final QueryDataFailedLoading<Data> _self;
+  final $Res Function(QueryDataFailedLoading<Data>) _then;
+
+/// Create a copy of QueryDataState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? error = freezed,}) {
+  return _then(QueryDataFailedLoading<Data>(
+error: freezed == error ? _self.error : error ,
+  ));
+}
+
+
+}
 
 // dart format on

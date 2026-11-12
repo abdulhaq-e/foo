@@ -52,7 +52,7 @@ void main() {
     act: (bloc) => bloc.add(QueryDataStarted('invalid')),
     expect: () => [
       QueryDataState<int>.loading(),
-      QueryDataState<int>.failedLoading(),
+      QueryDataState<int>.failedLoading(error: 'Error'),
     ],
   );
 
@@ -113,7 +113,11 @@ void main() {
       },
       expect: () => [
         QueryDataState<int>.loading(),
-        QueryDataState<int>.failedLoading(),
+        isA<QueryDataFailedLoading<int>>().having(
+          (state) => state.error.toString(),
+          'error',
+          'Exception: down',
+        ),
         QueryDataState<int>.loading(),
         QueryDataState<int>.loaded(data: 42),
       ],

@@ -29,17 +29,12 @@ class SnackBarCommandListener<Command, Response, Error, ValidationError>
         onSucceeded?.call(context, response);
       },
       onError: (context, error) {
-        final message = failureMessagePrefix != null
-            ? '$failureMessagePrefix$error'
-            : 'An unexpected error occurred.';
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(
-              content: Text(message),
-              backgroundColor: Theme.of(context).colorScheme.error,
-            ),
-          );
+        showErrorSnackBar(
+          context,
+          title: failureMessagePrefix != null
+              ? '$failureMessagePrefix$error'
+              : 'An unexpected error occurred.',
+        );
         onError?.call(context, error);
       },
       child: child,

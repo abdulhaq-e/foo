@@ -53,7 +53,7 @@ class QueryDataBloc<Query, Data>
       final data = await _queryHandler(query);
       return QueryDataState<Data>.loaded(data: data);
     } catch (error) {
-      return QueryDataState<Data>.failedLoading();
+      return QueryDataState<Data>.failedLoading(error: error);
     }
   }
 
